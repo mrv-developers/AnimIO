@@ -59,14 +59,24 @@
 // 
 
 global proc setupUITest()
-// For nwo we hardcode it to user interface tests here. Other tests are usually run
-// in python standalone mode
 {
+	// getting the arguments for the nose test from MAYA_TEST_ARGS variable,
+	// putting them into sys.argv and run nose
+
+	$cmdArgs = `getenv "MAYA_TEST_ARGS"`;
+	$args = stringToStringArray($cmdArgs,";");
+	
 	string $pycmd = "import sys\n";
-	$pycmd += "sys.path.append(\""+`getenv "MAYARV_PYTHON_PATH"` + "\")\n";
-	$pycmd += "import mayarv.test.maya.ui as test_ui\n";
-	$pycmd += "test_ui.run()";
-	catch( `python $pycmd` );
+	$pycmd += "sys.path.append(u\""+`getenv "MAYARV_PYTHON_PATH"` + "\")\n";
+	$pycmd += "sys.argv =['";
+	for ($arg in $args) $pycmd += ("', '" + $arg);
+		
+	$pycmd += "']\n";
+	$pycmd += "import nose\n";
+	$pycmd += "nose.main()";
+	
+	print $pycmd;
+	catch(` python $pycmd`);
 	
 	// show a little window helping to quit the application
 	windowPref -ra;		// can do this as we run in a custom configuration with custom prefs
