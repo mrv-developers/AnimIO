@@ -11,12 +11,6 @@ import maya.OpenMayaAnim as manim
 class AnimInOutLibrary( object ):
 	"""contains default implementation"""
 	#{ Export/Import/Load 
-	def collect( self, iter_nodes ):
-		"""@return: Animation handle"""
-		pass
-	
-	def apply( self, handle ):
-		pass
 	
 	#} END Export/Import/Load
 	
@@ -32,6 +26,10 @@ class AnimInOutLibrary( object ):
 class AnimationHandle( nodes.Network ):  
 	__mayarv_virtual_subtype__ = True
 	
+	_l_connection_info_attr = 'animio_conn_info'
+	_s_connection_info_attr = 'aioc'
+	
+	#{ Iteration 
 	@classmethod
 	def iter_instances( cls ):
 		networktype = nodes.api.MFn.kAffect
@@ -41,10 +39,65 @@ class AnimationHandle( nodes.Network ):
 			yield cls(node)
 		#  END for each node 
 	
-	@classmethod		
-	def create( cls, iter_nodes ):
-		pass
+	#} END iteration
 	
+	#{ Edit
+	@classmethod
+	@undoable
+	def create( cls, **kwargs ):
+		"""@return: Instance of our type providing the L{AnimationHandle} interface
+		@param **kwargs: Passed to L{createNode} method of mayarv"""
+		mynode = nodes.createNode("animHandle", "network", **kwargs)
+		
+		# add our custom attribute
+		tfn = nodes.api.MFnTypedAttribute()
+		safn = nodes.api.MFnStringArrayData()
+		sa = safn.create()
+		attr = tfn.create(cls._l_connection_info_attr,  cls._s_connection_info_attr,
+							nodes.api.MFnData.kStringArray, sa)
+		mynode.addAttribute(attr) 
+		return cls(mynode.getObject())
+		
+	@undoable
+	def clear( self ):
+		"""Forget our managed animation completely"""
+		# clear array plug
+		for ip in self.affectedBy.p_inputs:
+			ip.disconnectInput()
+		# END for each array item to disconnect
+		
+		# clear connection data
+		data = getattr(self, self._s_connection_info_attr).asData()
+		data.set(list())	#	 set empty array
+
+
+	@undoable
+	def set_animation( self, iter_nodes ):
+		"""Set this handle to manage the animation of the given nodes.
+		The previous animation information will be removed.
+		@param iter_nodes: MSelectionList or iterable of Nodes or api objects pointing 
+		to nodes with animation.
+		@note: Will not raise if the nodes do not have any animation"""
+		self.clear()
+		anim_nodes = nodes.AnimCurve.getAnimation(iter_nodes, asNode=True)
+		
+		affected_by_plug = self.affectedBy
+		for pindex, anode in enumerate(anim_nodes):
+			anode.message > affected_by_plug.getByLogicalIndex(pindex)
+		# END connect each node to us
+		
+		# add current connection info
+		# TODO: Deal with intermediate nodes and multiple outputs per 
+		# anim node
+		target_plug_strings = list()
+		for anode in anim_nodes:
+			target_plug_strings.append(str(anode.output.p_output))
+		# END for each anode
+		getattr(self, self._s_connection_info_attr).setMObject(nodes.api.MFnStringArrayData().create(target_plug_strings))
+	
+	#} END edit
+	
+	#{ File IO
 	@classmethod
 	def from_file( cls, input_file ):
 		pass
@@ -54,3 +107,5 @@ class AnimationHandle( nodes.Network ):
 	
 	def apply( self, targetfn=None ):   #ziel pattern optional (default entspricht source) 
 		pass
+
+	#} END file io
