@@ -77,21 +77,34 @@ class AnimationHandle( nodes.Network ):
 		The previous animation information will be removed.
 		@param iter_nodes: MSelectionList or iterable of Nodes or api objects pointing 
 		to nodes with animation.
-		@note: Will not raise if the nodes do not have any animation"""
+		@note: Will not raise if the nodes do not have any animation
+		@note: Heavily optimized for speed, hence we work directly with the 
+		apiObjects, skipping the mayarv layer as we are in a tight loop here"""
 		self.clear()
-		anim_nodes = nodes.AnimCurve.getAnimation(iter_nodes, asNode=True)
+		anim_nodes = nodes.AnimCurve.getAnimation(iter_nodes, asNode=False)
 		
-		affected_by_plug = self.affectedBy
-		for pindex, anode in enumerate(anim_nodes):
-			anode.message > affected_by_plug.getByLogicalIndex(pindex)
-		# END connect each node to us
+		mfndep = nodes.api.MFnDependencyNode()
+		def iter_plugs():
+			affected_by_plug = self.affectedBy
+			for pindex, apinode in enumerate(anim_nodes):
+				mfndep.setObject(apinode)
+				yield mfndep.findPlug('message')
+				yield affected_by_plug.getByLogicalIndex(pindex)
+			# END for each pair to yield
+		# END iterator helper
+		
+		iterator = iter_plugs()
+		nodes.api.MPlug.connectMultiToMulti(iterator, iterator, force=False)
 		
 		# add current connection info
+		# NOTE: We know that the anim-node is connected to something
+		# as this is the reason we retrieved it in the first place
 		# TODO: Deal with intermediate nodes and multiple outputs per 
 		# anim node
 		target_plug_strings = list()
-		for anode in anim_nodes:
-			target_plug_strings.append(str(anode.output.p_output))
+		for apinode in anim_nodes:
+			mfndep.setObject(apinode)
+			target_plug_strings.append(str(mfndep.findPlug('output').p_output))
 		# END for each anode
 		getattr(self, self._s_connection_info_attr).setMObject(nodes.api.MFnStringArrayData().create(target_plug_strings))
 	
