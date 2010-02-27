@@ -14,18 +14,23 @@ class TestBase( unittest.TestCase ):
 		mrvmaya.Scene.new(force=True)
 	
 	def make_animation(self, nodes, attrnames):
-		"""Animate the given attribute(names) on the given nodes"""
+		"""Animate the given attribute(names) on the given nodes
+		@return: list of animated plugs"""
+		out_plugs = list()
 		for node in nodes:
 			for attr in attrnames:
-				manim.MFnAnimCurve().create(getattr(node, attr))
+				p = getattr(node, attr)
+				manim.MFnAnimCurve().create(p)
+				out_plugs.append(p)
 			# END for each attr
 		# END for each node
+		return out_plugs
 
 class TestAnimationHandle( TestBase ):
 	
 	def test_base( self ):
 		p = nodes.Node("persp")
-		t = nodes.Node("topShape")
+		t = nodes.Node("top")
 		
 		# animation handle on non-animated nodes does not raise
 		handle = AnimationHandle.create()
@@ -33,14 +38,57 @@ class TestAnimationHandle( TestBase ):
 		assert isinstance(handle, nodes.Network)
 		
 		# update with animation from objects
-		n = (p,t.getParent())
+		n = (p,t)
 		handle.set_animation(n)
 		
 		# try again with animated nodes
-		self.make_animation(n, ('tx','ty','tz'))
+		assert len(handle.affectedBy) == 0
+		anim_plugs = self.make_animation(n, ('tx','ty','tz'))
 		handle.set_animation(n)
 		
-		self.fail("test saved data, test connections")
+		assert len(handle.affectedBy) == len(anim_plugs)
+		
+		class TestConverter( object ):
+			def __init__(self):
+				self._nc = 0
+				
+			def __call__(self, source_plug, target_plug_name):
+				assert isinstance(source_plug, nodes.api.MPlug)
+				assert isinstance(target_plug_name, basestring)
+				self._nc += 1
+				return target_plug_name
+			
+			def make_assertion(self):
+				assert self._nc
+				self._nc = 0
+		# END test class
+		
+		# apply animation after disconnecting existing one
+		for converter in (None, TestConverter()):
+			for plug in anim_plugs:
+				plug.disconnectInput()
+			# END disconnect anim curves
+			
+			handle.apply_animation(converter)
+			if converter is not None:
+				converter.make_assertion()
+			# END handle converter
+			
+			for plug in anim_plugs:
+				assert isinstance(plug.p_input.node(), nodes.AnimCurve)
+		# END for each converter
+		
+		# test it breaks existing target animation
+		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
+		p.tx >> t.tx
+		
+		handle.apply_animation()
+		
+		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
+		
+		
+		
+		
 		
 		
 	@with_scene('3handles.ma')

@@ -28,6 +28,7 @@ class AnimationHandle( nodes.Network ):
 	
 	_l_connection_info_attr = 'animio_conn_info'
 	_s_connection_info_attr = 'aioc'
+	_separator = ','
 	
 	#{ Iteration 
 	@classmethod
@@ -35,8 +36,9 @@ class AnimationHandle( nodes.Network ):
 		networktype = nodes.api.MFn.kAffect
 		it=nodes.it.iterDgNodes( networktype, asNode=0 )
 		for node in it:
-			# TODO: check its a handle for real
-			yield cls(node)
+			if hasattr(node, cls._s_connection_info_attr):
+				yield cls(node)
+			# END if it is our node
 		#  END for each node 
 	
 	#} END iteration
@@ -67,8 +69,9 @@ class AnimationHandle( nodes.Network ):
 		# END for each array item to disconnect
 		
 		# clear connection data
-		data = getattr(self, self._s_connection_info_attr).asData()
-		data.set(list())	#	 set empty array
+		dplug = getattr(self, self._s_connection_info_attr) 
+		data = dplug.asData()
+		dplug.setMObject(data.create(list()))
 
 
 	@undoable
@@ -82,13 +85,12 @@ class AnimationHandle( nodes.Network ):
 		apiObjects, skipping the mayarv layer as we are in a tight loop here"""
 		self.clear()
 		anim_nodes = nodes.AnimCurve.getAnimation(iter_nodes, asNode=False)
-		
 		mfndep = nodes.api.MFnDependencyNode()
 		def iter_plugs():
 			affected_by_plug = self.affectedBy
 			for pindex, apinode in enumerate(anim_nodes):
 				mfndep.setObject(apinode)
-				yield mfndep.findPlug('message')
+				yield mfndep.findPlug('msg')
 				yield affected_by_plug.getByLogicalIndex(pindex)
 			# END for each pair to yield
 		# END iterator helper
@@ -104,9 +106,56 @@ class AnimationHandle( nodes.Network ):
 		target_plug_strings = list()
 		for apinode in anim_nodes:
 			mfndep.setObject(apinode)
-			target_plug_strings.append(str(mfndep.findPlug('output').p_output))
+			outputs = mfndep.findPlug('o').p_outputs
+			target_plug_strings.append(self._separator.join(p.getFullyQualifiedName() for p in outputs))
 		# END for each anode
 		getattr(self, self._s_connection_info_attr).setMObject(nodes.api.MFnStringArrayData().create(target_plug_strings))
+	
+	@undoable
+	def apply_animation(self, converter=None):
+		"""Apply the stored animation by (re)connecting the animatino nodes to their
+		respective target plugs
+		@param converter: if not None, it returns the desired target plug name to use 
+		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
+		This allows you to perform any modifications to the target before it will be
+		connected.
+		@note: Will break existing destination connections"""
+		# get target strings
+		target_plug_names = getattr(self, self._s_connection_info_attr).asData().array()
+		
+		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
+		
+		# make iterator yielding source and target plug objects
+		plug_sel_list = nodes.api.MSelectionList()
+		mfndep = nodes.api.MFnDependencyNode()
+		def source_target_iterator():
+			for index, anim_node_dest_plug in enumerate(iter(self.affectedBy)):
+				target_plug_name_list = target_plug_names[index].split(self._separator)
+				mfndep.setObject(anim_node_dest_plug.p_input.getNodeApiObj())
+				anim_node_otp_plug = mfndep.findPlug('o')
+				
+				# convert target names to actual plugs
+				for tindex, tplug_name in enumerate(target_plug_name_list):
+					if converter:
+						tplug_name = converter(anim_node_otp_plug, tplug_name)
+					# END handle converter
+					actual_plug = nodes.api.MPlug()
+					plug_sel_list.add(tplug_name)
+					plug_sel_list.getPlug(tindex, actual_plug)
+					
+					yield anim_node_otp_plug
+					yield actual_plug
+				# END for each plugname to convert
+				
+				# make sure it doesnt build up
+				plug_sel_list.clear()
+			# END for each anim node source plug
+		# END iterator  
+		
+		# do actual connection ( best case is 38k connections per second
+		iterator = source_target_iterator()
+		nodes.api.MPlug.connectMultiToMulti(iterator, iterator, force=True)
+		
 	
 	#} END edit
 	
