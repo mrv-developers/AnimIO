@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import mayarv.maya as mrvmaya
-from mayarv.test.lib import save_for_debugging 
+from mayarv.test.maya import save_for_debugging 
 
 #{ Functions 
 
