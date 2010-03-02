@@ -1,13 +1,13 @@
-//Maya ASCII 8.5 scene
+//Maya ASCII 2008 scene
 //Name: 3handles.ma
-//Last modified: Fri, Feb 26, 2010 02:36:36 PM
+//Last modified: Tue, Mar 02, 2010 01:54:56 PM
 //Codeset: UTF-8
-requires maya "8.5";
+requires maya "2008";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
-fileInfo "product" "Maya Unlimited 8.5";
-fileInfo "version" "8.5 Service Pack 1 x64";
-fileInfo "cutIdentifier" "200706070006-700509";
+fileInfo "product" "Maya Render 2008";
+fileInfo "version" "2008 Service Pack 1 x64";
+fileInfo "cutIdentifier" "200802242307-718079";
 fileInfo "osv" "Linux 2.6.27-17-generic #1 SMP Wed Jan 27 23:22:32 UTC 2010 x86_64";
 createNode transform -s -n "persp";
 	setAttr ".v" no;
@@ -76,6 +76,18 @@ createNode network -n "network3";
 createNode script -n "sceneConfigurationScriptNode";
 	setAttr ".b" -type "string" "playbackOptions -min 1 -max 24 -ast 1 -aet 48 ";
 	setAttr ".st" 6;
+createNode network -n "animationHandle";
+	addAttr -ci true -sn "aioc" -ln "animio_conn_info" -bt "UNKN" -dt "stringArray";
+	setAttr ".aioc" -type "stringArray" 0  ;
+createNode network -n "animationHandle1";
+	addAttr -ci true -sn "aioc" -ln "animio_conn_info" -bt "UNKN" -dt "stringArray";
+	setAttr ".aioc" -type "stringArray" 0  ;
+createNode network -n "animationHandle2";
+	addAttr -ci true -sn "aioc" -ln "animio_conn_info" -bt "UNKN" -dt "stringArray";
+	setAttr ".aioc" -type "stringArray" 0  ;
+createNode script -n "uiConfigurationScriptNode";
+	setAttr ".b" -type "string" "// Maya Mel UI Configuration File.\n// No UI generated in batch mode.\n";
+	setAttr ".st" 3;
 select -ne :time1;
 	setAttr ".o" 1;
 select -ne :renderPartition;

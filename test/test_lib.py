@@ -37,7 +37,15 @@ class TestAnimationHandle( TestBase ):
 		assert isinstance(handle, AnimationHandle)
 		assert isinstance(handle, nodes.Network)
 		
-		# update with animation from objects
+		# make sure we get a new animation handle each time we create
+		handle2 = AnimationHandle.create()
+		assert handle != handle2
+		
+		# use create, providing the name of an existing animationHandle node
+		handle2same = AnimationHandle.create(handle2.name(), forceNewLeaf=False)
+		assert handle2same == handle2
+		
+		# update with animation from objects which have no animation is fine
 		n = (p,t)
 		handle.set_animation(n)
 		
@@ -85,11 +93,6 @@ class TestAnimationHandle( TestBase ):
 		handle.apply_animation()
 		
 		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
-		
-		
-		
-		
-		
 		
 	@with_scene('3handles.ma')
 	def test_iteration( self ):
