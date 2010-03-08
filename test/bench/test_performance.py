@@ -13,7 +13,7 @@ class TestPerformance( unittest.TestCase ):
 	def test_anim_handle(self):
 		# manage all anim nodes
 		ah = AnimationHandle.create()
-		ahapi = ah.getObject()
+		ahapi = ah.getMObject()
 		
 		st = time.time()
 		is_not_ah = lambda n: n != ahapi

@@ -7,6 +7,7 @@ as well ?)"""
 
 import mayarv.maya.nodes as nodes
 import maya.OpenMayaAnim as manim
+import maya.cmds as cmds
 
 class AnimInOutLibrary( object ):
 	"""contains default implementation"""
@@ -37,7 +38,7 @@ class AnimationHandle( nodes.Network ):
 		it=nodes.it.iterDgNodes( cls._networktype, asNode=1 )
 		for node in it:
 			if hasattr(node, cls._s_connection_info_attr):
-				yield cls(node.getObject())
+				yield cls(node.getMObject())
 			# END if it is our node
 		#  END for each node 
 	
@@ -54,10 +55,10 @@ class AnimationHandle( nodes.Network ):
 		# add our custom attribute
 		tfn = nodes.api.MFnTypedAttribute()
 		sa = nodes.api.MObject(nodes.api.MFnStringArrayData().create())
-		attr = tfn.create(cls._l_connection_info_attr,  cls._s_connection_info_attr,
+		attr = tfn.create(cls._l_connection_info_attr, cls._s_connection_info_attr,
 							nodes.api.MFnData.kStringArray, sa)
 		mynode.addAttribute(attr)
-		return cls(mynode.getObject())
+		return cls(mynode.getMObject())
 		
 	@undoable
 	def clear( self ):
@@ -110,7 +111,7 @@ class AnimationHandle( nodes.Network ):
 		self.findPlug(self._s_connection_info_attr).setMObject(nodes.api.MFnStringArrayData().create(target_plug_strings))
 	
 	@undoable
-	def apply_animation(self, converter=None):
+	def apply_animation( self, converter=None ):
 		"""Apply the stored animation by (re)connecting the animatino nodes to their
 		respective target plugs
 		@param converter: if not None, the function returns the desired target plug name to use 
@@ -129,7 +130,7 @@ class AnimationHandle( nodes.Network ):
 		def source_target_iterator():
 			for index, anim_node_dest_plug in enumerate(self.affectedBy):
 				target_plug_name_list = target_plug_names[index].split(self._k_separator)
-				mfndep.setObject(anim_node_dest_plug.p_input.getNodeApiObj())
+				mfndep.setObject(anim_node_dest_plug.p_input.getNodeMObject())
 				anim_node_otp_plug = mfndep.findPlug('o')
 				
 				# convert target names to actual plugs
@@ -162,7 +163,20 @@ class AnimationHandle( nodes.Network ):
 	def from_file( cls, input_file ):
 		pass
 	
-	def to_file( self, output_file ):
-		pass
-	
+	def to_file( self, output_file, **kwargs ):
+		# make active selectionlist
+		stored_slist = nodes.api.MSelectionList()
+		nodes.api.MGlobal.getActiveSelectionList(stored_slist)
+		
+		exp_slist = nodes.api.MSelectionList()
+		for anim_node_dest_plug in self.affectedBy:
+			exp_slist.add(anim_node_dest_plug.p_input.getNodeMObject())
+		# END for affectedBy plug add nodeMObject 
+		exp_slist.add(self.getMObject())
+		
+		# export selected and take care of current active selection list
+		nodes.api.MGlobal.setActiveSelectionList(exp_slist)
+		cmds.file(output_file, exportSelected=True, **kwargs ) 
+		nodes.api.MGlobal.setActiveSelectionList(stored_slist)
+			
 	#} END file io

@@ -7,6 +7,9 @@ import mayarv.maya.nodes as nodes
 import mayarv.maya as mrvmaya
 
 import maya.OpenMayaAnim as manim
+import time
+import tempfile
+import os.path as ospath
 
 class TestBase( unittest.TestCase ):
 	def setUp(self):
@@ -28,10 +31,11 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def test_base( self ):
+	def disabled_base( self ):
 		p = nodes.Node("persp")
 		t = nodes.Node("top")
 		
+		print "test_base is running\n"
 		# animation handle on non-animated nodes does not raise
 		handle = AnimationHandle.create()
 		assert isinstance(handle, AnimationHandle)
@@ -94,15 +98,55 @@ class TestAnimationHandle( TestBase ):
 		
 		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
 		
-	@with_scene('3handles.ma')
-	def test_iteration( self ):
+#	@with_scene('3handles.ma')
+	def disabled_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
+		print "test_iteration is running\n"
 		assert len(handles) == 3
 		for h in handles:
 			assert isinstance(h, AnimationHandle)
 			assert isinstance(h, nodes.Network)
 		# END for each handle
 	
+	@with_scene('21kcurves.mb')
+	def test_export_import( self ):
+		# create AnimationHAndle and manage some nodes
+		ah = AnimationHandle.create()
+		
+		
+		def iter_max(max):
+			for i in range(0, max):
+				yield 1
+			while 1:
+				yield 0		
+		# END stupid iterator for selecting a limited number of animCurves in a very complicated way, I guess		
+		
+		n_max = iter_max(25) 
+		st = time.time()
+		slist = nodes.toSelectionList(nodes.it.iterDgNodes( nodes.api.MFn.kDagNode, asNode=0, predicate=lambda x: n_max.next()))
+		elapsed = time.time() - st
+		print "collecting took %f s for 25 nodes iterating dag nodes" % elapsed
+		print "%i DagNodes on export list" % len(slist)
+		ah.set_animation(slist)
+		
+		# testselect some nodes
+		n_max=iter_max(3)
+		st = time.time()
+		slist = nodes.toSelectionList(nodes.it.iterDgNodes( nodes.api.MFn.kDependencyNode, asNode=0, predicate=lambda x: n_max.next()))
+		elapsed = time.time() - st
+		print "collecting took %f s for 3 nodes iterating dependency nodes" % elapsed		
+		nodes.api.MGlobal.setActiveSelectionList(slist)
+		
+		# export
+		filename = ospath.join(tempfile.gettempdir(), "test_export.ani.ma")
+		ah.to_file(filename, force=True, type="mayaAscii")		
+		
+		# check if testselection is still alive
+		slist_after=nodes.api.MSelectionList()
+		nodes.api.MGlobal.getActiveSelectionList(slist_after)
+		print "immernoch %i nodes selektiert" % len(slist_after)
+		assert len(slist)==len(slist_after)
+		
 class TestLibrary( TestBase ):
 	
 	def test_base( self ):
