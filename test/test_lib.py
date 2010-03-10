@@ -31,7 +31,7 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def disabled_base( self ):
+	def _test_base( self ):
 		p = nodes.Node("persp")
 		t = nodes.Node("top")
 		
@@ -99,7 +99,7 @@ class TestAnimationHandle( TestBase ):
 		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
 		
 #	@with_scene('3handles.ma')
-	def disabled_iteration( self ):
+	def _test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
 		print "test_iteration is running\n"
 		assert len(handles) == 3
@@ -123,13 +123,14 @@ class TestAnimationHandle( TestBase ):
 		st = time.time()
 		ah.set_animation(iter_nuber_of_dagNodes(numnodes))
 		elapsed = time.time() - st
-		print "collecting & managing of %i nodes took %f s" % (numnodes, elapsed)
+		managed = len(ah.affectedBy)
+		print "collecting %i nodes managing %i animation curves took %f s" % (numnodes, managed, elapsed)
 		
 		# testselect some nodes
 		slist = nodes.toSelectionList(iter_nuber_of_dagNodes(3))				
 		nodes.api.MGlobal.setActiveSelectionList(slist)
 		
-		# export
+		## EXPORT ##
 		filename = ospath.join(tempfile.gettempdir(), "test_export.ani.ma")
 		ah.to_file(filename, force=True, type="mayaAscii")		
 		
@@ -139,6 +140,41 @@ class TestAnimationHandle( TestBase ):
 		print "still %i nodes selected" % len(slist_after)
 		assert len(slist)==len(slist_after)
 		
+		# removing AnimationHandle #
+		ahname = ah.name()
+		print "deleting AnimationHandle named %s" % ahname
+		nodes.delete(ah) # replace this with ah.unload() later
+		assert nodes.objExists(ahname) == 0 , "AnimationHandle is still existing"
+		
+		## IMPORT ##
+		def importhandle(i_filename, compare_to, namespace):
+			sns = ns.Namespace.create(namespace)
+			sns.setCurrent()
+			print "------------------test on namespace--%s---------------------" % ns.Namespace.getCurrent()
+			loaded_ah = AnimationHandle.from_file(i_filename)[0]
+			assert isinstance(loaded_ah, AnimationHandle)
+		
+			# get namespace of AnimationHandle
+			mfndep = nodes.api.MFnDependencyNode()
+			mfndep.setObject(loaded_ah.getMObject())
+			ah_ns = ns.Namespace(mfndep.parentNamespace())
+			
+			# give some feedback
+			loaded = ah_ns.getSelectionList(as_strings=True, depth=0)
+			print "AnimationHandle named %s found" % loaded_ah
+			print "namepace of Animhandle is %s and contains %i nodes" % (ah_ns,len(loaded))
+			print "%i animCurves saved befor, now loaded %i" % (compare_to, len(loaded_ah.affectedBy))
+			print "current namespace is %s" % ns.Namespace.getCurrent()
+			assert compare_to == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
+			return loaded_ah
+		
+		# imort in root namespace
+		importhandle(filename, managed, ns.Namespace.rootNamespace)
+		
+		# imort in sub namespace
+		importhandle(filename, managed, "in:meiner:Dose")
+		
+			
 class TestLibrary( TestBase ):
 	
 	def test_base( self ):

@@ -6,6 +6,7 @@ TODO: Write how it works with namespaces ( does it work with the ':' ( root ) na
 as well ?)"""
 
 import mayarv.maya.nodes as nodes
+import mayarv.maya.ns as ns
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
 
@@ -34,8 +35,8 @@ class AnimationHandle( nodes.Network ):
 	
 	#{ Iteration 
 	@classmethod
-	def iter_instances( cls ):
-		it=nodes.it.iterDgNodes( cls._networktype, asNode=1 )
+	def iter_instances( cls, **kwargs ):
+		it=nodes.it.iterDgNodes( cls._networktype, asNode=1, **kwargs )
 		for node in it:
 			if hasattr(node, cls._s_connection_info_attr):
 				yield cls(node.getMObject())
@@ -161,7 +162,28 @@ class AnimationHandle( nodes.Network ):
 	#{ File IO
 	@classmethod
 	def from_file( cls, input_file ):
-		pass
+		# find unused namespace
+		newns = ns.getUnique("mfLA")
+		
+		# load file if exists otherwise return nothing
+		if cmds.file(input_file, q=True, exists=True ):
+			cmds.file( input_file, r=True, namespace=newns, loadReferenceDepth="topOnly") 
+		else:
+			return ""
+		
+		if ns.Namespace.getCurrent() !=  ns.Namespace(ns.Namespace.rootNamespace):
+			newns = ns.Namespace.getCurrent() + newns
+		# END patching namespace 
+		
+		def filter_ns(node, namespace):
+			mfndep = nodes.api.MFnDependencyNode()
+			mfndep.setObject(node.getMObject())
+			return (ns.Namespace(mfndep.parentNamespace()) == namespace)
+		# END filter function for namespaces
+			
+		# find AnimationHandle
+		hlist = list(cls.iter_instances(predicate = lambda x:filter_ns(x,newns)))
+		return hlist
 	
 	def to_file( self, output_file, **kwargs ):
 		# store current selectionlist
@@ -181,5 +203,10 @@ class AnimationHandle( nodes.Network ):
 			cmds.file(output_file, exportSelected=True, **kwargs ) 
 		finally:
 			nodes.api.MGlobal.setActiveSelectionList(stored_slist)
+			
+	def unload( self ):
+		"""AnimationHandle will disapears without a trace, no matter if it was created in
+		the current file or if it came from a referenced file"""
+		pass
 			
 	#} END file io
