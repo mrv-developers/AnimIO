@@ -155,9 +155,7 @@ class TestAnimationHandle( TestBase ):
 			assert isinstance(loaded_ah, AnimationHandle)
 		
 			# get namespace of AnimationHandle
-			mfndep = nodes.api.MFnDependencyNode()
-			mfndep.setObject(loaded_ah.getMObject())
-			ah_ns = ns.Namespace(mfndep.parentNamespace())
+			ah_ns = loaded_ah.getNamespace()
 			
 			# give some feedback
 			loaded = ah_ns.getSelectionList(as_strings=True, depth=0)

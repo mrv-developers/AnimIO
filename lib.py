@@ -174,16 +174,8 @@ class AnimationHandle( nodes.Network ):
 		if ns.Namespace.getCurrent() !=  ns.Namespace(ns.Namespace.rootNamespace):
 			newns = ns.Namespace.getCurrent() + newns
 		# END patching namespace 
-		
-		def filter_ns(node, namespace):
-			mfndep = nodes.api.MFnDependencyNode()
-			mfndep.setObject(node.getMObject())
-			return (ns.Namespace(mfndep.parentNamespace()) == namespace)
-		# END filter function for namespaces
-			
-		# find AnimationHandle
-		hlist = list(cls.iter_instances(predicate = lambda x:filter_ns(x,newns)))
-		return hlist
+				
+		return list(cls.iter_instances(predicate = lambda x: x.getNamespace() == newns))
 	
 	def to_file( self, output_file, **kwargs ):
 		# store current selectionlist
