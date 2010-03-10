@@ -164,10 +164,11 @@ class AnimationHandle( nodes.Network ):
 		pass
 	
 	def to_file( self, output_file, **kwargs ):
-		# make active selectionlist
+		# store current selectionlist
 		stored_slist = nodes.api.MSelectionList()
 		nodes.api.MGlobal.getActiveSelectionList(stored_slist)
 		
+		# make selectionlist for export
 		exp_slist = nodes.api.MSelectionList()
 		for anim_node_dest_plug in self.affectedBy:
 			exp_slist.add(anim_node_dest_plug.p_input.getNodeMObject())
@@ -175,8 +176,10 @@ class AnimationHandle( nodes.Network ):
 		exp_slist.add(self.getMObject())
 		
 		# export selected and take care of current active selection list
-		nodes.api.MGlobal.setActiveSelectionList(exp_slist)
-		cmds.file(output_file, exportSelected=True, **kwargs ) 
-		nodes.api.MGlobal.setActiveSelectionList(stored_slist)
+		try:
+			nodes.api.MGlobal.setActiveSelectionList(exp_slist)
+			cmds.file(output_file, exportSelected=True, **kwargs ) 
+		finally:
+			nodes.api.MGlobal.setActiveSelectionList(stored_slist)
 			
 	#} END file io
