@@ -142,8 +142,7 @@ class TestAnimationHandle( TestBase ):
 		
 		# removing AnimationHandle #
 		ahname = ah.name()
-		print "deleting AnimationHandle named %s" % ahname
-		nodes.delete(ah) # replace this with ah.unload() later
+		ah.unload()
 		assert nodes.objExists(ahname) == 0 , "AnimationHandle is still existing"
 		
 		## IMPORT ##
@@ -158,19 +157,27 @@ class TestAnimationHandle( TestBase ):
 			ah_ns = loaded_ah.getNamespace()
 			
 			# give some feedback
-			loaded = ah_ns.getSelectionList(as_strings=True, depth=0)
+			loaded = ah_ns.getSelectionList(asStrings=True, depth=0)
+			
 			print "AnimationHandle named %s found" % loaded_ah
+			assert ospath.realpath(i_filename) == ospath.realpath(loaded_ah.getReferenceFile())
 			print "namepace of Animhandle is %s and contains %i nodes" % (ah_ns,len(loaded))
-			print "%i animCurves saved befor, now loaded %i" % (compare_to, len(loaded_ah.affectedBy))
-			print "current namespace is %s" % ns.Namespace.getCurrent()
+			print "%i animCurves saved before, now loaded %i" % (compare_to, len(loaded_ah.affectedBy))
 			assert compare_to == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
-			return loaded_ah
-		
+			print "current namespace is %s" % ns.Namespace.getCurrent()
+			
+			lahname = loaded_ah.name()
+			loaded_ah.unload()
+			assert nodes.objExists(lahname) == 0 , "AnimationHandle is still existing"
+				
 		# imort in root namespace
-		importhandle(filename, managed, ns.Namespace.rootNamespace)
+		importhandle(filename, managed, ns.RootNamespace)
 		
 		# imort in sub namespace
 		importhandle(filename, managed, "in:meiner:Dose")
+		
+		print "na mal sehn:"
+		self.failUnlessRaises(IOError,  importhandle, "dummy.ma", managed, ":")
 		
 			
 class TestLibrary( TestBase ):

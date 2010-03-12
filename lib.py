@@ -7,8 +7,10 @@ as well ?)"""
 
 import mayarv.maya.nodes as nodes
 import mayarv.maya.ns as ns
+from mayarv.maya.ref import FileReference
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
+
 
 class AnimInOutLibrary( object ):
 	"""contains default implementation"""
@@ -91,13 +93,12 @@ class AnimationHandle( nodes.Network ):
 			affected_by_plug = self.affectedBy
 			for pindex, apinode in enumerate(anim_nodes):
 				mfndep.setObject(apinode)
-				yield mfndep.findPlug('msg')
-				yield affected_by_plug.getByLogicalIndex(pindex)
+				yield (mfndep.findPlug('msg'), affected_by_plug.getByLogicalIndex(pindex))
 			# END for each pair to yield
 		# END iterator helper
 		
 		iterator = iter_plugs()
-		nodes.api.MPlug.connectMultiToMulti(iterator, iterator, force=False)
+		nodes.api.MPlug.connectMultiToMulti(iterator, force=False)
 		
 		# add current connection info
 		# NOTE: We know that the anim-node is connected to something
@@ -143,8 +144,7 @@ class AnimationHandle( nodes.Network ):
 					plug_sel_list.add(tplug_name)
 					plug_sel_list.getPlug(tindex, actual_plug)
 					
-					yield anim_node_otp_plug
-					yield actual_plug
+					yield (anim_node_otp_plug, actual_plug)
 				# END for each plugname to convert
 				
 				# make sure it doesnt build up
@@ -154,7 +154,7 @@ class AnimationHandle( nodes.Network ):
 		
 		# do actual connection ( best case is 38k connections per second
 		iterator = source_target_iterator()
-		nodes.api.MPlug.connectMultiToMulti(iterator, iterator, force=True)
+		nodes.api.MPlug.connectMultiToMulti(iterator, force=True)
 		
 	
 	#} END edit
@@ -163,15 +163,15 @@ class AnimationHandle( nodes.Network ):
 	@classmethod
 	def from_file( cls, input_file ):
 		# find unused namespace
-		newns = ns.getUnique("mfLA")
+		newns = ns.findUnique("mfLA")
 		
 		# load file if exists otherwise return nothing
 		if cmds.file(input_file, q=True, exists=True ):
 			cmds.file( input_file, r=True, namespace=newns, loadReferenceDepth="topOnly") 
 		else:
-			return ""
+			raise IOError("file \"" + input_file + "\" not found!")
 		
-		if ns.Namespace.getCurrent() !=  ns.Namespace(ns.Namespace.rootNamespace):
+		if ns.Namespace.getCurrent() != ns.RootNamespace:
 			newns = ns.Namespace.getCurrent() + newns
 		# END patching namespace 
 				
@@ -199,6 +199,10 @@ class AnimationHandle( nodes.Network ):
 	def unload( self ):
 		"""AnimationHandle will disapears without a trace, no matter if it was created in
 		the current file or if it came from a referenced file"""
-		pass
+		if self.isReferenced():
+			FileReference(self.getReferenceFile()).remove()
+		else:
+			nodes.delete(self)
+		
 			
 	#} END file io
