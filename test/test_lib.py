@@ -3,7 +3,7 @@
 from animIO.test.lib import *
 from animIO import *
 
-import mayarv.maya.nodes as nodes
+import mayarv.maya.nt as nodes
 import mayarv.maya as mrvmaya
 
 import maya.OpenMayaAnim as manim
@@ -132,7 +132,7 @@ class TestAnimationHandle( TestBase ):
 		
 		## EXPORT ##
 		filename = ospath.join(tempfile.gettempdir(), "test_export.ani.ma")
-		ah.to_file(filename, force=True, type="mayaAscii")		
+		assert filename == ah.to_file(filename, force=True, type="mayaAscii")
 		
 		# check if testselection is still alive
 		slist_after=nodes.api.MSelectionList()
@@ -147,9 +147,9 @@ class TestAnimationHandle( TestBase ):
 		
 		## IMPORT ##
 		def importhandle(i_filename, compare_to, namespace):
-			sns = ns.Namespace.create(namespace)
+			sns = Namespace.create(namespace)
 			sns.setCurrent()
-			print "------------------test on namespace--%s---------------------" % ns.Namespace.getCurrent()
+			print "------------------test on namespace--%s---------------------" % Namespace.getCurrent()
 			loaded_ah = AnimationHandle.from_file(i_filename)[0]
 			assert isinstance(loaded_ah, AnimationHandle)
 		
@@ -157,27 +157,23 @@ class TestAnimationHandle( TestBase ):
 			ah_ns = loaded_ah.getNamespace()
 			
 			# give some feedback
-			loaded = ah_ns.getSelectionList(asStrings=True, depth=0)
+			loaded = list(ah_ns.iterNodes(depth=-1))
 			
 			print "AnimationHandle named %s found" % loaded_ah
 			assert ospath.realpath(i_filename) == ospath.realpath(loaded_ah.getReferenceFile())
 			print "namepace of Animhandle is %s and contains %i nodes" % (ah_ns,len(loaded))
 			print "%i animCurves saved before, now loaded %i" % (compare_to, len(loaded_ah.affectedBy))
 			assert compare_to == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
-			print "current namespace is %s" % ns.Namespace.getCurrent()
+			print "current namespace is %s containing %i nodes" % (Namespace.getCurrent(), len(loaded))
 			
 			lahname = loaded_ah.name()
 			loaded_ah.unload()
 			assert nodes.objExists(lahname) == 0 , "AnimationHandle is still existing"
 				
-		# imort in root namespace
-		importhandle(filename, managed, ns.RootNamespace)
-		
-		# imort in sub namespace
+		# imort in root namespace, subns and try none existing filename
+		importhandle(filename, managed, Namespace.root)
 		importhandle(filename, managed, "in:meiner:Dose")
-		
-		print "na mal sehn:"
-		self.failUnlessRaises(IOError,  importhandle, "dummy.ma", managed, ":")
+		self.failUnlessRaises(IOError,  importhandle, "not_existing.ma", managed, ":")
 		
 			
 class TestLibrary( TestBase ):

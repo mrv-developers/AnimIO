@@ -5,9 +5,11 @@ of animation.
 TODO: Write how it works with namespaces ( does it work with the ':' ( root ) namespace
 as well ?)"""
 
-import mayarv.maya.nodes as nodes
-import mayarv.maya.ns as ns
+import mayarv.maya.nt as nodes
+from mayarv.maya.ns import Namespace
 from mayarv.maya.ref import FileReference
+from mayarv.maya.scene import Scene
+
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
 
@@ -161,9 +163,10 @@ class AnimationHandle( nodes.Network ):
 	
 	#{ File IO
 	@classmethod
+	@notundoable
 	def from_file( cls, input_file ):
 		# find unused namespace
-		newns = ns.findUnique("mfLA")
+		newns = Namespace.findUnique("mfLA")
 		
 		# load file if exists otherwise return nothing
 		if cmds.file(input_file, q=True, exists=True ):
@@ -171,30 +174,23 @@ class AnimationHandle( nodes.Network ):
 		else:
 			raise IOError("file \"" + input_file + "\" not found!")
 		
-		if ns.Namespace.getCurrent() != ns.RootNamespace:
-			newns = ns.Namespace.getCurrent() + newns
+		if Namespace.getCurrent() != Namespace.root:
+			newns = Namespace.getCurrent() + newns
 		# END patching namespace 
 				
 		return list(cls.iter_instances(predicate = lambda x: x.getNamespace() == newns))
 	
 	def to_file( self, output_file, **kwargs ):
-		# store current selectionlist
-		stored_slist = nodes.api.MSelectionList()
-		nodes.api.MGlobal.getActiveSelectionList(stored_slist)
-		
-		# make selectionlist for export
+
+		# build selectionlist for export
 		exp_slist = nodes.api.MSelectionList()
 		for anim_node_dest_plug in self.affectedBy:
 			exp_slist.add(anim_node_dest_plug.p_input.getNodeMObject())
 		# END for affectedBy plug add nodeMObject 
 		exp_slist.add(self.getMObject())
 		
-		# export selected and take care of current active selection list
-		try:
-			nodes.api.MGlobal.setActiveSelectionList(exp_slist)
-			cmds.file(output_file, exportSelected=True, **kwargs ) 
-		finally:
-			nodes.api.MGlobal.setActiveSelectionList(stored_slist)
+		# export selected
+		return Scene.export(output_file, exp_slist, **kwargs ) 
 			
 	def unload( self ):
 		"""AnimationHandle will disapears without a trace, no matter if it was created in
