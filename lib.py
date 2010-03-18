@@ -43,7 +43,7 @@ class AnimationHandle( nodes.Network ):
 		it=nodes.it.iterDgNodes( cls._networktype, asNode=1, **kwargs )
 		for node in it:
 			if hasattr(node, cls._s_connection_info_attr):
-				yield cls(node.getMObject())
+				yield cls(node.object())
 			# END if it is our node
 		#  END for each node 
 	
@@ -63,21 +63,35 @@ class AnimationHandle( nodes.Network ):
 		attr = tfn.create(cls._l_connection_info_attr, cls._s_connection_info_attr,
 							nodes.api.MFnData.kStringArray, sa)
 		mynode.addAttribute(attr)
-		return cls(mynode.getMObject())
+		return cls(mynode.object())
 		
 	@undoable
 	def clear( self ):
 		"""Forget our managed animation completely"""
 		# clear array plug
-		for ip in self.affectedBy.getInputs():
+		for ip in self.affectedBy.minputs():
 			ip.disconnectInput()
 		# END for each array item to disconnect
 		
 		# clear connection data
 		dplug = self.findPlug(self._s_connection_info_attr)
-		data = dplug.asData()
+		data = dplug.masData()
 		dplug.setMObject(data.create(list()))
 
+	@undoable
+	def iter_animation( self, asNode=False, predicate=lambda x:True, converter=lambda x:x ):
+		"""iterate our managed animation
+		@param asNode: if true, iterator returns mayarv nodes otherwise unwrapped api objects"""
+		for anim_node_dest_plug in self.affectedBy:
+			anode=anim_node_dest_plug.minput().mnode()
+			convert_to=converter(anode.name())
+			anode.converted=convert_to
+			if predicate(convert_to):
+				if asNode:
+					yield anode
+				else:
+					yield anim_node_dest_plug.minput().node()
+		# END iterator
 
 	@undoable
 	def set_animation( self, iter_nodes ):
@@ -89,18 +103,18 @@ class AnimationHandle( nodes.Network ):
 		@note: Heavily optimized for speed, hence we work directly with the 
 		apiObjects, skipping the mayarv layer as we are in a tight loop here"""
 		self.clear()
-		anim_nodes = nodes.AnimCurve.getAnimation(iter_nodes, asNode=False)
+		anim_nodes = nodes.AnimCurve.animation(iter_nodes, asNode=False)
 		mfndep = nodes.api.MFnDependencyNode()
 		def iter_plugs():
 			affected_by_plug = self.affectedBy
 			for pindex, apinode in enumerate(anim_nodes):
 				mfndep.setObject(apinode)
-				yield (mfndep.findPlug('msg'), affected_by_plug.getByLogicalIndex(pindex))
+				yield (mfndep.findPlug('msg'), affected_by_plug.elementByLogicalIndex(pindex))
 			# END for each pair to yield
 		# END iterator helper
 		
 		iterator = iter_plugs()
-		nodes.api.MPlug.connectMultiToMulti(iterator, force=False)
+		nodes.api.MPlug.mconnectMultiToMulti(iterator, force=False)
 		
 		# add current connection info
 		# NOTE: We know that the anim-node is connected to something
@@ -109,8 +123,8 @@ class AnimationHandle( nodes.Network ):
 		target_plug_strings = list()
 		for apinode in anim_nodes:
 			mfndep.setObject(apinode)
-			outputs = mfndep.findPlug('o').getOutputs()
-			target_plug_strings.append(self._k_separator.join(p.getFullyQualifiedName() for p in outputs))
+			outputs = mfndep.findPlug('o').moutputs()
+			target_plug_strings.append(self._k_separator.join(p.mfullyQualifiedName() for p in outputs))
 		# END for each anode
 		self.findPlug(self._s_connection_info_attr).setMObject(nodes.api.MFnStringArrayData().create(target_plug_strings))
 	
@@ -124,7 +138,7 @@ class AnimationHandle( nodes.Network ):
 		connected.
 		@note: Will break existing destination connections"""
 		# get target strings
-		target_plug_names = self.findPlug(self._s_connection_info_attr).asData().array()
+		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
 		
 		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
 		
@@ -134,7 +148,7 @@ class AnimationHandle( nodes.Network ):
 		def source_target_iterator():
 			for index, anim_node_dest_plug in enumerate(self.affectedBy):
 				target_plug_name_list = target_plug_names[index].split(self._k_separator)
-				mfndep.setObject(anim_node_dest_plug.p_input.getNodeMObject())
+				mfndep.setObject(anim_node_dest_plug.minput().node())
 				anim_node_otp_plug = mfndep.findPlug('o')
 				
 				# convert target names to actual plugs
@@ -156,15 +170,41 @@ class AnimationHandle( nodes.Network ):
 		
 		# do actual connection ( best case is 38k connections per second
 		iterator = source_target_iterator()
-		nodes.api.MPlug.connectMultiToMulti(iterator, force=True)
+		nodes.api.MPlug.mconnectMultiToMulti(iterator, force=True)
 		
 	
 	#} END edit
+	
+	#{ Utilitsation
+	def copypaste_animation( self, sTimeRange=":", tTimeRange=":", optn="insert", predicate=lambda x:True, converter=lambda x:x ):
+		"""Copy the stored animation to their respective target animation curves
+		@param sTimeRange: copy just the given timerange
+		@param tTimeRange: paste copied timerange to this targes timerange
+		@param optn: options on how to paste
+		@param contverter: if not None, the function returns the desired target plug name to use 
+		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
+		@param predicate: returns true if animation of the given node should be copy-pasted"""
+		anim = list(self.iter_animation(asNode=1))
+		print cmds.findKeyframe(anim, which="first")
+		print cmds.findKeyframe(anim, which="last")
+		anim = list(self.iter_animation(asNode=1, predicate=predicate, converter=converter))
+		if len(anim):
+			print cmds.findKeyframe(anim, which="first")
+			print cmds.findKeyframe(anim, which="last")
+		else: print "None"
+		print "test auf node %s converted: %s" % (anim[0], anim[0].converted) 
+		print "test auf node %s converted: %s" % (anim[-1], anim[-1].converted) 
+	
+	
+	#} END utilisation
 	
 	#{ File IO
 	@classmethod
 	@notundoable
 	def from_file( cls, input_file ):
+		"""get a list of AnimationHandles from a file by referencing it
+		@param input_file: string of a file in the current project or full path name"""
+		
 		# find unused namespace
 		newns = Namespace.findUnique("mfLA")
 		
@@ -174,29 +214,32 @@ class AnimationHandle( nodes.Network ):
 		else:
 			raise IOError("file \"" + input_file + "\" not found!")
 		
-		if Namespace.getCurrent() != Namespace.root:
-			newns = Namespace.getCurrent() + newns
+		if Namespace.current() != Namespace.rootpath:
+			newns = Namespace.current() + newns
 		# END patching namespace 
-				
-		return list(cls.iter_instances(predicate = lambda x: x.getNamespace() == newns))
+		print "wir testen auf namespace: %s" % newns		
+		return list(cls.iter_instances(predicate = lambda x: x.namespace() == newns))
 	
+	@notundoable
 	def to_file( self, output_file, **kwargs ):
-
+		"""export the AnimationHandle and all nodes connected to the affectesBy plug
+		@param output_file: filname to export to in current project or full path name
+		@param **kwargs: passed to the Scene.export method"""
+		
 		# build selectionlist for export
-		exp_slist = nodes.api.MSelectionList()
-		for anim_node_dest_plug in self.affectedBy:
-			exp_slist.add(anim_node_dest_plug.p_input.getNodeMObject())
-		# END for affectedBy plug add nodeMObject 
-		exp_slist.add(self.getMObject())
+		exp_slist = nodes.base.toSelectionList(self.iter_animation())
+		exp_slist.add(self.object())
+		print exp_slist
 		
 		# export selected
 		return Scene.export(output_file, exp_slist, **kwargs ) 
 			
 	def unload( self ):
-		"""AnimationHandle will disapears without a trace, no matter if it was created in
+		"""AnimationHandle will disapear without a trace, no matter if it was created in
 		the current file or if it came from a referenced file"""
+		
 		if self.isReferenced():
-			FileReference(self.getReferenceFile()).remove()
+			FileReference(self.referenceFile()).remove()
 		else:
 			nodes.delete(self)
 		

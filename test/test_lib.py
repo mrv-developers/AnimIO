@@ -31,7 +31,7 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def _test_base( self ):
+	def test_base( self ):
 		p = nodes.Node("persp")
 		t = nodes.Node("top")
 		
@@ -78,7 +78,7 @@ class TestAnimationHandle( TestBase ):
 		# apply animation after disconnecting existing one
 		for converter in (None, TestConverter()):
 			for plug in anim_plugs:
-				plug.disconnectInput()
+				plug.mdisconnectInput()
 			# END disconnect anim curves
 			
 			handle.apply_animation(converter)
@@ -87,19 +87,19 @@ class TestAnimationHandle( TestBase ):
 			# END handle converter
 			
 			for plug in anim_plugs:
-				assert isinstance(plug.p_input.node(), nodes.AnimCurve)
+				assert isinstance(plug.minput().mnode(), nodes.AnimCurve)
 		# END for each converter
 		
 		# test it breaks existing target animation
-		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
-		p.tx >> t.tx
+		assert isinstance(t.tx.minput().mnode(), nodes.AnimCurve)
+		p.tx.mconnectTo(t.tx)
 		
 		handle.apply_animation()
 		
-		assert isinstance(t.tx.p_input.node(), nodes.AnimCurve)
+		assert isinstance(t.tx.minput().mnode(), nodes.AnimCurve)
 		
-#	@with_scene('3handles.ma')
-	def _test_iteration( self ):
+	@with_scene('3handles.ma')
+	def test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
 		print "test_iteration is running\n"
 		assert len(handles) == 3
@@ -131,7 +131,7 @@ class TestAnimationHandle( TestBase ):
 		nodes.api.MGlobal.setActiveSelectionList(slist)
 		
 		## EXPORT ##
-		filename = ospath.join(tempfile.gettempdir(), "test_export.ani.ma")
+		filename = ospath.join(tempfile.gettempdir(), "test_export2.ani.ma")
 		assert filename == ah.to_file(filename, force=True, type="mayaAscii")
 		
 		# check if testselection is still alive
@@ -146,36 +146,49 @@ class TestAnimationHandle( TestBase ):
 		assert nodes.objExists(ahname) == 0 , "AnimationHandle is still existing"
 		
 		## IMPORT ##
-		def importhandle(i_filename, compare_to, namespace):
+		# try some cases
+		namespaces=(":", "not:in:rootns", "not")
+		for namespace in namespaces:
 			sns = Namespace.create(namespace)
 			sns.setCurrent()
-			print "------------------test on namespace--%s---------------------" % Namespace.getCurrent()
-			loaded_ah = AnimationHandle.from_file(i_filename)[0]
+			print "------------------test on namespace--%s---------------------" % Namespace.current()
+			loaded_ah = AnimationHandle.from_file(filename)[0]
 			assert isinstance(loaded_ah, AnimationHandle)
 		
-			# get namespace of AnimationHandle
-			ah_ns = loaded_ah.getNamespace()
+			loaded_ah_ns = loaded_ah.namespace()
+			assert loaded_ah_ns + ":" + ahname == ":" + loaded_ah.name()
+			assert ospath.realpath(filename) == ospath.realpath(loaded_ah.referenceFile())
 			
-			# give some feedback
-			loaded = list(ah_ns.iterNodes(depth=-1))
+			loaded_nodes = list(loaded_ah_ns.iterNodes(depth=-1))
+			print "namepace of Animhandle is %s and contains %i nodes" % (loaded_ah_ns,len(loaded_nodes))
+			assert managed == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
 			
-			print "AnimationHandle named %s found" % loaded_ah
-			assert ospath.realpath(i_filename) == ospath.realpath(loaded_ah.getReferenceFile())
-			print "namepace of Animhandle is %s and contains %i nodes" % (ah_ns,len(loaded))
-			print "%i animCurves saved before, now loaded %i" % (compare_to, len(loaded_ah.affectedBy))
-			assert compare_to == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
-			print "current namespace is %s containing %i nodes" % (Namespace.getCurrent(), len(loaded))
-			
-			lahname = loaded_ah.name()
+			loaded_ahname = loaded_ah.name()
 			loaded_ah.unload()
-			assert nodes.objExists(lahname) == 0 , "AnimationHandle is still existing"
+			assert nodes.objExists(loaded_ahname) == 0 , "AnimationHandle is still existing"
 				
-		# imort in root namespace, subns and try none existing filename
-		importhandle(filename, managed, Namespace.root)
-		importhandle(filename, managed, "in:meiner:Dose")
-		self.failUnlessRaises(IOError,  importhandle, "not_existing.ma", managed, ":")
+		self.failUnlessRaises(IOError,  AnimationHandle.from_file, "not_existing.ma")
 		
-			
+	@with_scene('1still3moving.ma')
+	def test_copypaste( self ):
+		ah = AnimationHandle.create()
+		ah.set_animation(nodes.it.iterDgNodes( nodes.api.MFn.kTransform, asNode=0))
+		
+		ah.testAttr = "neueNamenBraucht das land"
+		print "gespeichert wurde: %s" % ah.testAttr
+		
+		filename = ospath.join(tempfile.gettempdir(), "3movin_export.ani.ma")
+		assert filename == ah.to_file(filename, force=True, type="mayaAscii")
+		num_nodes=len(list(nodes.it.iterDgNodes(asNode=0)))
+		print "handling %i animationcurves of %i nodes in scene" % (len(ah.affectedBy), num_nodes)
+		ah.copypaste_animation(predicate=lambda x:'Cube' in x)
+		ah.unload()
+		assert num_nodes -1 == len(list(nodes.it.iterDgNodes(asNode=0)))
+		
+		ahb = AnimationHandle.from_file(filename)[0]
+		print "after reload %i nodes in scene" % len(list(nodes.it.iterDgNodes(asNode=0)))
+		ahb.copypaste_animation(predicate=lambda x:'nurbs' in x, converter=lambda x:x.replace("Cube", "nurbs"))
+					
 class TestLibrary( TestBase ):
 	
 	def test_base( self ):

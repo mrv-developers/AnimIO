@@ -3,7 +3,7 @@
 from animIO.test.lib import *
 from animIO import *
 
-import mayarv.maya.nodes as nodes
+import mayarv.maya.nt as nodes
 import time
 import sys
 
@@ -13,7 +13,7 @@ class TestPerformance( unittest.TestCase ):
 	def test_anim_handle(self):
 		# manage all anim nodes
 		ah = AnimationHandle.create()
-		ahapi = ah.getMObject()
+		ahapi = ah.object()
 		
 		st = time.time()
 		is_not_ah = lambda n: n != ahapi
@@ -38,13 +38,13 @@ class TestPerformance( unittest.TestCase ):
 		# directly
 		mod = nodes.api.MDGModifier( )
 		for anim_plug in pa:
-			mod.disconnect(anim_plug.p_input, anim_plug )
+			mod.disconnect(anim_plug.minput(), anim_plug )
 		# END for each anim curve to disconnect
 		mod.doIt()
 		elapsed = time.time() - st
 		print >>sys.stderr, "Cleared animation on %i plugs in %f s" % (len(pa), elapsed)
 		
-		assert len(nodes.AnimCurve.getAnimation(sellist)) == 0
+		assert len(nodes.AnimCurve.animation(sellist)) == 0
 		
 		# apply animation, best case as it is not yet connected
 		st = time.time()
