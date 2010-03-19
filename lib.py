@@ -213,36 +213,24 @@ class AnimationHandle( nt.Network ):
 	@classmethod
 	@notundoable
 	def from_file( cls, input_file ):
-		"""get a list of AnimationHandles from a file by referencing it
-		@param input_file: string of a file in the current project or full path name"""
-		
-		# find unused namespace
-		newns = Namespace.findUnique("mfLA")
-		
-		# load file if exists otherwise return nothing
-		if cmds.file(input_file, q=True, exists=True ):
-			cmds.file( input_file, r=True, namespace=newns, loadReferenceDepth="topOnly") 
-		else:
-			raise IOError("file \"" + input_file + "\" not found!")
-		
-		if Namespace.current() != Namespace.rootpath:
-			newns = Namespace.current() + newns
-		# END patching namespace 
-		print "wir testen auf namespace: %s" % newns		
-		return list(cls.iter_instances(predicate = lambda x: x.namespace() == newns))
+		"""references imput_file into scene by using an unique namespace, returning
+		FileReference as well as an iterator yielding AmimationHandles of input_file
+		@return: tuple(FileReference, iterator of AnimationHandles)
+		@param input_file: valid path to a maya file"""
+		ahref=FileReference.create(input_file, loadReferenceDepth="topOnly")
+		refns=ahref.namespace()
+		return (ahref, cls.iter_instances(predicate = lambda x: x.namespace() == refns))
 	
 	@notundoable
 	def to_file( self, output_file, **kwargs ):
-		"""export the AnimationHandle and all nodes connected to the affectesBy plug
-		@param output_file: filname to export to in current project or full path name
-		@param **kwargs: passed to the Scene.export method"""
-		
+		"""export the AnimationHandle and all managed nodes to the given file 
+		@return: path to exported file
+		@param output_file: Path object or path string to export file.
+		Parent directories will be created as needed
+		@param **kwargs: passed to the L{Scene.export} method"""
 		# build selectionlist for export
-		exp_slist = nt.base.toSelectionList(self.iter_animation(asNode=0))
+		exp_slist = nt.toSelectionList(self.iter_animation(asNode=0))     
 		exp_slist.add(self.object())
-		print exp_slist
-		
-		# export selected
 		return Scene.export(output_file, exp_slist, **kwargs ) 
 			
 	def unload( self ):

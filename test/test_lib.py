@@ -173,6 +173,9 @@ class TestAnimationHandle( TestBase ):
 		ah.unload()
 		assert nodes.objExists(ahname) == 0 , "AnimationHandle is still existing"
 		
+		# dummyAnimationHandle for iteration tests
+		dummy=AnimationHandle() 
+		
 		## IMPORT ##
 		# try some cases
 		namespaces=(":", "not:in:rootns", "not")
@@ -180,8 +183,15 @@ class TestAnimationHandle( TestBase ):
 			sns = Namespace.create(namespace)
 			sns.setCurrent()
 			print "------------------test on namespace--%s---------------------" % Namespace.current()
-			loaded_ah = AnimationHandle.from_file(filename)[0]
+			
+			ahref, ahit = AnimationHandle.from_file(filename)
+			assert isinstance(ahref, FileReference)
+			
+			loaded_ah= ahit.next()
 			assert isinstance(loaded_ah, AnimationHandle)
+			
+			# expecting only one AnimationHandle form iterator (no dummyAnimationHandle)
+			assert len(list(ahit)) == 0
 		
 			loaded_ah_ns = loaded_ah.namespace()
 			assert loaded_ah_ns + ":" + ahname == ":" + loaded_ah.name()
@@ -194,8 +204,7 @@ class TestAnimationHandle( TestBase ):
 			loaded_ahname = loaded_ah.name()
 			loaded_ah.unload()
 			assert nodes.objExists(loaded_ahname) == 0 , "AnimationHandle is still existing"
-				
-		self.failUnlessRaises(IOError,  AnimationHandle.from_file, "not_existing.ma")
+		# END test different namespaces
 		
 	@with_scene('1still3moving.ma')
 	def _test_copypaste( self ):
@@ -213,7 +222,7 @@ class TestAnimationHandle( TestBase ):
 		ah.unload()
 		assert num_nodes -1 == len(list(nodes.it.iterDgNodes(asNode=0)))
 		
-		ahb = AnimationHandle.from_file(filename)[0]
+		ahb = AnimationHandle.from_file(filename)[1].next()
 		print "after reload %i nodes in scene" % len(list(nodes.it.iterDgNodes(asNode=0)))
 		ahb.copypaste_animation(predicate=lambda x:'nurbs' in x, converter=lambda x:x.replace("Cube", "nurbs"))
 					
