@@ -184,16 +184,18 @@ class AnimationHandle( nodes.Network ):
 		@param contverter: if not None, the function returns the desired target plug name to use 
 		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
 		@param predicate: returns true if animation of the given node should be copy-pasted"""
-		anim = list(self.iter_animation(asNode=1))
-		print cmds.findKeyframe(anim, which="first")
-		print cmds.findKeyframe(anim, which="last")
 		anim = list(self.iter_animation(asNode=1, predicate=predicate, converter=converter))
 		if len(anim):
 			print cmds.findKeyframe(anim, which="first")
 			print cmds.findKeyframe(anim, which="last")
 		else: print "None"
 		print "test auf node %s converted: %s" % (anim[0], anim[0].converted) 
-		print "test auf node %s converted: %s" % (anim[-1], anim[-1].converted) 
+		print "test auf node %s converted: %s" % (anim[-1], anim[-1].converted)
+		# cmds.copyKey(anim, time=sTimeRange, option="curve"  )
+		# tganim=list()
+		# for n in anim:
+			# tganim.add(n.converted)		
+		# cmds.pasteKey(tganim, time=tTimeRange, option="fitInsert")
 	
 	
 	#} END utilisation
