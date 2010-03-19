@@ -45,6 +45,11 @@ class TestAnimationHandle( TestBase ):
 		handle2 = AnimationHandle.create()
 		assert handle != handle2
 		
+		# quick creation
+		handle3=AnimationHandle()
+		assert isinstance(handle3, AnimationHandle)
+		assert handle3.isValid()
+		
 		# use create, providing the name of an existing animationHandle node
 		handle2same = AnimationHandle.create(handle2.name(), forceNewLeaf=False)
 		assert handle2same == handle2
@@ -98,6 +103,11 @@ class TestAnimationHandle( TestBase ):
 		
 		assert isinstance(t.tx.minput().mnode(), nodes.AnimCurve)
 		
+		# cannot initialize von blank network node
+		netw_node=nt.Network().object()
+		self.failUnlessRaises(TypeError, AnimationHandle, netw_node)
+		
+		
 	@with_scene('3handles.ma')
 	def test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
@@ -108,7 +118,7 @@ class TestAnimationHandle( TestBase ):
 			assert isinstance(h, nodes.Network)
 		# END for each handle
 	
-	@with_scene('21kcurves.mb')
+	@with_scene('1still3moving.ma')
 	def test_export_import( self ):
 		# create AnimationHAndle and manage some nodes
 		ah = AnimationHandle.create()
@@ -123,8 +133,11 @@ class TestAnimationHandle( TestBase ):
 		st = time.time()
 		ah.set_animation(iter_nuber_of_dagNodes(numnodes))
 		elapsed = time.time() - st
-		managed = len(ah.affectedBy)
+		managed = len(list(ah.iter_animation(asNode=0)))
 		print "collecting %i nodes managing %i animation curves took %f s" % (numnodes, managed, elapsed)
+		# test iter_animtion return types
+		assert isinstance(ah.iter_animation().next(), nt.Node)
+		assert isinstance(ah.iter_animation(asNode=0).next(), nt.api.MObject)
 		
 		# testselect some nodes
 		slist = nodes.toSelectionList(iter_nuber_of_dagNodes(3))				
@@ -170,7 +183,7 @@ class TestAnimationHandle( TestBase ):
 		self.failUnlessRaises(IOError,  AnimationHandle.from_file, "not_existing.ma")
 		
 	@with_scene('1still3moving.ma')
-	def test_copypaste( self ):
+	def _test_copypaste( self ):
 		ah = AnimationHandle.create()
 		ah.set_animation(nodes.it.iterDgNodes( nodes.api.MFn.kTransform, asNode=0))
 		
