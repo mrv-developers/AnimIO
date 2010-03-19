@@ -233,14 +233,14 @@ class AnimationHandle( nt.Network ):
 		exp_slist.add(self.object())
 		return Scene.export(output_file, exp_slist, **kwargs ) 
 			
-	def unload( self ):
+	def delete( self ):
 		"""AnimationHandle will disapear without a trace, no matter if it was created in
 		the current file or if it came from a referenced file"""
 		
 		if self.isReferenced():
 			FileReference(self.referenceFile()).remove()
 		else:
-			nt.delete(self)
-		
+			super(AnimationHandle, self).delete()
+		# END handle referencing
 			
 	#} END file io

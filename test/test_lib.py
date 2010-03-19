@@ -170,7 +170,7 @@ class TestAnimationHandle( TestBase ):
 		
 		# removing AnimationHandle #
 		ahname = ah.name()
-		ah.unload()
+		ah.delete()
 		assert nodes.objExists(ahname) == 0 , "AnimationHandle is still existing"
 		
 		# dummyAnimationHandle for iteration tests
@@ -202,7 +202,7 @@ class TestAnimationHandle( TestBase ):
 			assert managed == len(loaded_ah.affectedBy) , "stored and loaded managed animCurves out of sync"
 			
 			loaded_ahname = loaded_ah.name()
-			loaded_ah.unload()
+			loaded_ah.delete()
 			assert nodes.objExists(loaded_ahname) == 0 , "AnimationHandle is still existing"
 		# END test different namespaces
 		
@@ -219,7 +219,7 @@ class TestAnimationHandle( TestBase ):
 		num_nodes=len(list(nodes.it.iterDgNodes(asNode=0)))
 		print "handling %i animationcurves of %i nodes in scene" % (len(ah.affectedBy), num_nodes)
 		ah.copypaste_animation(predicate=lambda x:'Cube' in x)
-		ah.unload()
+		ah.delete()
 		assert num_nodes -1 == len(list(nodes.it.iterDgNodes(asNode=0)))
 		
 		ahb = AnimationHandle.from_file(filename)[1].next()
