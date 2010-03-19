@@ -3,6 +3,7 @@
 from animIO.test.lib import *
 from animIO import *
 
+import mayarv.test.maya as tmrv
 import mayarv.maya.nt as nodes
 import mayarv.maya as mrvmaya
 
@@ -100,8 +101,15 @@ class TestAnimationHandle( TestBase ):
 		p.tx.mconnectTo(t.tx)
 		
 		handle.apply_animation()
-		
 		assert isinstance(t.tx.minput().mnode(), nodes.AnimCurve)
+		
+		# disconnected animation curve does not interrpt apply_animation
+		t.ty.minput().mnode().message.mdisconnectNode(handle)
+		t.ty.minput().mdisconnectNode(t)
+		t.tz.minput().mdisconnectNode(t)
+		handle.apply_animation()
+		assert isinstance(t.tz.minput().mnode(), nodes.AnimCurve)
+		assert t.ty.minput().isNull()
 		
 		# cannot initialize von blank network node
 		netw_node=nt.Network().object()
@@ -117,6 +125,12 @@ class TestAnimationHandle( TestBase ):
 			assert isinstance(h, AnimationHandle)
 			assert isinstance(h, nodes.Network)
 		# END for each handle
+	
+	@with_scene('blendNmute.ma')
+	def _test_mute_and_blend( self ):
+		self.fail("TODO")
+		
+	
 	
 	@with_scene('1still3moving.ma')
 	def test_export_import( self ):
@@ -135,6 +149,7 @@ class TestAnimationHandle( TestBase ):
 		elapsed = time.time() - st
 		managed = len(list(ah.iter_animation(asNode=0)))
 		print "collecting %i nodes managing %i animation curves took %f s" % (numnodes, managed, elapsed)
+		
 		# test iter_animtion return types
 		assert isinstance(ah.iter_animation().next(), nt.Node)
 		assert isinstance(ah.iter_animation(asNode=0).next(), nt.api.MObject)

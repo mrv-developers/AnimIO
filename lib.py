@@ -81,9 +81,8 @@ class AnimationHandle( nt.Network ):
 		mynode = nt.createNode(name, "network", **kwargs)
 		
 		# add our custom attribute
-		sa = nt.api.MObject(nt.api.MFnStringArrayData().create())
 		attr = nt.TypedAttribute.create(cls._l_connection_info_attr, cls._s_connection_info_attr,
-							nt.api.MFnData.kStringArray, sa)
+							nt.api.MFnData.kStringArray, nt.StringArrayData.create(list()))
 		mynode.addAttribute(attr)
 		return cls(mynode.object())
 		
@@ -97,20 +96,19 @@ class AnimationHandle( nt.Network ):
 		
 		# clear connection data
 		dplug = self.findPlug(self._s_connection_info_attr)
-		data = dplug.masData()
-		dplug.setMObject(data.create(list()))
+		dplug.setMObject(nt.StringArrayData.create(list()))
 	
 	@undoable
 	def set_animation( self, iter_nodes ):
-		"""Set this handle to manage the animation of the given nt.
+		"""Set this handle to manage the animation of the given nodes.
 		The previous animation information will be removed.
 		@param iter_nodes: MSelectionList or iterable of Nodes or api objects pointing 
-		to nodes with animation.
+		to nodes connected to animation.
 		@note: Will not raise if the nodes do not have any animation
 		@note: Heavily optimized for speed, hence we work directly with the 
 		apiObjects, skipping the mayarv layer as we are in a tight loop here"""
 		self.clear()
-		anim_nodes = nt.AnimCurve.animation(iter_nodes, asNode=False)
+		anim_nodes = nt.AnimCurve.findAnimation(iter_nodes, asNode=False)
 		mfndep = nt.api.MFnDependencyNode()
 		def iter_plugs():
 			affected_by_plug = self.affectedBy
@@ -123,7 +121,7 @@ class AnimationHandle( nt.Network ):
 		iterator = iter_plugs()
 		nt.api.MPlug.mconnectMultiToMulti(iterator, force=False)
 		
-		# add current connection info7
+		# add current connection info
 		# NOTE: We know that the anim-node is connected to something
 		# as this is the reason we retrieved it in the first place
 		# TODO: Deal with intermediate nodes
@@ -132,12 +130,12 @@ class AnimationHandle( nt.Network ):
 			mfndep.setObject(apinode)
 			outputs = mfndep.findPlug('o').moutputs()
 			target_plug_strings.append(self._k_separator.join(p.mfullyQualifiedName() for p in outputs))
-		# END for each anode
-		self.findPlug(self._s_connection_info_attr).setMObject(nt.api.MFnStringArrayData().create(target_plug_strings))
+		# END for each node
+		self.findPlug(self._s_connection_info_attr).setMObject(nt.StringArrayData.create(target_plug_strings))
 	
 	@undoable
 	def apply_animation( self, converter=None ):
-		"""Apply the stored animation by (re)connecting the animatino nodes to their
+		"""Apply the stored animation by (re)connecting the animation nodes to their
 		respective target plugs
 		@param converter: if not None, the function returns the desired target plug name to use 
 		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
@@ -155,7 +153,13 @@ class AnimationHandle( nt.Network ):
 		def source_target_iterator():
 			for index, anim_node_dest_plug in enumerate(self.affectedBy):
 				target_plug_name_list = target_plug_names[index].split(self._k_separator)
-				mfndep.setObject(anim_node_dest_plug.minput().node())
+				anim_node_msg_plug=anim_node_dest_plug.minput()
+				if anim_node_msg_plug.isNull():
+					print "no animation curve found on %s" % anim_node_dest_plug.mfullyQualifiedName()
+					continue
+				# END check for nullPlug
+				
+				mfndep.setObject(anim_node_msg_plug.node())
 				anim_node_otp_plug = mfndep.findPlug('o')
 				
 				# convert target names to actual plugs
