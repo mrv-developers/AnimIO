@@ -1,0 +1,646 @@
+// ###### mfAnimIO_UI ## mfAnimIO_UI ## mfAnimIO_UI ## mfAnimIO_UI ## mfAnimIO_UI ## mfAnimIO_UI #######
+//
+//  Creation Date:  	2008-01-09
+//	Original Author:	Martin Freitag
+//
+//  Description:
+//	UI for AnimIO (tool to import and export animation/ANIMation In Out)
+//	
+//
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 	UI CREATION	  ///////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//
+//	mfAnimIO_UI				- user interface of AnimIO
+//	mfCallExport			- calls the export function using the options of the UI
+//  mfCallImport			- calls the import function using the options of the UI
+//  mfAddSearchReplace		- manages the functionality of the UIs Search&Replace field (AddButton)
+//  mfRmTextScrollList		- manages the functionality of the UIs Search&Replace field (RemoveButton)
+//  mfRefreshExpList		- manages the functionality of the UIs ExportList in case scene content changes
+//  mfGetFileName			- opens a fileDialog in a sequence specific anl/ani folder 
+//
+//////////////////////////////////
+//  HELPERS /////////////
+/////////////////
+//
+//  mfGenFileName
+//  mfSyncSearchReplace
+//
+////////////////////////////////////////////////////////////////////////////////
+//  Foreward declarations ////////
+////////////////////////////
+
+proc string mfGenFileName(string $fn) { return ""; }
+proc mfSyncSearchReplace(string $textScrollList, int $mode) {}
+proc string[] mfArray(string $input[]) { return $input; }
+
+////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 	METHODES  ///////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+// -----------------------------------------------------------------------------
+global proc mfAnimIO_UI()
+// -----------------------------------------------------------------------------
+// calls the user interface to im- & export animation
+//
+// -----------------------------------------------------------------------------
+{
+	mfAnimIO();  // loading methods from Library
+	
+	if ( `window -exists mfAnimIOUI`) 
+		deleteUI mfAnimIOUI;
+			
+	$win = `window -w 305 -h 205 -t "mfAnimIO v1.3" mfAnimIOUI`;
+	string $tabs = `tabLayout -i "ani/AnimIOTitle.xpm" -iv 1 `;
+	
+	// --------------------------------------------------------	
+	// --------- export UI-------------------------------------
+	// --------------------------------------------------------	
+		string $expL = `frameLayout -label " Export All Animation Of " -labelAlign "top"
+					-borderStyle "etchedOut"
+					-mw 5
+					-mh 5`;
+					
+					string $formE = `formLayout -nd 100`;
+					
+							$tscl = `textScrollList -w 180 -numberOfRows 5 -allowMultiSelection true`;
+							string $expBttn = `button -l "Export..."`;
+							string $dirBase = `getenv MAYA_APP_DIR`;
+							string $hB = `iconTextButton -st "iconOnly" -ann "...need help?" -i "ani/Help1.xpm" -hi "ani/Help2.xpm" -w 22 -h 22 -mw 0 -mh 0 -c ("showHelp -a \"" + $dirBase + "/scripts/help/AnimIO.htm\"")`;
+					   		string $column = `columnLayout -adjustableColumn true`;
+					   		
+								text -l "timerange:" -fn "boldLabelFont" -al "left";
+								string $gr0 = `radioButtonGrp -nrb 1 -l1 "complete anim." -sl 1`;
+								radioButtonGrp-nrb 1 -scl $gr0 -l1 "custom:";
+								string $rowETR3 = `rowLayout -nc 2 -cw 1 45 -cw 2 40 -adj 2`;
+									string $startETRTF = `textField -en 0 -w 44`;	
+									string $endETRTF = `textField -en 0 -w 38`;
+								setParent ..;
+								
+								text -l "";
+								text -l "";
+					   			text -l "filetype:" -fn "boldLabelFont" -align "left";
+					   			string $gr1 = `radioButtonGrp -nrb 1 -l1 "mayaASCII" -sl 1`;
+					   			radioButtonGrp -nrb 1 -scl $gr1 -l1 "mayaBinary";	
+								text -l "";
+					   							   		
+					   		setParent ..;
+						
+					setParent ..;
+		setParent ..;
+		
+		formLayout -edit
+		   -attachForm     $tscl "top"    0
+ 		   -attachForm     $tscl "left"   0
+ 		   -attachControl  $tscl "bottom" 5 $expBttn
+ 		   -attachForm     $tscl "right"  95
+
+ 		   -attachNone     $expBttn "top"
+ 		   -attachForm     $expBttn "left"   0
+ 		   -attachForm     $expBttn "bottom" 0
+ 		   -attachControl  $expBttn "right"  0 $hB
+		   
+		   -attachNone     $hB "top"
+		   -attachNone     $hB "left"
+		   -attachForm     $hB "bottom" 0
+		   -attachForm     $hB "right"  0
+		   
+ 		   -attachNone     $column "top"    
+ 		   -attachControl  $column "left"   5 $tscl
+ 		   -attachControl  $column "bottom" 5 $expBttn
+ 		   -attachForm     $column "right"  0
+		$formE;
+		
+		///////// timeRange textField functionallity //////////////
+		//
+		radioButtonGrp -e -ofc ("textField -e -en 1 -tx `playbackOptions -q -min` " + $startETRTF +"; textField -e -en 1 -tx `playbackOptions -q -max` " + $endETRTF + "; setFocus " + $startETRTF)
+			-onc ("textField -e -en 0 " + $startETRTF +"; textField -e -en 0 " + $endETRTF) $gr0; 
+		textField -e -aie 1 -ec ("if (size(`textField -q -tx "+ $startETRTF +"`)) textField -e -tx (float(textField(\"-q\",\"-tx\", \"" + $startETRTF + "\"))) "+ $startETRTF +"; setFocus " + $endETRTF) $startETRTF;
+		textField -e -aie 1 -ec ("if (size(`textField -q -tx "+ $endETRTF +"`)) textField -e -tx (float(textField(\"-q\",\"-tx\", \"" + $endETRTF + "\"))) "+ $endETRTF +"; setFocus " + $startETRTF) $endETRTF;
+		//
+		/////////////////////////////////////////////////
+		
+	// --------------------------------------------------------	
+	// --------- import UI ------------------------------------
+	// --------------------------------------------------------
+	
+		string $impL = `frameLayout -label " Import Animation " -labelAlign "top" -li 57
+					-borderStyle "etchedOut"
+					-mw 5
+					-mh 5`;
+					
+			string $formI = `formLayout -nd 100`;
+				
+			//------PREFIX----------------------------------------------------------------	
+				string $row1 = `rowLayout -cw 1 68 -nc 2 -adj 2`;
+					$prefCB = `checkBox -w 68 -l "add prefix:"`;
+					$prefTF = `textField -en 0`;				
+				setParent ..;
+				
+				//------SEARCH & REPLACE------------------------------------------------------
+				string $row2 = `rowLayout -nc 4 -cw 1 55 -cw 2 50 -cw 3 42 -adj 4`;
+					$searchCB = `checkBox -w 55 -l "search:"`;
+					$searchTF = `textField -en 0 -w 50`;	
+					text -w 42 -l " replace:";
+					$replaceTF = `textField -en 0 -w 45`;
+				setParent ..;
+				$addBttn = `button -en 0 -h 15 -l "Add"`;	
+							
+				$tsclI = `textScrollList -en 0 -w 190 -numberOfRows 3 -allowMultiSelection true AnimIOSearchReplace`;
+				mfSyncSearchReplace($tsclI, 0);
+			   	string $delBttn = `button -en 0 -h 15 -l "remove selected"`;
+				//------FILTER----------------------------------------------------------------
+				
+				string $filterList = `textScrollList -w 180 -en 0 -numberOfRows 5 -allowMultiSelection true AnimIOFilter`;
+				string $filterCB = `checkBox -w 100 -l "filtered input:"`;
+				checkBox -e	-onc ("textScrollList -e -en 1 " + $filterList + "; formLayout -e -attachPosition " + $filterCB + " \"top\" 25 40 " + $formI) 
+					-ofc ("textScrollList -e -en 0 " + $filterList + "; formLayout -e -attachPosition " + $filterCB + " \"top\" 25 50 " + $formI) $filterCB;
+								
+				//------IMPORT & HELP---------------------------------------------------------
+			   	string $impBttn = `button -l "Import..."`;
+			   	string $dirBase = `getenv MAYA_APP_DIR`;
+				string $hB2 = `iconTextButton -st "iconOnly" -ann "...need help?" -i "ani/Help1.xpm" -hi "ani/Help2.xpm" -w 22 -h 22 -mw 0 -mh 0 -c ("showHelp -a \"" + $dirBase + "/scripts/help/AnimIO.htm\"")`;
+			   	
+				//===== OPTIONS (right side) =================================================
+				string $columnI = `columnLayout -w 90 -rs 2 -adjustableColumn true`;
+					text -w 90 -h 20 -l "options:" -fn "boldLabelFont" -align "left";
+				//------REPLACE/INSERT--------------------------------------------------------
+			   		string $replaceGr = `radioButtonGrp -w 90 -nrb 1 -l1 "replace" -sl 1`;
+			   		radioButtonGrp -nrb 1 -scl $replaceGr -w 90 -l1 "insert";
+			   			
+			   		text -w 90 -h 20 -l "import at..." -fn "boldLabelFont" -align "left";
+				//------ORIGINAL/CURRENT TIME-------------------------------------------------
+			   		string $oriTimeGr = `radioButtonGrp -w 90 -nrb 1 -l1 "original time" -sl 0`;
+			   		radioButtonGrp -w 90 -nrb 1 -scl $oriTimeGr -l1 "current time" -sl 1;
+					
+					text -w 90 -h 20 -l "load timerange:" -fn "boldLabelFont" -align "left";
+				//------TIMERANGE SETTINGS----------------------------------------------------
+					string $timeRangeColl =  `radioCollection`;
+					string $trRadioGroup[5];
+					$trRadioGroup[0] = `radioButton -w 90 -cl $timeRangeColl -l "complete anim." -al "left"`;
+			   		$trRadioGroup[1] = `radioButton -w 90 -cl $timeRangeColl -l "from file" -al "left" -sl`;
+					$trRadioGroup[2] = `radioButton -w 90 -cl $timeRangeColl -l "custom:" -al "left"`;
+					string $row3 = `rowLayout -nc 2 -cw 1 45 -cw 2 40 -adj 2`;
+						$startTRTF = `textField -en 0 -w 44`;	
+						$endTRTF = `textField -en 0 -w 38`;
+					setParent ..;					
+					$trRadioGroup[3] = `radioButton -w 90 -cl $timeRangeColl -l "last pose" -al "left"`;
+					$trRadioGroup[4] = `radioButton -w 90 -cl $timeRangeColl -l "first pose" -al "left"`;
+			   	setParent ..;
+					
+			setParent ..;
+					
+					
+					
+		setParent ..;
+		
+		
+		scriptJob -ct "readingFile" ("mfRefreshLists(\"" + $filterList + "\", \"" + $tscl + "\", \"" + $startETRTF + "\", \"" + $endETRTF + "\", \"" + $gr1 + "\", \"" + $expBttn + "\")") -p "mfAnimIOUI";
+		mfRefreshLists($filterList, $tscl, $startETRTF, $endETRTF, $gr1, $expBttn); 
+		
+		
+		formLayout -edit		
+		
+		   -attachForm     $row1 "top"    0
+ 		   -attachForm     $row1 "right"   0
+ 		   -attachControl  $row1 "bottom" 5 $row2
+ 		   -attachControl  $row1 "left"  10 $columnI
+
+		   -attachForm	   $row2 "top"    26
+ 		   -attachForm     $row2 "right"   0
+ 		   -attachControl  $row2 "left"  10 $columnI
+ 		   
+  		   -attachControl  $addBttn "top"	 5 $row2
+ 		   -attachForm     $addBttn "right"   0
+ 		   -attachControl  $addBttn "left"  10 $columnI 		   
+		   
+ 		   -attachNone     $delBttn "top"
+ 		   -attachForm     $delBttn "right"   0
+ 		   -attachControl  $delBttn "bottom" 5 $filterCB
+ 		   -attachControl  $delBttn "left"  10 $columnI
+		   
+		   -attachNone     $filterCB "bottom"
+ 		   -attachForm     $filterCB "right"   0
+ 		   -attachControl  $filterCB "left"  10 $columnI
+		   -attachPosition $filterCB "top"   25 50
+		   
+ 		   -attachNone     $impBttn "top"
+ 		   -attachForm     $impBttn "left"   0
+ 		   -attachForm     $impBttn "bottom" 0
+ 		   -attachControl  $impBttn "right"  0 $hB2
+		   
+		   -attachNone     $hB2 "top"
+ 		   -attachNone     $hB2 "left"   
+ 		   -attachForm     $hB2 "bottom" 0
+ 		   -attachForm     $hB2 "right"  0
+
+ 		   -attachPosition $columnI "bottom" -110 50
+ 		   -attachForm     $columnI "left"  0
+
+		   -attachControl  $filterList "top"    5 $filterCB
+ 		   -attachForm     $filterList "right"   0
+ 		   -attachControl  $filterList "bottom" 5 $impBttn
+ 		   -attachControl  $filterList "left"  10 $columnI  	 		   
+
+		   -attachControl  $tsclI "top"    5 $addBttn
+ 		   -attachForm     $tsclI "right"   0
+ 		   -attachControl  $tsclI "bottom" 5 $delBttn
+ 		   -attachControl  $tsclI "left"  10 $columnI
+	   
+		$formI;
+
+		////////////////////////////////////////////////////
+		//  add checkBox, radioButton & button functionallity
+		//
+		checkBox -e -onc ("textField -e -en 1 " + $prefTF + "; setFocus " + $prefTF) -ofc ("textField -e -en 0 " + $prefTF) $prefCB;
+		checkBox -e -onc ("textField -e -en 1 " + $searchTF + 
+				"; textField -e -en 1 " + $replaceTF + 
+				"; button -e -en 1 " + $addBttn + 
+				"; button -e -en 1 " + $delBttn + 
+				"; textScrollList -e -en 1 " + $tsclI +
+				"; setFocus " + $searchTF +
+				"; formLayout -e -attachPosition " + $filterCB + " \"top\" 25 60 " + $formI) 
+			-ofc ("textField -e -en 0 " + $searchTF + 
+				"; textField -e -en 0 " + $replaceTF + 
+				"; button -e -en 0 " + $addBttn + 
+				"; button -e -en 0 " + $delBttn + 
+				"; textScrollList -e -en 0 " + $tsclI +
+				"; formLayout -e -attachPosition " + $filterCB + " \"top\" 25 50 " + $formI) $searchCB;
+		
+		radioButton -e -onc ("textField -e -en 1 " + $startTRTF +"; textField -e -en 1 " + $endTRTF + "; setFocus " + $startTRTF)
+			-ofc ("textField -e -en 0 " + $startTRTF +"; textField -e -en 0 " + $endTRTF) $trRadioGroup[2]; 
+		textField -e -aie 1 -ec ("textField -e -tx (float(textField(\"-q\",\"-tx\", \"" + $startTRTF + "\"))) "+ $startTRTF +"; setFocus " + $endTRTF) $startTRTF;
+		textField -e -aie 1 -ec ("textField -e -tx (float(textField(\"-q\",\"-tx\", \"" + $endTRTF + "\"))) "+ $endTRTF +"; setFocus " + $startTRTF) $endTRTF;
+		
+		button -e -c ("mfAddSearchReplace(\"" + $searchTF + "\", \"" + $replaceTF + "\", \"" + $tsclI + "\");") $addBttn;
+		textField -e -aie 1 -ec ("setFocus " + $replaceTF) $searchTF;
+		textField -e -aie 1 -ec ("mfAddSearchReplace(\"" + $searchTF + "\", \"" + $replaceTF + "\", \"" + $tsclI + "\"); setFocus " + $searchTF) $replaceTF;
+				
+		textScrollList -e -dkc ("mfRmTextScrollList(\"" + $tsclI + "\");") $tsclI;
+		button -e -c ("mfRmTextScrollList(\"" + $tsclI + "\");") $delBttn;
+		button -e -c ("mfCallImport(\"" + $prefTF 
+			+ "\", \"" + $tsclI 
+			+ "\", \"" + $filterList 
+			+ "\", \"" + $replaceGr 
+			+ "\", \"" + $oriTimeGr
+			+ "\", indexOfItem(( \"" + $columnI
+				+ "|\" + radioCollection(\"-q\", \"-sl\", \"" + $timeRangeColl
+				+ "\")), radioCollection(\"-q\", \"-cia\", \"" + $timeRangeColl + "\")), \""
+			+ $startTRTF + "\", \""
+			+ $endTRTF
+			+ "\");" ) $impBttn;
+		
+		//
+		//  add functionallity end
+		////////////////////////////////////////////////
+		
+		
+		
+	setParent ..;	
+	tabLayout -e -tl $expL "EXPORT" -tl $impL "IMPORT" -st $impL $tabs;
+
+	window -e -wh 300 220 $win;
+	window -e -wh 320 362 $win;
+	showWindow $win;
+}
+
+
+// -----------------------------------------------------------------------------
+global proc mfCallExport(string $textList, string $nspace, string $startETRTF, string $endETRTF, int $ft) 
+// -----------------------------------------------------------------------------
+// calls the exportfunction using the options of the UI
+//  @param $textList UI name of the textScrolList
+//  @param $nspace namespaces of the scene, seperatet by " "
+//  @param $startETRTF $endETRTF UI name of the timeRangeTextFields
+//  @param $ft filetype (0 mayaBinary, 1 mayaAscii)//
+// -----------------------------------------------------------------------------
+{	
+	string $fileType[4] = { "mayaBinary", "mayaAscii", ".mb", ".ma"};
+	string $nspaces[] = stringToStringArray($nspace, " ");
+	string $expNodes[];
+	string $timeRange;
+	int $success;	
+	
+	int $expSel[] = `textScrollList -q -sii $textList`;
+	if (size($expSel) == 0) {
+		confirmDialog -t "Error:" -m "Please select what to export from the textbox!"
+			-b "Ok";
+		return;
+	}
+	
+	if (`textField -q -en $startETRTF`)
+	{
+		if (size(`textField -q -tx $startETRTF`)) textField -e -tx (float(textField("-q", "-tx", $startETRTF ))) $startETRTF;
+		if (size(`textField -q -tx $endETRTF`)) textField -e -tx (float(textField("-q", "-tx", $endETRTF ))) $endETRTF;
+		$timeRange = (`textField -q -tx $startETRTF` + ":" + `textField -q -tx $endETRTF`);
+	}	
+	
+	int $amount = 0;
+
+    progressWindow
+         -title "please wait"
+         -max (size($expSel))
+         -progress $amount
+         -status "collecting nodes data..."
+         -isInterruptable true;
+
+	for ($item in $expSel) {
+		if ( `progressWindow -query -isCancelled` ) { progressWindow -endProgress; return;}
+		progressWindow -edit -progress $amount;
+		
+		if ($item == 1) $expNodes = stringArrayCatenate($expNodes, mfGetAniOf(`ls -sl`));
+			else $expNodes = stringArrayCatenate($expNodes, mfGetAniOfNS($nspaces[$item-2]));
+			
+		$amount++;
+	}
+	progressWindow -edit -progress $amount -status "cleaning nodes data...";
+	$expNodes = stringArrayRemoveDuplicates($expNodes);
+	
+	progressWindow -endProgress;
+	
+	if (size($expNodes) == 0) {
+		confirmDialog -t "Error:" -m "                              Sorry, but there are no animated Nodes selected.\n If characterSets are used, the set needs to be selected, selecting the handle won't work."
+			-b "Ok";
+		return;	
+	}
+	
+	string $fileName = mfGetFileName(1);
+	
+	if (size($fileName) == 0) {
+		print "Operation canceled!";
+		return;
+	}	
+	
+	$expNodes[size($expNodes)] = mfCreatePlugNode($expNodes, $timeRange, "plugNode");    // creates plugnode	
+	$success = mfExport($expNodes, $fileName, $fileType[$ft], 0);
+	delete $expNodes[size($expNodes)-1];   // delete plugnode
+	
+	if ($success)
+		confirmDialog -t "Animation export successful:" -m ("Animation exported to: " + $fileName + $fileType[$ft+2]) -b "Ok";
+	else confirmDialog -t "Attention!!!" -m "An error occurred, no animation exported!!!" -b "Ok";
+
+}
+
+
+// -----------------------------------------------------------------------------
+global proc mfCallImport(string $prefixF, string $searchF, string $filterList, string $replOptn, string $oriTimeOptn, int $pasteTimeOptn, string $startTTF, string $endTTF) 
+// -----------------------------------------------------------------------------
+//	calls the importfunction using the options of the UI
+//  @param $prefixF
+//    prefix textField (text used as prefix if enabled)
+//  @param $searchF
+//    search textScrollList (content will be used for search&replaced if enabled)
+//  @param $filterList
+//    filter textScrollList (content will be used for filtered input if enabled)
+//  @param $replOptn
+//    radioButtonGrp for replace/insert option (radioButtonGrp selected 1 replace, 0 insert)
+//  @param $oriTimeOptn
+//    radioButtonGrp for paste time (radioButtonGrp selected 1 original, 0 current)
+//  @param pasteTimeOptn
+//    0 whole animated timeRange of source animation
+//    1 timerange stored in the source file
+//    2 custom timeRange of textFields
+//    3 last pose of source animation
+//    4 first pose of source animation
+//  @param $startTTF $endTTF
+//    textFields containing startTime & endTime 
+//
+// -----------------------------------------------------------------------------
+{	
+	string $prefix;
+	string $replaceArray[];
+	string $targetTime;
+	string $sourceTime;
+	string $pasteOption;
+	string $fileName;
+	string $filterArray[] = {};
+	string $filterSelect[];
+	
+	if (`textField -q -en $prefixF`)
+		$prefix = `textField -q -tx $prefixF`;
+	
+	if (`textScrollList -q -en $searchF`) {
+		$tmp = stringArrayToString(`textScrollList -q -ai $searchF`, " ");
+		$tmp = substituteAllString($tmp, "= ", "");
+		$replaceArray = stringToStringArray($tmp, " ");
+	}
+	
+	if (!`radioButtonGrp -q -sl $oriTimeOptn`)
+		$targetTime = `currentTime -q`;
+	
+	if (`radioButtonGrp -q -sl $replOptn`)
+		$pasteOption = "replace"; else $pasteOption = "fitInsert";
+	
+	if ($pasteTimeOptn == 1)
+		$sourceTime = "file";
+	else if ($pasteTimeOptn == 2)
+		$sourceTime = (`textField -q -tx $startTTF` + ":" +  `textField -q -tx $endTTF`); 
+	else if ($pasteTimeOptn == 3)
+		$sourceTime = "last";
+	else if ($pasteTimeOptn == 4)
+		$sourceTime = "first";
+	
+	if (`textScrollList -q -en $filterList`)
+	{
+		$filterSelect = `textScrollList -q -si $filterList`;
+		
+		for ($i = size($filterSelect)-1; $i > 0; $i--)
+			arrayPush(($filterSelect[$i] + "*"), $filterArray);
+		
+		if ($filterSelect[0] == "selected nodes")
+			for($object in mfArray(`ls -sl`))
+				arrayPush(($object + "*"), $filterArray);
+		else
+			arrayPush(($filterSelect[0] + "*"), $filterArray);
+					
+		if (size($filterArray) == 0)
+		{
+			$out = `confirmDialog -t "Error:" -m " Watch out, filtered input is enabled,\n         but no items selected!!!\n\n     No animation will be imported!"
+			-b "Ok"`;
+			if ($out == "dismiss")
+				$out = `confirmDialog -t "Hey!!!" -m "       Don't you ignore me!?" -b "Hm... ok, I'll be better..."`;
+			return;	
+		}			
+	}
+	
+	//print ("\ntimerange: "+$sourceTime+" start at: "+ $targetTime);
+	if ( (size($fileName = mfGetFileName(2 - clamp(2, 4, $pasteTimeOptn))) > 0) && ($fileName != `file -q -sn`) )	
+		mfLoadAni($prefix, $replaceArray, $filterArray, $fileName, $sourceTime, $targetTime, $pasteOption);
+	else 
+		if ($fileName == `file -q -sn`)
+			confirmDialog -t "Error:" -m " Can not import animation of current scene into itself!\n               Use maya Copy/Paste instead."
+			-b "Ok";
+	else
+		print "..canceled by user, nothing imported.";
+}
+
+// -----------------------------------------------------------------------------
+global proc mfAddSearchReplace(string $searchField, string $replaceField, string $textScrField) 
+// -----------------------------------------------------------------------------
+// manages the functionality of the UIs Search&Replace field  (AddButton)
+//
+// -----------------------------------------------------------------------------
+{
+	string $search = substituteAllString( `textField -q -tx $searchField`, " ", "_");
+	string $replace = substituteAllString( `textField -q -tx $replaceField`, " ", "_");
+	$search = substituteAllString($search, "§", "_");
+	$replace = substituteAllString($replace, "§", "_");	
+	
+	if (size($search) == 0) {
+		warning "Error: no search string!! "; return; 
+	}
+	
+	textScrollList -e -a (" " + $search + " = " + $replace + " ") $textScrField;
+	textField -e -tx "" $searchField;
+	textField -e -tx "" $replaceField;
+	
+	mfSyncSearchReplace($textScrField, 1);
+}
+
+
+// -----------------------------------------------------------------------------
+global proc mfRmTextScrollList(string $TSL) 
+// manages the functionality of the UIs Search&Replace field (RemoveButton)
+//
+// -----------------------------------------------------------------------------
+{
+	int $items[] = `textScrollList -q -sii $TSL`;	
+	if (size($items))
+		for ($mfI = (size($items)-1); $mfI >=0; $mfI--) textScrollList -e -rii $items[$mfI] $TSL;
+	mfSyncSearchReplace($TSL, 1);
+}
+
+
+// -----------------------------------------------------------------------------
+global proc mfRefreshLists(string $textListFilter, string $textListExp, string $startETRTF, string $endETRTF, string $FTGrp, string $expBttn)
+// -----------------------------------------------------------------------------
+// manages the functionality of the UIs ExportList & filtered Import list
+// in case scene content changes
+//
+// -----------------------------------------------------------------------------
+{
+	string $ns[] = mfGetUserNamespaces();
+	if ( `window -exists mfAnimIOUI`) {
+		string $selE[] = `textScrollList -q -si $textListExp`;
+		string $selI[] = `textScrollList -q -si $textListFilter`;
+		textScrollList -e -ra $textListExp;
+		textScrollList -e -ra $textListFilter;
+		textScrollList -e -a "selected nodes" $textListExp;
+		textScrollList -e -a "selected nodes" $textListFilter;
+		for ($n in $ns)
+		{
+			textScrollList -e -a ("namespace " + $n) $textListExp;
+			textScrollList -e -a $n $textListFilter;			
+		}
+		
+		for($i in $selE)
+			textScrollList -e -si $i $textListExp;
+		for($i in $selI)
+			textScrollList -e -si $i $textListFilter;		
+		
+		string $nsString = stringArrayToString($ns, " ");
+		button -e -c ("mfCallExport(\"" + $textListExp + "\", \"" + $nsString + "\", \"" + $startETRTF + "\", \"" + $endETRTF + "\", `radioButtonGrp -q -sl \"" + $FTGrp + "\"` );") $expBttn;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+global proc string mfGetFileName(int $mode)
+// -----------------------------------------------------------------------------
+// opens a fileDialog 
+// @param $mode
+// -2 for read 
+// -1 for read 
+//  0 for read
+//  1 for write 
+// @return: a correct filename 
+//          empty string on cancel
+// -----------------------------------------------------------------------------
+{
+	string $buttonName[2] = { "Import", "Export" };
+	string $path;
+	string $toReturn[];
+	int $dMode = clamp(0, 1, $mode);
+	string $fileTypes[2] = { "*.ani.*;*.mb;*.ma", "*.ani.*" };
+	$toReturn[0] = `fileDialog -m $dMode -dm $fileTypes[$dMode]`;
+	
+	if ((size($toReturn[0]) > 0) && $dMode)
+		$toReturn[0] = mfGenFileName($toReturn[0]);
+	return $toReturn[0];
+}	
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 	HELPERS 	  ///////                                      
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+// -----------------------------------------------------------------------------
+proc mfSyncSearchReplace(string $textScrollList, int $mode)
+// -----------------------------------------------------------------------------
+// @param $textScrollist
+//  name of the textScrolList, an optionVar according to this name will be created
+//  and saved in the preferences ...make sure list entries do not contain "§" 
+// @param $mode
+//  0 will load data of optionVar into list
+//  1 will save the data of the list to the optionVar
+// 
+// -----------------------------------------------------------------------------
+{
+	if (!`textScrollList -ex $textScrollList`)
+		return;
+	
+	$temp = stringToStringArray($textScrollList, "|");
+	string $varName = "optionVar_" + $temp[size($temp)-1]; 
+	string $ListItems[];
+	
+	if ($mode)
+		optionVar -sv $varName (stringArrayToString((`textScrollList -q -ai $textScrollList`), "§"));
+	else
+	{
+		if (`optionVar -ex $varName`)
+			$ListItems = stringToStringArray(`optionVar -q $varName`,"§");
+		
+		textScrollList -e -ra $textScrollList;
+		
+		for ($item in $ListItems)
+			textScrollList -e -a $item $textScrollList;
+	}
+}
+
+
+// -----------------------------------------------------------------------------
+proc string mfGenFileName(string $fn)
+// -----------------------------------------------------------------------------
+// @param $fn
+//  filename ending with any *.ani.mb.ani.ma combination
+// @return: a filename type *.ani 
+// -----------------------------------------------------------------------------
+{
+	string $name;
+	string $buffer[];
+	
+	$nT = `tokenize $fn "." $buffer`;
+	for ($mf = ($nT-1); $mf >= 0; $mf--)
+	{
+		if (!(($buffer[$mf] == "ma") || ($buffer[$mf] == "mb") || ($buffer[$mf] == "ani") ) )
+			{
+				for ($i = 0; $i <= $mf; $i++) $name = ($name + $buffer[$i] + ".");
+				break;
+			}		
+	}
+	$name = $name + "ani";
+	return $name;
+}
+
+

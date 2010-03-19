@@ -1,0 +1,740 @@
+// ###### mfAnimIO ## mfAnimIO ## mfAnimIO ## mfAnimIO ## mfAnimIO ## mfAnimIO #######
+//
+//  Creation Date:  	2008-01-09
+//	Original Author:	Martin Freitag
+//
+//  Description:
+//	tool to import and export animation (ANIMation In Out)
+//	
+//
+//////////////////////
+// 	METHODES  ///////
+////////////////////
+//
+//  mfLoadAni			- does all the work of animation load, copy, unload
+//  mfExport			- exports given nodes as selected
+//  mfGetAniOf			- returns all nonreferenced timebased anicurves (TL, TA, TU) of the input
+//  mfGetAniOfNS		- returns all nonreferenced timebased anicurves connected to the given namespace
+//  mfCreatePlugNode	- creates a network node containing all destination plugs
+//  mfGetUserNamespaces - returns a list of user created namespaces in scene (except "UI:" & "shared:")
+//  arrayPush           - add an item to the end of an array (like pushing onto a stack)
+//  indexOfItem         - return the index of the given item in the array
+//
+////////////////////////
+//  HELPERS  /////////
+//////////////////
+//
+//  mfSubstituteAllString
+//  mfImport
+//  mfCopyAni
+//  mfSplitObjAttr
+//  mfFreePrfx
+//
+//
+//////////////////////////////////
+//
+//
+////////////////////////////////////////////////////////////////////////////////
+//  Foreward declarations ////////
+////////////////////////////
+
+proc      int mfCopyAni(string $source, string $target, string $sourceTime, string $targetTime, string $targetOptions) { return 0; }
+proc   string mfFreePrfx(string $name) { return ""; }
+proc   string mfImport(string $prefix, string $file) { return ""; }
+proc   string mfFileSfx(string $type) { return ""; }
+proc   string mfSubstituteAllString(string $input, string $search, string $replace)  { return ""; }
+proc string[] mfSplitObjAttr(string $name) { return  {};}
+proc string[] mfSplitTimeRange(string $input) { return {};}
+proc mfFilterCorresp(string $filterItems[], string $listToCheck[], string $listCorr[]) {}
+proc mfRemoveEmptyItems(string $input[]) {}
+
+////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// -----------------------------------------------------------------------------
+global proc int mfAnimIO( )
+// -----------------------------------------------------------------------------
+//	Initializes the library
+//
+// 	@return true on success and false on failure
+// -----------------------------------------------------------------------------
+{
+	return true;
+}
+// This helps to get picked up again after the sourcing - just in case 
+mfAnimIO();
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 	METHODES  ///////
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+// -----------------------------------------------------------------------------
+global proc int mfLoadAni(string $addPrefix, string $replacerArray[], string $filterArray[], string $fileName, string $sourceTime, string $targetTime, string $targetOptions) 
+// -----------------------------------------------------------------------------
+// calles all the animation import stuff like copying animation, file referencing & removing 
+// @param $addPrefix
+//  if not empty, this prefix will be added to all the animation target nodes
+//
+// @param $replacerArray
+//  all search and replace data in a serial way: { $search1, $replace1, $search2, $replace2, ... }
+//  parsed from left to right, so you can enter stuff like: 
+//  { $Ns2, $NsTMP, $Ns1, $Ns2, $NsTMP, $Ns1 } for name swaping 
+//
+// @param $filterArray
+//  strings of this array act like a filter for possible animation targets,
+//  this means sourceNodes will be tested if they gmatch any string of this array, empty array means no filter
+//
+// @param $fileName
+//	file containing the animation to load
+//
+// @param $sourceTime
+//  timeRange passed to copyKey
+//   examples: "" all animation of source
+//             "1001:1015" special timerange of source
+//             "1005:" from special frame till the end of source
+//             "1009:1009" just a single pose, if start and end is the same
+//  + special modes like:
+//     special pose loading treatment if start and end frame the same like (1012:1012)
+//     "file" try to load timerange stored on plugNode in file, or complete curves if no timerange stored
+//     "first" just load the first pose of stored animation
+//     "last" just load the last pose of stored animation
+//     
+// @param $targetTime
+// 	timeRange passed to pasteKey
+//  + little tweak converts singleframe entries into a timerange
+//   examples: "" same time like source
+//             "1004" start at special frame
+//             "1010:1060" timerange for target, (passed to pasteKey) 
+//                         usefull on options like "scaleReplace" but not supported by the UI right now 
+//
+// @param $targetOptions
+//  option passed to pasteKey ("insert", "replace", "replaceCompletely", "merge",
+//   "scaleInsert," "scaleReplace", "scaleMerge", "fitInsert", "fitReplace", and "fitMerge")
+//
+// @return: 1 on success
+//          0 if file does not exist
+//
+// example: mfLoadAni("",{"A1", "A13"},{"A11*", "A12*", "A13*"}, "D:/MayaBase/scenes/Anilib/misc/cycle/idle_A1.ani.mb", ":", "", "replace");
+// -----------------------------------------------------------------------------
+{	
+
+	string $selection[] = `ls -sl`;
+	//print ("\ntimerange: "+$sourceTime+" start at: "+ $targetTime);
+	string $prefix = mfFreePrfx("mfLA");
+	
+	if ((size($fileName) > 0 ) &&(`file -q -ex $fileName`))
+		$fileName = `file -r -ns $prefix -options "v=0" -loadReferenceDepth "topOnly" $fileName`;
+		// $fileName = `file -i -ns $prefix -options "v=0" -loadReferenceDepth "none" $fileName`;
+	else 
+	{ 
+		print ("file not found: " + $fileName + "!\n");
+		return 0;
+	}		
+	print ("loading animation of: " + $fileName + "\n");
+				
+			// ----ProgressBar--------------------------------------------------------------
+			global string $gMainProgressBar;
+				progressBar -edit -beginProgress -isInterruptable false	-status "loading animationplugs..."
+    				-maxValue 8 $gMainProgressBar; //=
+			// --------------------------------------------------------------------
+	
+	$bench = `timerX`;
+	$prefix = $prefix + ":";
+
+	string $pSource[];
+	string $pDest[];
+	string $tempA[];
+	string $temp;
+	string $niceOutput[2] = {"%", "."};
+	
+			// ----ProgressBar--------------------------------------------------------------
+	   		progressBar -edit -step 1 $gMainProgressBar; //==
+			// ------------------------------------------------------------------
+    	
+	if ((size($netwNode = ls("-typ", "network", ($prefix+"*"))) == 1) && (attributeExists("sourceArray", $netwNode[0])) ) 
+	{		
+		$plgNode = $netwNode[0];
+		$temp = getAttr ($plgNode + ".sourceArray");
+		if ((attributeExists("timeRange", $plgNode)) && ($sourceTime == "file"))
+			$sourceTime = getAttr($plgNode + ".timeRange");
+		
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "converting temporaryData..." $gMainProgressBar; //===
+			// ------------------------------------------------------------------
+		
+		if ( size($temp) > 0) $temp = $prefix + mfSubstituteAllString($temp, " ", (" " + $prefix));
+			
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "preparing sourceData..." $gMainProgressBar; //====
+			// ------------------------------------------------------------------
+			
+		$pSource = stringToStringArray( mfSubstituteAllString( $temp, ".output", ""), " ");
+		
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "preparing attributeData..." $gMainProgressBar; //=====
+			// ------------------------------------------------------------------
+
+		$pDestTemp = getAttr ($plgNode + ".destArray");
+		
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "search and replace..." $gMainProgressBar; //=============
+			// ------------------------------------------------------------------
+
+		for ($rep = 0; $rep < size($replacerArray); $rep = $rep + 2)
+			$pDestTemp = mfSubstituteAllString( $pDestTemp, $replacerArray[$rep], $replacerArray[$rep+1]);
+		if (size($addPrefix))
+			$pDestTemp = mfSubstituteAllString( $addPrefix + $pDestTemp, " ", " " + $addPrefix);
+		
+			
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "preparing destination..." $gMainProgressBar; //================
+			// ------------------------------------------------------------------
+			
+		$pDest = stringToStringArray( $pDestTemp, " ");
+		
+	} else {
+		/////////////////////////////////////////////////////////////////////////////
+		// in case there is no plugNode
+		
+		$plgNode = "";
+		
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "creating sourcePlugs..." $gMainProgressBar; //=========
+			// ------------------------------------------------------------------
+		
+		string $nameFilter = `itemFilter -byName ($prefix + "*")`;
+		string $typeFilter = `itemFilter -byType "animCurveTL" -byType "animCurveTA" -byType "animCurveTU"`;
+		string $aniFilter = `itemFilter -intersect $nameFilter $typeFilter`;
+		$pSource = `lsThroughFilter $aniFilter`;
+		delete $aniFilter;delete $nameFilter;delete $typeFilter;
+			
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "creating destinationPlugs..." $gMainProgressBar; //=========
+			// ------------------------------------------------------------------
+			
+		for ($i = size($pSource)-1; $i >= 0; $i--) 
+		{
+			$pDest[$i] = substring($pSource[$i], size($prefix)+1, size($pSource[$i]));
+			for ($rep = 0; $rep < size($replacerArray); $rep = $rep + 2)
+				$pDest[$i] = mfSubstituteAllString( $pDest[$i], $replacerArray[$rep], $replacerArray[$rep+1]);
+			
+			
+			$tempA = mfSplitObjAttr($addPrefix + $pDest[$i]);
+
+			if (size($tempA) > 0)
+				$pDest[$i] = ($tempA[0] + "." + $tempA[1]);
+			else 
+			{
+				$pSource[$i]="";
+				$pDest[$i]=""; 
+			}
+		}
+		
+		mfRemoveEmptyItems($pSource);
+		mfRemoveEmptyItems($pDest);
+		
+	}	
+	
+	
+		// ----ProgressBar--------------------------------------------------------------
+		progressBar -edit -step 1 -status "apply filter..." $gMainProgressBar; //===========
+		// ------------------------------------------------------------------
+		
+	if (size($filterArray))
+		mfFilterCorresp($filterArray, $pDest, $pSource);
+
+		// ----ProgressBar--------------------------------------------------------------
+		progressBar -edit -step 1 -status "checking timerange..." $gMainProgressBar; //============
+		// ------------------------------------------------------------------
+		
+	$first = `findKeyframe -w first $pSource`;    //// getting source animation times
+	$last = `findKeyframe -w last $pSource`;
+
+	if ($sourceTime == "first")
+		$sourceTime = $first + ":" + $first;
+	else if ($sourceTime == "last")
+		$sourceTime = $last + ":" + $last;
+		
+	int $delete = 0;
+	float $delTime;
+	string $range[] = mfSplitTimeRange($sourceTime);
+
+	if (size($range) == 2)
+	{
+		if ($range[0] == $range[1])
+		{
+			$targetOptions = "replace";
+			$range[1] = string(float($range[0]) + 0.01);
+			$delete = 1;
+			if (size($targetTime))
+				$delTime = float($targetTime) + 0.01;
+			else
+				$delTime = float($range[1]);
+		}	
+		if ($range[0] != "") $first = float($range[0]);
+		if ($range[1] != "") $last = float($range[1]);
+	}
+		
+	$sourceTime = $range[0] + ":" + $range[1];
+	
+	// make sure it works if sourcanimation is just one pose
+	if ($first == $last)
+		if ($sourceTime == ":")
+		{
+			$last = $last + 0.01;
+			$targetOptions = "replace";
+		}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// creating correct timeRage if option is replace or fitInsert (anything but insert || merge) -if no timerange is given-
+	if ((size($targetTime)) && ( substitute(":", $targetTime, "") == $targetTime) && ( $targetOptions != "insert") && ( $targetOptions != "merge") )
+		$targetTime = ($targetTime + ":" + (($last - $first) + float($targetTime)));
+	
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "copying animation..." $gMainProgressBar; //============
+			// ------------------------------------------------------------------
+		
+	// print ("mfCopyAni($pSource[$i], $pDest[$i], " + $sourceTime + ", " + $targetTime + ", " + $targetOptions + ")))");
+	int $count;
+	for ($i = size($pSource)-1; $i >= 0; $i--)
+		if (objExists($pDest[$i])) 
+		{
+			$count++;
+			if (catch(mfCopyAni($pSource[$i], $pDest[$i], $sourceTime, $targetTime, $targetOptions)))
+				warning ("something went wrong on copying the animation to " + $pDest[$i]);
+			
+			if ($delete)
+			{
+				catch(`cutKey -cl -t $delTime $pDest[$i]`);
+				keyTangent -t ($delTime - 0.01) -itt `keyTangent -q -g -itt` -ott `keyTangent -q -g -ott` $pDest[$i];
+			}
+		}				
+	
+			// ----ProgressBar--------------------------------------------------------------
+			progressBar -edit -step 1 -status "deleting impoted curves..." $gMainProgressBar; //==============
+			// ----ProgressBar--------------------------------------------------------------
+			
+	file -rr $fileName;	
+	select -r $selection;
+		
+		// ----ProgressBar--------------------------------------------------------------	
+		progressBar -edit -endProgress $gMainProgressBar; //===============//
+		// ----ProgressBar--------------------------------------------------------------
+		
+
+	print ("in " + `timerX -st $bench` + " sec ");
+	print ("for " +$count + " of " + size($pSource) + " animCurves\n");
+	return 1;
+}
+
+
+// -----------------------------------------------------------------------------
+global proc int mfExport(string $nodes[], string $fileName, string $ft, int $force) 
+// -----------------------------------------------------------------------------
+// exports given nodes as selected
+// @param $nodes[]
+//  list of nodes to export
+// @param $fileName
+//  full filename to export to
+// @param $ft
+//  maya filetype of the exported file ("mayaAscii" or "mayaBinary")
+// @param $force
+//   0 - no force to overwrite existing files (in UI mode maya will ask) 
+//   1 - force overwrite of existing files
+// -----------------------------------------------------------------------------
+{
+	int $toReturn = 1;
+	string $sel[] = `ls -sl`;
+	
+	select -r $nodes;
+	if ($force)	
+	{	
+		if ( catch (`file -f -typ $ft -es $fileName`) ) $toReturn = 0;
+	} else if ( catch (`file -typ $ft -es $fileName`) ) $toReturn = 0;
+	
+	select -r $sel;
+	return $toReturn;
+}
+
+
+
+// -----------------------------------------------------------------------------
+global proc string[] mfGetAniOf(string $input[])
+// -----------------------------------------------------------------------------
+// @return: all nonreferenced timebased anicurves (TL, TA, TU) connected to the existing nodes of $input[] 
+//          empty array if $input is empty or does not exist
+// -----------------------------------------------------------------------------
+{	
+	string $nodes[] = `ls $input`;
+	if (size($nodes) == 0) return {};	
+	else return (stringArrayRemove(ls ("-ro", "-type", "animCurve"),ls("-typ", "animCurveTL" ,"-type", "animCurveTA", "-type", "animCurveTU", (listConnections ("-s", 1, "-d", 0, "-scn", 1, "-t", "animCurve", $nodes)) )));
+
+}
+
+// -----------------------------------------------------------------------------
+global proc string[] mfGetAniOfNS(string $namespace)
+// -----------------------------------------------------------------------------
+// @return all nonreferenced timebased anicurves (TL, TA, TU) connected to the given namespace
+//         empty string[] if namespace does not exist or not animated
+// -----------------------------------------------------------------------------
+{
+	if ($namespace == "") $namespace = ":";
+	if (substring($namespace, size($namespace), size($namespace)) != ":" ) $namespace = $namespace + ":";      // check for ":" at end of namespace
+	
+	string $nodes[] = ls("-r", 1, ($namespace + "*") );
+	if (size($nodes) == 0) return {};
+	else return mfGetAniOf($nodes);	
+}	
+
+
+// -----------------------------------------------------------------------------
+global proc string mfCreatePlugNode(string $nodes[], string $timeRange, string $name)
+// -----------------------------------------------------------------------------
+// creates a network node containing all destination plugs of $nodes[] in an extra Attribute
+// extraAttributes are .sourceArray and .destArray containing the complete connection data (form source to destination)
+// @param $nodes
+//  all nodes to store the connectiondata from
+// @param $timeRange
+//	add extra attribute .timeRange and store timeRange data for the import (i.e. 1001:1035 start:end)
+//  on empty string attribute will not be created
+// @param $name 
+//  name of created node
+//
+// @return: name of created node
+//          empty string and causes an error, if not one source plug leads to one dest. plug <- should be impossible (just in case)
+// -----------------------------------------------------------------------------
+{	
+	string $plgSource[];
+	string $plgDest[];
+	string $nameNeu;
+	string $selection[] = `ls -sl`;
+	
+	for ($node in $nodes)
+	{
+		$cons = `listConnections -scn 1 -p 1 -c 1 -s 0 -d 1 $node`;
+		for ($mf = 0; $mf < size($cons); $mf = $mf + 2) 
+		{
+			$plgSource[size($plgSource)] = $cons[$mf];
+			$plgDest[size($plgDest)] = $cons[$mf+1];			
+		}
+	}
+	
+	if (size($plgSource) != size($plgDest))
+	{
+		print "Failed storing animConnections!\n";
+		error "Failed storing animConnections!\n";
+		return "";
+	}
+	
+	$nameNeu = `createNode -n $name network`;   // noteType network tz... thanks to Sebastian Thiel alias Byron
+	addAttr -ln sourceArray -dt "string" $nameNeu;
+	addAttr -ln destArray -dt "string" $nameNeu;
+	if (size($timeRange))
+	{
+		addAttr -ln timeRange -dt "string" $nameNeu;
+		setAttr -typ "string" ($nameNeu + ".timeRange") $timeRange;
+	}
+	
+	setAttr -typ "string" ($nameNeu + ".sourceArray") (stringArrayToString($plgSource, " "));
+	setAttr -typ "string" ($nameNeu + ".destArray") (stringArrayToString($plgDest, " "));
+	
+	
+	select -r $selection;
+	return $nameNeu;
+}
+
+
+// -----------------------------------------------------------------------------
+global proc string[] mfGetUserNamespaces() {
+//	@return: list of namespaces in scene except "UI:" & "shared:"
+// -----------------------------------------------------------------------------	
+	$nspaceCur = `namespaceInfo -cur`;
+	namespace -set ":";
+	string $nspaces[] = `namespaceInfo -lon`;
+	namespace -set $nspaceCur;
+	
+	string $nspacesNew[] = `namespaceInfo -lon`;
+	return stringArrayRemove( { "UI", "shared"},$nspaces);
+	
+}
+
+// -----------------------------------------------------------------------------
+global proc int arrayPush( string $item, string $array[] )
+// -----------------------------------------------------------------------------
+// add an item to the end of an array (like pushing onto a stack)
+//	@return 
+//		true
+// -----------------------------------------------------------------------------
+{
+	$array[size($array)] = $item;
+	return 1;
+}
+
+global proc int indexOfItem( string $item, string $array[] )
+// -----------------------------------------------------------------------------
+// @return the index of the given item in the array (first appearance) or -1 item was not found
+// -----------------------------------------------------------------------------
+{
+	int $l = size( $array );
+	for( $mfI = 0; $mfI < $l; $mfI++ )
+		if( $array[$mfI] == $item )
+			return $mfI;
+	return -1;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// 	HELPERS 	  ///////                                      
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
+
+// -----------------------------------------------------------------------------
+proc string mfSubstituteAllString(string $input, string $search, string $replace)
+// -----------------------------------------------------------------------------
+// very fast Version of substituteAllString 
+//(in case of no single-substitute-characters after each other ..otherwise, old slow method is used)
+//
+// -----------------------------------------------------------------------------
+{
+	int $len = size($search);
+	string $toReturn = $input;
+	string $temp;
+	
+	if ($len > 0) {
+		string $first = substring($search, 1, 1);
+		$myInput = "§" + $input + "§";
+		
+		string $sliced[] = stringToStringArray($myInput, $first);
+		if (stringArrayToString($sliced, $first) == $myInput)
+		{
+			int $end = size($sliced);
+			for ($mfI = 1; $mfI < $end; $mfI++) 
+				{
+								
+				if ( (size($sliced[$mfI])+1) >= (size($search)))							
+					$sliced[$mfI] = substitute($search, ($first + $sliced[$mfI]), $replace);
+				else {
+					// this is needed in case first letter of $search appears more than one time in $search
+					$sliced[$mfI] = $first + $sliced[$mfI];
+					$temp = $sliced[$mfI];
+					while ( ( $temp == ($sliced[$mfI] = substitute($search, $sliced[$mfI], $replace)) ) && ($mfI  < ($end-1) ) ) 
+					{
+						$sliced[$mfI+1] = $sliced[$mfI] + $first + $sliced[$mfI+1]; 
+						$sliced[$mfI] = ""; 
+						$mfI++; 
+						$temp = $sliced[$mfI];
+					} 
+				
+				}
+				
+			}
+			$toReturn = stringArrayToString($sliced, "");
+			$toReturn = substring($toReturn, 2, (size($toReturn)-1));
+		}
+		else $toReturn = substituteAllString($input, $search, $replace);
+			
+	}
+
+	return $toReturn;
+}
+
+// -----------------------------------------------------------------------------
+proc mfFilterCorresp(string $filterItems[], string $listToCheck[], string $listCorr[])
+// -----------------------------------------------------------------------------
+//	allows to filter $listToCheck by items in $filterItems while also cutting down
+//  the corresponding list $listCorr
+// @param $filterItems list of strings to match (supporting gmatch wildcarts)
+// -----------------------------------------------------------------------------
+{
+	string $newCheck[];
+	string $newCorr[];
+	
+	$s=size($listToCheck);
+	for($i = 0; $i < $s; $i++)
+	{
+		int $match = 0;
+		for ($item in $filterItems)
+			if (`gmatch $listToCheck[$i] $item`)
+			{
+				$match = 1;
+				break;
+			}
+				
+		if ($match)
+		{
+			arrayPush($listToCheck[$i], $newCheck);
+			arrayPush($listCorr[$i], $newCorr);
+		}
+
+	}
+	$listToCheck = $newCheck;
+	$listCorr = $newCorr;
+}
+
+// -----------------------------------------------------------------------------
+proc mfRemoveEmptyItems(string $input[])
+// -----------------------------------------------------------------------------
+// removes empty strings of a stringArray
+// -----------------------------------------------------------------------------
+{
+	string $new[];
+	$s = size($input);
+	for ($i = 0; $i < $s; $i++)
+		if ($input[$i] != "") 
+			arrayPush($input[$i], $new);
+	
+	$input = $new;
+}
+
+// -----------------------------------------------------------------------------
+proc string[] mfSplitTimeRange(string $input)
+// -----------------------------------------------------------------------------
+// @return:
+//  a timeRange input as an array with the size of 2 containing start and end
+//  empty values if start or end not set
+//  empty array if ther is no way of interpretating the input as timerange
+//
+// examples: "12:32"   returns {"12", "32"}
+//           "12:"     returns {"12", ""}
+//           ":42"     returns { "", "42"}
+//           "" or ":" returns {}
+//   "asd" or "asd:23" returns {}
+//     "43:as2:32df:4" returns {"43", "" }
+// -----------------------------------------------------------------------------
+{
+	$split = stringToStringArray($input, ":");
+	if ((size($split) == 2) && (float($split[0]) == $split[0]) && (float($split[0]) == $split[0]) )
+		return $split;
+	if ((size($split) == 0) || ((size($split) == 1) && ($split[0] == "")))
+		return {};
+	if (float($split[0]) != $split[0])
+		return {};	
+	if (substring($input, 1,1) == ":")
+		return { "" , $split[0] };
+	return { $split[0], "" };
+}
+
+
+
+
+// -----------------------------------------------------------------------------
+proc string mfImport(string $prefix, string $file) 
+// -----------------------------------------------------------------------------
+// references a file with the specified namespace
+// @param $prefix
+//  namespace used for referencing
+// @param $file 
+//   filename to reference
+// @return: filename of referenced file or empty string if canceled or file does not exist
+// -----------------------------------------------------------------------------
+{	
+	string $ImportIt;
+	
+	if (`file -q -ex $file`)
+		$ImportIt = `file -r -ns $prefix -options "v=0" -loadReferenceDepth "topOnly" $file`;
+	return $ImportIt;
+
+}
+
+// -----------------------------------------------------------------------------
+proc int mfCopyAni(string $source, string $target, string $sourceTime, string $targetTime, string $targetOptions)
+// -----------------------------------------------------------------------------	
+// copies animation with the given options
+// @param $source
+//  animationCurve to copy animation from 
+// @param $target
+//	animationCurve/attribute to copy animation to
+//	contain complete attribute Path with dot like "pSphere1.translateX"
+// @param $sourceTime
+//  special pose loading treatment if start and end frame the same like (1012:1012)
+//  otherwise passed to copyKey and pasteKey command
+// @param $targetTime $targetOptions
+//  passed to copyKey and pasteKey command  
+// @return: 0 if target attribute does not exist or not keyable
+//          1 on success
+// throws an error when pasteKey throws one (i.e bad timerange options)
+// -----------------------------------------------------------------------------
+{	
+	if (objExists($target))
+	{
+		if ((!`getAttr -k $target`) || (`getAttr -l $target`) )
+			return 0; 
+		
+		if (!`copyKey -t $sourceTime -o curve $source`)
+			copyKey("-t", findKeyframe("-w","first", $source), "-o", "curve", $source); // we do this to prevent error: "nothing to paste from" on pasteKey if animation starts later than timerange
+		
+		if (size($targetTime) > 0)
+			pasteKey -t $targetTime -o $targetOptions $target;
+		else
+			pasteKey -o $targetOptions $target;
+
+		return 1;
+	} 
+
+	return 0;		
+}
+
+// -----------------------------------------------------------------------------
+proc string[] mfSplitObjAttr(string $name)
+// -----------------------------------------------------------------------------
+// finds the ojbect and the attribute part of an input like "nurbsSphere1_translateZ"
+// useful if objectname and/or attribute name contain underscores like :"my_nurbs_Sphere_custom_attr"
+// @return a list, first entry is objectname, second is attributename
+//         empty array if attr does not exist 
+//         or attributExists causes an error (i.e: more than one object matches name...)
+// NOTE: does not work for character sets
+// -----------------------------------------------------------------------------
+{
+
+	string $output[];
+	string $splits[] = stringToStringArray( $name, "_");
+	string $attr; string $obj;
+	int $i = (size($splits)-1);
+	do {
+		$attr = $splits[size($splits)-1];
+		$obj = $splits[0];
+		
+		for ($j = 1; $j < $i; $j++)
+			$obj = $obj + "_" + $splits[$j];
+		
+		for ($j = (size($splits)-2); $j >= $i; $j--)
+			$attr = $splits[$j] + "_" + $attr;
+		
+		$i = $i - 1;
+		
+		if (catch($tmp = attributeExists( $attr, $obj)))
+			return {}; 
+		
+		if ( $tmp ) {
+			$output[0] = $obj; $output[1] = $attr;
+			$i = 0;
+		}
+		
+		
+	} while ( $i > 0 );
+	
+	return $output;
+}
+
+
+// -----------------------------------------------------------------------------
+proc string mfFreePrfx(string $name) 
+// -----------------------------------------------------------------------------	
+// @return: a prefix starting with $name, which is not allready existing
+// -----------------------------------------------------------------------------	
+{	
+	string $nr = "";
+	
+	while ((size(ls("-r", 1,($name + $nr + "*"))) > 0) || stringArrayContains(($name + $nr), `namespaceInfo -lon`))
+		catchQuiet($nr = int($nr)+ 1);
+	
+	return ($name + $nr);
+}
+
+
