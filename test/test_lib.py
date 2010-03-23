@@ -35,7 +35,7 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def _test_base( self ):
+	def test_base( self ):
 		p = nt.Node("persp")
 		t = nt.Node("top")
 		
@@ -118,7 +118,7 @@ class TestAnimationHandle( TestBase ):
 		self.failUnlessRaises(TypeError, AnimationHandle, netw_node)
 		
 	@with_scene('3handles.ma')
-	def _test_iteration( self ):
+	def test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
 		assert len(handles) == 3
 		for h in handles:
