@@ -71,6 +71,62 @@ class AnimationHandle( nt.Network ):
 				yield miplug.node()
 			# END if asNode
 		# END iterator
+		
+	def iter_source_target_plg( self, converter=None, predicate=lambda x, y: True):
+		"""@return: iterator yielding source, target pairs
+		@param converter: if not None, the function returns the desired target plug name to use 
+		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
+		@param predicate: after conversion source_plug, target_plugname is testet to pass this filter"""
+		
+		# get target strings as array
+		# mayarv provides this:
+		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
+		
+		#  for a better understanding, without mayarv and just api step by step it would look like this:
+		#  first we need a funktionset initialisted with the MObject of our node (ins this case MFnDependencyNode)
+		# mfndep=nt.api.MFnDependencyNode(self.object())
+		#  the functionset MFnDependencyNode provides the findPlug function returning the MPlug of our attribute
+		# mplug=mfndep.findPlug(self._s_connection_info_attr)
+		#  MPlug offers no asStringArrayData so we have to get the data asMObject end initialise the MFnStingArrayData functionset with it 
+		# mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
+		#  finaly we get the data as arry from MFnStringArrayData functionset
+		# target_plug_names=mfnstr.array()
+		
+		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
+		
+		# make iterator yielding source and target plug objects
+		plug_sel_list = nt.api.MSelectionList()
+		mfndep = nt.api.MFnDependencyNode()
+		for index, anim_node_dest_plug in enumerate(self.affectedBy):
+			target_plug_name_list = target_plug_names[index].split(self._k_separator)
+			anim_node_msg_plug=anim_node_dest_plug.minput()
+			if anim_node_msg_plug.isNull():
+				print "no animation curve found on %s" % anim_node_dest_plug.mfullyQualifiedName()
+				continue
+			# END check for nullPlug
+				
+			mfndep.setObject(anim_node_msg_plug.node())
+			anim_node_otp_plug = mfndep.findPlug('o')
+				
+			# convert target names to actual plugs
+			for tindex, tplug_name in enumerate(target_plug_name_list):
+				if converter:
+					tplug_name = converter(anim_node_otp_plug, tplug_name)
+				# END handle converter
+				if not predicate(anim_node_otp_plug, tplug_name):
+					continue
+				actual_plug = nt.api.MPlug()
+				plug_sel_list.add(tplug_name)
+				plug_sel_list.getPlug(tindex, actual_plug)
+					
+				yield (anim_node_otp_plug, actual_plug)
+				# END for each plugname to convert
+								
+				# make sure it doesnt build up
+				plug_sel_list.clear()
+			# END for each anim node source plug
+		# END iterating  
+	
 	
 	#} END iteration
 	
@@ -141,65 +197,16 @@ class AnimationHandle( nt.Network ):
 	def apply_animation( self, converter=None ):
 		"""Apply the stored animation by (re)connecting the animation nodes to their
 		respective target plugs
-		@param converter: if not None, the function returns the desired target plug name to use 
-		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
+		@param: converter see L{iter_source_target_plg}
 		This allows you to perform any modifications to the target before it will be
 		connected.
 		@note: Will break existing destination connections"""
-		# get target strings as array
-		
-		# mayarv provides this:
-		# target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
-		
-		# for a better understanding, without mayarv and just api step by step it would look like this:
-		# first we need a funktionset initialisted with the MObject of our node (ins this case MFnDependencyNode)
-		mfndep=nt.api.MFnDependencyNode(self.object())
-		# the functionset MFnDependencyNode provides the findPlug function returning the MPlug of our attribute
-		mplug=mfndep.findPlug(self._s_connection_info_attr)
-		# MPlug offers no asStringArrayData so we have to get the data asMObject end initialise the MFnStingArrayData functionset with it 
-		mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
-		# finaly we get the data as arry from MFnStringArrayData functionset
-		target_plug_names=mfnstr.array()
-		
-		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
-		
-		# make iterator yielding source and target plug objects
-		plug_sel_list = nt.api.MSelectionList()
-		mfndep = nt.api.MFnDependencyNode()
-		def source_target_iterator():
-			for index, anim_node_dest_plug in enumerate(self.affectedBy):
-				target_plug_name_list = target_plug_names[index].split(self._k_separator)
-				anim_node_msg_plug=anim_node_dest_plug.minput()
-				if anim_node_msg_plug.isNull():
-					print "no animation curve found on %s" % anim_node_dest_plug.mfullyQualifiedName()
-					continue
-				# END check for nullPlug
-				
-				mfndep.setObject(anim_node_msg_plug.node())
-				anim_node_otp_plug = mfndep.findPlug('o')
-				
-				# convert target names to actual plugs
-				for tindex, tplug_name in enumerate(target_plug_name_list):
-					if converter:
-						tplug_name = converter(anim_node_otp_plug, tplug_name)
-					# END handle converter
-					actual_plug = nt.api.MPlug()
-					plug_sel_list.add(tplug_name)
-					plug_sel_list.getPlug(tindex, actual_plug)
-					
-					yield (anim_node_otp_plug, actual_plug)
-				# END for each plugname to convert
-				
-				# make sure it doesnt build up
-				plug_sel_list.clear()
-			# END for each anim node source plug
-		# END iterator  
 		
 		# do actual connection ( best case is 38k connections per second
-		iterator = source_target_iterator()
+		iterator = self.iter_source_target_plg(converter=converter)
 		nt.api.MPlug.mconnectMultiToMulti(iterator, force=True)
 		
-	
+		
 	#} END edit
 	
 	#{ Utilitsation

@@ -131,7 +131,7 @@ class TestAnimationHandle( TestBase ):
 		self.fail("TODO")
 		
 	@with_scene('1still3moving.ma')
-	def _test_export_import( self ):
+	def test_export_import( self ):
 		def iter_dag():
 			return nt.iterDgNodes(nt.api.MFn.kDagNode, asNode=0)
 			
@@ -201,7 +201,7 @@ class TestAnimationHandle( TestBase ):
 		os.remove(filename)
 		
 	@with_scene('1still3moving.ma')
-	def test_copypaste( self ):
+	def _test_copypaste( self ):
 		ah = AnimationHandle.create()
 		ah.set_animation(nt.it.iterDgNodes( nt.api.MFn.kTransform, asNode=0))
 		
