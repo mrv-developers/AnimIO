@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """This module contiains classes and utilities affiliated with the import and export
 of animation."""
-import mayarv.maya.nt as nt
-from mayarv.maya.ns import Namespace
-from mayarv.maya.ref import FileReference
-from mayarv.maya.scene import Scene
+import mrv.maya.nt as nt
+from mrv.maya.ns import Namespace
+from mrv.maya.ref import FileReference
+from mrv.maya.scene import Scene
 
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
@@ -26,10 +26,12 @@ class AnimInOutLibrary( object ):
 	
 	
 class AnimationHandle( nt.Network ):  
-	__mayarv_virtual_subtype__ = True
+	__mrv_virtual_subtype__ = True
 	
-	_l_connection_info_attr = 'animio_conn_info'
-	_s_connection_info_attr = 'aioc'
+	_l_connection_info_attr = 'destArray'
+	_s_connection_info_attr = 'destArray'
+	_l_tmp_attr = 'justAString'
+	_s_tmp_attr = 'justAString'
 	_k_separator = ','
 	_networktype = nt.api.MFn.kAffect
 	
@@ -83,7 +85,9 @@ class AnimationHandle( nt.Network ):
 		# add our custom attribute
 		attr = nt.TypedAttribute.create(cls._l_connection_info_attr, cls._s_connection_info_attr,
 							nt.api.MFnData.kStringArray, nt.StringArrayData.create(list()))
+		attr2 = nt.TypedAttribute.create(cls._l_tmp_attr, cls._s_tmp_attr, nt.api.MFnData.kString, nt.StringData.create("empty"))
 		mynode.addAttribute(attr)
+		mynode.addAttribute(attr2)
 		return cls(mynode.object())
 		
 	@undoable
@@ -142,8 +146,20 @@ class AnimationHandle( nt.Network ):
 		This allows you to perform any modifications to the target before it will be
 		connected.
 		@note: Will break existing destination connections"""
-		# get target strings
-		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
+		# get target strings as array
+		
+		# mayarv provides this:
+		# target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
+		
+		# for a better understanding, without mayarv and just api step by step it would look like this:
+		# first we need a funktionset initialisted with the MObject of our node (ins this case MFnDependencyNode)
+		mfndep=nt.api.MFnDependencyNode(self.object())
+		# the functionset MFnDependencyNode provides the findPlug function returning the MPlug of our attribute
+		mplug=mfndep.findPlug(self._s_connection_info_attr)
+		# MPlug offers no asStringArrayData so we have to get the data asMObject end initialise the MFnStingArrayData functionset with it 
+		mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
+		# finaly we get the data as arry from MFnStringArrayData functionset
+		target_plug_names=mfnstr.array()
 		
 		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
 		
@@ -193,13 +209,13 @@ class AnimationHandle( nt.Network ):
 		@param tTimeRange: paste copied timerange to this targes timerange
 		@param optn: options on how to paste
 		@param predicate: returns true if animation of the given node should be copy-pasted"""
-		anim = list(self.iter_animation(asNode=1, predicate=predicate, converter=converter))
+		anim = list(self.iter_animation(asNode=1))
 		if len(anim):
 			print cmds.findKeyframe(anim, which="first")
 			print cmds.findKeyframe(anim, which="last")
 		else: print "None"
-		print "test auf node %s converted: %s" % (anim[0], anim[0].converted) 
-		print "test auf node %s converted: %s" % (anim[-1], anim[-1].converted)
+		print "test auf node %s converted: %s" % (anim[0], anim[0]) 
+		print "test auf node %s converted: %s" % (anim[-1], anim[-1])
 		# cmds.copyKey(anim, time=sTimeRange, option="curve"  )
 		# tganim=list()
 		# for n in anim:

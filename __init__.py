@@ -4,7 +4,7 @@
 def _assure_mayarv():
 	"""Assure we have access to mayarv , bark nicely if this is not the case"""
 	try:
-		import mayarv
+		import mrv
 	except ImportError:
 		raise ImportError("could not import mayarv, please make sure it exists in your PYTHONPATH")
 	# END exception handling

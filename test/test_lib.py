@@ -3,9 +3,9 @@
 from animIO.test.lib import *
 from animIO import *
 
-import mayarv.test.maya as tmrv
-import mayarv.maya.nt as nt
-import mayarv.maya as mrvmaya
+import mrv.test.maya as tmrv
+import mrv.maya.nt as nt
+import mrv.maya as mrvmaya
 
 import maya.OpenMayaAnim as manim
 
@@ -35,7 +35,7 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def test_base( self ):
+	def _test_base( self ):
 		p = nt.Node("persp")
 		t = nt.Node("top")
 		
@@ -118,7 +118,7 @@ class TestAnimationHandle( TestBase ):
 		self.failUnlessRaises(TypeError, AnimationHandle, netw_node)
 		
 	@with_scene('3handles.ma')
-	def test_iteration( self ):
+	def _test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
 		assert len(handles) == 3
 		for h in handles:
@@ -131,7 +131,7 @@ class TestAnimationHandle( TestBase ):
 		self.fail("TODO")
 		
 	@with_scene('1still3moving.ma')
-	def test_export_import( self ):
+	def _test_export_import( self ):
 		def iter_dag():
 			return nt.iterDgNodes(nt.api.MFn.kDagNode, asNode=0)
 			
@@ -201,7 +201,7 @@ class TestAnimationHandle( TestBase ):
 		os.remove(filename)
 		
 	@with_scene('1still3moving.ma')
-	def _test_copypaste( self ):
+	def test_copypaste( self ):
 		ah = AnimationHandle.create()
 		ah.set_animation(nt.it.iterDgNodes( nt.api.MFn.kTransform, asNode=0))
 		
