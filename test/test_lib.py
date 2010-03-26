@@ -35,7 +35,7 @@ class TestBase( unittest.TestCase ):
 
 class TestAnimationHandle( TestBase ):
 	
-	def test_base( self ):
+	def _test_base( self ):
 		p = nt.Node("persp")
 		t = nt.Node("top")
 		
@@ -95,22 +95,22 @@ class TestAnimationHandle( TestBase ):
 			# END handle converter
 			
 			for plug in anim_plugs:
-				assert isinstance(plug.minput().mnode(), nt.AnimCurve)
+				assert isinstance(plug.minput().mwrappedNode(), nt.AnimCurve)
 		# END for each converter
 		
 		# test it breaks existing target animation
-		assert isinstance(t.tx.minput().mnode(), nt.AnimCurve)
+		assert isinstance(t.tx.minput().mwrappedNode(), nt.AnimCurve)
 		p.tx.mconnectTo(t.tx)
 		
 		handle.apply_animation()
-		assert isinstance(t.tx.minput().mnode(), nt.AnimCurve)
+		assert isinstance(t.tx.minput().mwrappedNode(), nt.AnimCurve)
 		
 		# disconnected animation curve does not interrpt apply_animation
-		t.ty.minput().mnode().message.mdisconnectNode(handle)
+		t.ty.minput().mwrappedNode().message.mdisconnectNode(handle)
 		t.ty.minput().mdisconnectNode(t)
 		t.tz.minput().mdisconnectNode(t)
 		handle.apply_animation()
-		assert isinstance(t.tz.minput().mnode(), nt.AnimCurve)
+		assert isinstance(t.tz.minput().mwrappedNode(), nt.AnimCurve)
 		assert t.ty.minput().isNull()
 		
 		# cannot initialize von blank network node
@@ -118,7 +118,7 @@ class TestAnimationHandle( TestBase ):
 		self.failUnlessRaises(TypeError, AnimationHandle, netw_node)
 		
 	@with_scene('3handles.ma')
-	def test_iteration( self ):
+	def _test_iteration( self ):
 		handles = list(AnimationHandle.iter_instances())
 		assert len(handles) == 3
 		for h in handles:
@@ -131,7 +131,7 @@ class TestAnimationHandle( TestBase ):
 		self.fail("TODO")
 		
 	@with_scene('1still3moving.ma')
-	def test_export_import( self ):
+	def _test_export_import( self ):
 		def iter_dag():
 			return nt.iterDgNodes(nt.api.MFn.kDagNode, asNode=0)
 			
@@ -201,27 +201,111 @@ class TestAnimationHandle( TestBase ):
 		os.remove(filename)
 		
 	@with_scene('1still3moving.ma')
-	def _test_copypaste( self ):
+	def _test_iter_assignments( self ):
+		
+		# export some animation
 		ah = AnimationHandle.create()
-		ah.set_animation(nt.it.iterDgNodes( nt.api.MFn.kTransform, asNode=0))
-		
-		ah.testAttr = "neueNamenBraucht das land"
-		print "gespeichert wurde: %s" % ah.testAttr
-		
+		ah.set_animation(nt.it.iterDagNodes( nt.api.MFn.kTransform, asNode=0))
 		filename = ospath.join(tempfile.gettempdir(), "3movin_export.ani.ma")
 		assert filename == ah.to_file(filename, force=True, type="mayaAscii")
 		num_nodes=len(list(nt.it.iterDgNodes(asNode=0)))
-		print "handling %i animationcurves of %i nodes in scene" % (len(ah.affectedBy), num_nodes)
-		ah.copypaste_animation(predicate=lambda x:'Cube' in x)
+		num_anim=len(list(ah.iter_animation()))
+		
+		#asure we have some animation 
+		assert num_anim
+		
+		# just one node - the AnimationHandle dissapears
 		ah.delete()
 		assert num_nodes -1 == len(list(nt.it.iterDgNodes(asNode=0)))
 		
+		# and reimport 
 		ahb = AnimationHandle.from_file(filename)[1].next()
-		print "after reload %i nodes in scene" % len(list(nt.it.iterDgNodes(asNode=0)))
-		ahb.copypaste_animation(predicate=lambda x:'nurbs' in x, converter=lambda x:x.replace("Cube", "nurbs"))
-					
+		
+		# define case list of tuples
+		# ( predicate, converter, str(len(src_plgs)), %s in src_plgs[0 and -1].name(), %s in trgt_plgs[0 and -1].name() )
+		cases=[(lambda x, y: True, None, str(num_anim), "", ""),
+		(lambda x, y: "Dodo" in x.name(), None, "0", "", ""),
+		(lambda x, y: "rotate" in x.name(), None, "", "rotate", "rotate"),
+		(lambda x, y: "Cone" in x.name(), None, "", "Cone", "Cone"),
+		(lambda x, y: "Cone" in y, None, "", "Cone", "Cone"),
+		(lambda x, y: "Cone" in x.name(), lambda x, y: y.replace("Cone", "Cube"), "", "Cone", "Cube"),
+		(lambda x, y: "Cone" in y, lambda x, y: y.replace("Cone", "Cube"), "0", "", ""),
+		(lambda x, y: "Cone" in y, lambda x, y: y.replace("Cube", "Cone"), "", "pC", "pC"),
+		(lambda x, y: True, lambda x, y: y.replace("nurbsSphere", "pCone"), "", "", "pC"),
+		(lambda x, y: True, lambda x, y: y.replace("nurbsSphere", "pC"), "", "", "pC"),
+		(lambda x, y: "Sphere" in x.name(), None, "", "Sphere", "Sphere")]
+		
+		# test cases of arguments in tuple 
+		for argtpl in cases:
+			
+			# get source - target lists
+			src_plgs, trgt_plgs = list(), list()
+			itty =  ahb.iter_assignments(predicate=argtpl[0], converter=argtpl[1])
+			for src_plg, trgt_plg in itty:
+				src_plgs.append(src_plg)
+				trgt_plgs.append(trgt_plg)
+			# END two lists from iterator
+			assert len(src_plgs) == len(trgt_plgs)
+			
+			# we have some plugs or the exact number we want 
+			if len(argtpl[2]):
+				assert len(src_plgs) == int(argtpl[2])
+			else:
+				assert len(src_plgs)
+				
+			# we got what we expected
+			for i in range(len(src_plgs)):
+				assert argtpl[3] in src_plgs[i].name()
+				assert argtpl[4] in trgt_plgs[i].name()
+				
+	@with_scene('1still3moving.ma')
+	def test_paste( self ):
+		
+		# export some animation
+		ah = AnimationHandle.create()
+		ah.set_animation(nt.it.iterDagNodes( nt.api.MFn.kTransform, asNode=0))
+		filename = ospath.join(tempfile.gettempdir(), "3movin_export.ani.ma")
+		assert filename == ah.to_file(filename, force=True, type="mayaAscii")
+		num_nodes=len(list(nt.it.iterDgNodes(asNode=0)))
+		num_anim=len(list(ah.iter_animation()))
+		
+		#asure we have some animation 
+		assert num_anim
+		
+		# just one node - the AnimationHandle dissapears
+		ah.delete()
+		assert num_nodes -1 == len(list(nt.it.iterDgNodes(asNode=0)))
+		
+		# reimport
+		ahb = AnimationHandle.from_file(filename)[1].next()
+		
+		# lets get the first keyframes
+		srcs=list(ahb.iter_animation())
+		trgt=nt.anim.AnimCurve.findAnimation(nt.it.iterDagNodes( nt.api.MFn.kTransform, asNode=1))
+		sfirst=cmds.findKeyframe(srcs, which="first")
+		tfirst=cmds.findKeyframe(trgt, which="first")
+		length=500
+		offset=-100
+		
+		# paste animationdata on nodes with animation
+		ahb.paste_animation((sfirst, sfirst+length), (sfirst+offset,sfirst+offset+length), option="scaleInsert")
+		
+		# paste animationdata on nodes without animation
+		cyl=nt.Node("pCylinder1")
+		assert len(nt.anim.AnimCurve.findAnimation([cyl])) == 0
+		ahb.paste_animation((sfirst, sfirst+length), (sfirst,sfirst+length), option="scaleReplace", predicate=lambda x, y:"pCylinder" in y, converter=lambda x,y: y.replace("pCube", "pCylinder"))
+
+		# remove AnimationHandle and check if animation was pasted
+		ahb.delete()
+		cylanim=list()
+		cylanim=nt.anim.AnimCurve.findAnimation([cyl])
+		assert len(cylanim)
+		assert sfirst == tfirst
+		assert cmds.findKeyframe(trgt, which="first") == sfirst+offset
+		assert cmds.findKeyframe(cylanim, which="first") == sfirst
+		
+
 class TestLibrary( TestBase ):
 	
-	def test_base( self ):
+	def _test_base( self ):
 		pass	
-	

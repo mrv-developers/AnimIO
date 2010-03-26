@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """This module contiains classes and utilities affiliated with the import and export
-of animation."""
+of animation.
+@TODO: we have two print statements instead of warnings... learn about warnings or handle it different"""
+
 import mrv.maya.nt as nt
 from mrv.maya.ns import Namespace
 from mrv.maya.ref import FileReference
@@ -60,24 +62,24 @@ class AnimationHandle( nt.Network ):
 			# END if it is our node
 		#  END for each node 
 	
-	def iter_animation( self, asNode=True):
+	def iter_animation( self, asNode=True ):
 		"""@return: iterator yielding managed animation curves as wrapped Node or MObject
 		@param asNode: if true, iterator yields Node instances else MObjects"""
 		for anim_node_dest_plug in self.affectedBy:
 			miplug=anim_node_dest_plug.minput()
 			if asNode:
-				yield miplug.mnode()
+				yield miplug.mwrappedNode()
 			else:
 				yield miplug.node()
 			# END if asNode
 		# END iterator
 		
-	def iter_source_target_plg( self, converter=None, predicate=lambda x, y: True):
-		"""@return: iterator yielding source, target pairs
+	def iter_assignments( self, predicate=lambda x, y: True, converter=None):
+		"""@return: iterator yielding source-target assignments as plugs in a tuple(source_plug, target_plug) 
 		@param converter: if not None, the function returns the desired target plug name to use 
 		instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).
-		@param predicate: after conversion source_plug, target_plugname is testet to pass this filter"""
-		
+		@param predicate: after conversion predicate(source_plug, target_plugname) is testet to pass this filter
+		@NOTE: for now, if target_plug does not exist we just print a message and continue"""
 		# get target strings as array
 		# mayarv provides this:
 		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
@@ -91,7 +93,6 @@ class AnimationHandle( nt.Network ):
 		# mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
 		#  finaly we get the data as arry from MFnStringArrayData functionset
 		# target_plug_names=mfnstr.array()
-		
 		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
 		
 		# make iterator yielding source and target plug objects
@@ -113,12 +114,20 @@ class AnimationHandle( nt.Network ):
 				if converter:
 					tplug_name = converter(anim_node_otp_plug, tplug_name)
 				# END handle converter
+				
 				if not predicate(anim_node_otp_plug, tplug_name):
 					continue
+				# END filter
+				
 				actual_plug = nt.api.MPlug()
-				plug_sel_list.add(tplug_name)
+				try:
+					plug_sel_list.add(tplug_name)
+				except:
+					print "target plug named %s does not exist" % tplug_name
+					continue
+				# END check if plug exists
+				
 				plug_sel_list.getPlug(tindex, actual_plug)
-					
 				yield (anim_node_otp_plug, actual_plug)
 				# END for each plugname to convert
 								
@@ -197,39 +206,43 @@ class AnimationHandle( nt.Network ):
 	def apply_animation( self, converter=None ):
 		"""Apply the stored animation by (re)connecting the animation nodes to their
 		respective target plugs
-		@param: converter see L{iter_source_target_plg}
+		@param: converter see L{iter_assignments}
 		This allows you to perform any modifications to the target before it will be
 		connected.
 		@note: Will break existing destination connections"""
 		
-		# do actual connection ( best case is 38k connections per second
-		iterator = self.iter_source_target_plg(converter=converter)
+		# do actual connection ( best case is 38k connections per second )
+		iterator = self.iter_assignments(converter=converter)
 		nt.api.MPlug.mconnectMultiToMulti(iterator, force=True)
 		
 		
 	#} END edit
 	
 	#{ Utilitsation
-	def copypaste_animation( self, sTimeRange=":", tTimeRange=":", optn="insert", predicate=lambda x:True, converter=lambda x:x ):
-		"""Copy the stored animation to their respective target animation curves
-		@param sTimeRange: copy just the given timerange
-		@param tTimeRange: paste copied timerange to this targes timerange
-		@param optn: options on how to paste
-		@param predicate: returns true if animation of the given node should be copy-pasted"""
-		anim = list(self.iter_animation(asNode=1))
-		if len(anim):
-			print cmds.findKeyframe(anim, which="first")
-			print cmds.findKeyframe(anim, which="last")
-		else: print "None"
-		print "test auf node %s converted: %s" % (anim[0], anim[0]) 
-		print "test auf node %s converted: %s" % (anim[-1], anim[-1])
-		# cmds.copyKey(anim, time=sTimeRange, option="curve"  )
-		# tganim=list()
-		# for n in anim:
-			# tganim.add(n.converted)		
-		# cmds.pasteKey(tganim, time=tTimeRange, option="fitInsert")
-	
-	
+	@undoable
+	def paste_animation( self, sTimeRange=tuple(), tTimeRange=tuple(), option="fitInsert", predicate=lambda x, y:True, converter=None ):
+		"""paste the stored animation to their respective target animation curves, if target does not exist it will be createt
+		@param sTimeRange: tuple of timerange passed to copyKey
+		@param tTimeRange: tuple of timerange passed to pasteKey
+		@param option: option on how to paste forwarded to pasteKey (useful: "fitInsert", "fitReplace", "scaleInsert", "scaleReplace")
+		@param predicate and converter: passed to L{iter_assignments}
+		@TODO: handle if range is out of curve (error:nothing to paste from) - should paste the pose in this range"""
+		iter_plugs=self.iter_assignments(predicate=predicate, converter=converter)
+		
+		# get animCurves form plugs and copy pate
+		for s_plug, t_plug in iter_plugs:
+			s_animcrv=s_plug.mwn()
+			
+			if manim.MAnimUtil.isAnimated(t_plug):
+				t_animcrv=t_plug.minput().mwn()
+			else:
+				t_animcrv=nt.Node(manim.MFnAnimCurve().create(t_plug))
+			# END get new or existing animCurve
+				
+			cmds.copyKey(s_animcrv, time=sTimeRange, option="curve"  )
+			cmds.pasteKey(t_animcrv, time=tTimeRange, option=option)
+		 # END for each assignment
+			
 	#} END utilisation
 	
 	#{ File IO
