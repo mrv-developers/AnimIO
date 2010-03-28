@@ -67,7 +67,7 @@ global proc setupUITest()
 	$args = stringToStringArray($cmdArgs,";");
 	
 	string $pycmd = "import sys\n";
-	$pycmd += "sys.path.append(u\""+`getenv "MAYARV_PYTHON_PATH"` + "\")\n";
+	$pycmd += "sys.path.append(u\""+`getenv "MRV_PYTHON_PATH"` + "\")\n";
 	$pycmd += "sys.argv =['";
 	for ($arg in $args) $pycmd += ("', '" + $arg);
 		

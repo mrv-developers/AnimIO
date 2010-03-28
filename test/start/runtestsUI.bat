@@ -20,7 +20,7 @@ REM prepare the environment to use a minimal UI - put mayarv into the script pat
 REM as well as our helper script, but we create a command to hand over to cmd.exe
 REM to keep the current environment clean
 set COMMAND="set MAYA_SCRIPT_PATH=%BASE%;%BASE%..\..\..;%MAYA_SCRIPT_PATH%"
-set COMMAND=%COMMAND%"&&set MAYARV_PYTHON_PATH=%BASE%..\..\.."
+set COMMAND=%COMMAND%"&&set MRV_PYTHON_PATH=%BASE%..\..\.."
 set COMMAND=%COMMAND%"&&set MAYA_OVERRIDE_UI=initialLayout_minimal.mel"
 set COMMAND=%COMMAND%"&&set MAYA_TEST_ARGS=%COLLECTED_ARGS%"
 
