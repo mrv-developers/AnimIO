@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """General library testing"""
-from animIO.test.lib import *
-from animIO import *
+from animio.test.lib import *
+from animio import *
 
 import mrv.test.maya as tmrv
 import mrv.maya.nt as nt

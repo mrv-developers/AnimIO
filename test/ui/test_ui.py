@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from animIO.test.lib import *
-from animIO import *
+from animio.test.lib import *
+from animio import *
 
 from mrv.maya import Scene
 import maya.cmds as cmds

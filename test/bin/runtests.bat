@@ -6,6 +6,6 @@ set basedir=%~dp0
 set mrvbase=%basedir%..\..\ext\mrv\
 
 REM execute mrv
-cmd.exe /C "%mrvbase%bin\mrv.bat %mrvbase%\bin\nosestartup.py" %*
+cmd.exe /C "%mrvbase%bin\mrv.bat %mrvbase%\test\bin\nosestartup.py" %*
 
 :end	

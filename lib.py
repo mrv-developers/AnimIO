@@ -10,7 +10,7 @@ import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
 
 import logging
-log = logging.getLogger("animIO.lib")
+log = logging.getLogger("animio.lib")
 
 class AnimInOutLibrary( object ):
 	"""contains default implementation"""
