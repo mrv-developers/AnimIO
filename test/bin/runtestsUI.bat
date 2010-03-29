@@ -20,10 +20,10 @@ IF "%1"=="" goto argsDone
 REM prepare the environment to use a minimal UI - put mrv into the script path
 REM as well as our helper script, but we create a command to hand over to cmd.exe
 REM to keep the current environment clean
-set COMMAND="set MAYA_SCRIPT_PATH=%BASE%;%BASE%..\..\..;%MAYA_SCRIPT_PATH%"
+set COMMAND="set MAYA_SCRIPT_PATH=%BASE%..\..\..;%MRVBASE%test\bin\;%MAYA_SCRIPT_PATH%"
 set COMMAND=%COMMAND%"&&set MRV_PYTHON_PATH=%BASE%..\..\.."
-set COMMAND=%COMMAND%"&&set MAYA_OVERRIDE_UI=%MRVBASE%initialLayout_minimal.mel"
-set COMMAND=%COMMAND%"&&set MAYA_TEST_ARGS=%COLLECTED_ARGS%"
+set COMMAND=%COMMAND%"&&set MAYA_OVERRIDE_UI=initialLayout_minimal.mel"
+set COMMAND=%COMMAND%"&&set NOSE_ARGS=%COLLECTED_ARGS%"
 
 REM assure we have no additional environment set
 set MAYA_APP_TMP=%TMP%\maya_test_home
