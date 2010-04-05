@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
-"""This module contiains classes and utilities affiliated with the import and export
-of animation.
-@TODO: we have two print statements instead of warnings... learn about warnings or handle it different"""
-
+"""This module contains classes and utilities affiliated with the import and export
+of animation."""
 import mrv.maya.nt as nt
 from mrv.maya.ns import Namespace
 from mrv.maya.ref import FileReference
@@ -11,6 +9,8 @@ from mrv.maya.scene import Scene
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
 
+import logging
+log = logging.getLogger("animIO.lib")
 
 class AnimInOutLibrary( object ):
 	"""contains default implementation"""
@@ -26,24 +26,23 @@ class AnimInOutLibrary( object ):
 		raise NotImplementedError("todo")
 	
 	
-	
 class AnimationHandle( nt.Network ):  
 	__mrv_virtual_subtype__ = True
 	
-	_l_connection_info_attr = 'destArray'
-	_s_connection_info_attr = 'destArray'
-	_l_tmp_attr = 'justAString'
-	_s_tmp_attr = 'justAString'
+	_l_connection_info_attr = 'connectionInfo'
+	_s_connection_info_attr = 'cifo'
 	_k_separator = ','
 	_networktype = nt.api.MFn.kAffect
 	
 	def __new__( cls, *args ): 
 		if not args:
 			return cls.create()
-		# END empty args create new node
+		# END empty args create new node ( without calling __init__ )
+		
 		self=super(AnimationHandle, cls).__new__(cls, *args)
 		if not cls._is_handle(self):
-			raise TypeError('%r is not a valid %s' % (self, cls)) 
+			raise TypeError('%r is not a valid %s' % (self, cls))
+		
 		return self
 		
 	@classmethod
@@ -102,7 +101,7 @@ class AnimationHandle( nt.Network ):
 			target_plug_name_list = target_plug_names[index].split(self._k_separator)
 			anim_node_msg_plug=anim_node_dest_plug.minput()
 			if anim_node_msg_plug.isNull():
-				print "no animation curve found on %s" % anim_node_dest_plug.mfullyQualifiedName()
+				log.warn("no animation curve found on %s" % anim_node_dest_plug.mfullyQualifiedName())
 				continue
 			# END check for nullPlug
 				
@@ -123,7 +122,7 @@ class AnimationHandle( nt.Network ):
 				try:
 					plug_sel_list.add(tplug_name)
 				except:
-					print "target plug named %s does not exist" % tplug_name
+					log.warn("target plug named %s does not exist" % tplug_name)
 					continue
 				# END check if plug exists
 				
@@ -140,6 +139,7 @@ class AnimationHandle( nt.Network ):
 	#} END iteration
 	
 	#{ Edit
+	
 	@classmethod
 	@undoable
 	def create( cls, name="animationHandle", **kwargs ):
@@ -150,9 +150,7 @@ class AnimationHandle( nt.Network ):
 		# add our custom attribute
 		attr = nt.TypedAttribute.create(cls._l_connection_info_attr, cls._s_connection_info_attr,
 							nt.api.MFnData.kStringArray, nt.StringArrayData.create(list()))
-		attr2 = nt.TypedAttribute.create(cls._l_tmp_attr, cls._s_tmp_attr, nt.api.MFnData.kString, nt.StringData.create("empty"))
 		mynode.addAttribute(attr)
-		mynode.addAttribute(attr2)
 		return cls(mynode.object())
 		
 	@undoable
@@ -215,10 +213,9 @@ class AnimationHandle( nt.Network ):
 		iterator = self.iter_assignments(converter=converter)
 		nt.api.MPlug.mconnectMultiToMulti(iterator, force=True)
 		
-		
 	#} END edit
 	
-	#{ Utilitsation
+	#{ Utilities
 	@undoable
 	def paste_animation( self, sTimeRange=tuple(), tTimeRange=tuple(), option="fitInsert", predicate=lambda x, y:True, converter=None ):
 		"""paste the stored animation to their respective target animation curves, if target does not exist it will be createt
@@ -243,9 +240,10 @@ class AnimationHandle( nt.Network ):
 			cmds.pasteKey(t_animcrv, time=tTimeRange, option=option)
 		 # END for each assignment
 			
-	#} END utilisation
+	#} END Utilities
 	
 	#{ File IO
+	
 	@classmethod
 	@notundoable
 	def from_file( cls, input_file ):
