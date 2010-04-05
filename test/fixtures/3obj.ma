@@ -1,12 +1,12 @@
-//Maya ASCII 2009 scene
+//Maya ASCII 8.5 scene
 //Name: 3obj.ma
 //Last modified: Mon, Mar 22, 2010 04:48:31 PM
 //Codeset: 1252
-requires maya "2009";
+requires maya "8.5";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
-fileInfo "product" "Maya Unlimited 2009";
-fileInfo "version" "2009";
+fileInfo "product" "Maya Unlimited 8.5";
+fileInfo "version" "8.5";
 fileInfo "cutIdentifier" "200809110030-734661";
 fileInfo "osv" "Microsoft Windows Vista  (Build 7600)\n";
 createNode transform -s -n "persp";

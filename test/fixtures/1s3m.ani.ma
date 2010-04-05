@@ -1,12 +1,12 @@
-//Maya ASCII 2009 scene
+//Maya ASCII 8.5 scene
 //Name: 1s3m.ani.ma
 //Last modified: Sat, Mar 20, 2010 12:46:48 PM
 //Codeset: 1252
-requires maya "2009";
+requires maya "8.5";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
-fileInfo "product" "Maya Unlimited 2009";
-fileInfo "version" "2009";
+fileInfo "product" "Maya Unlimited 8.5";
+fileInfo "version" "8.5";
 fileInfo "cutIdentifier" "200809110030-734661";
 fileInfo "osv" "Microsoft Windows Vista  (Build 7600)\n";
 createNode animCurveTL -n "nurbsSphere1_translateX";

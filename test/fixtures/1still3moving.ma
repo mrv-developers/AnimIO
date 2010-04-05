@@ -1,13 +1,13 @@
-//Maya ASCII 2008 scene
+//Maya ASCII 8.5 scene
 //Name: 1still3moving.ma
 //Last modified: Fri, Mar 19, 2010 10:32:43 AM
 //Codeset: UTF-8
-requires maya "2008";
+requires maya "8.5";
 currentUnit -l centimeter -a degree -t film;
 fileInfo "application" "maya";
-fileInfo "product" "Maya Unlimited 2008";
-fileInfo "version" "2008 Service Pack 1 x64";
-fileInfo "cutIdentifier" "200802242307-718079";
+fileInfo "product" "Maya Unlimited 8.5";
+fileInfo "version" "8.5 Service Pack 1 x64";
+fileInfo "cutIdentifier" "8.502242307-718079";
 fileInfo "osv" "Linux 2.6.27-17-generic #1 SMP Fri Mar 12 02:08:25 UTC 2010 x86_64";
 createNode transform -s -n "persp";
 	setAttr ".v" no;
