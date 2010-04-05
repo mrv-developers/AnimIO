@@ -1,44 +1,120 @@
 # -*- coding: utf-8 -*-
+"""Module containing the user interface implementation of the AnimIO library"""
+
 import mrv.maya.ui as ui
 import maya.cmds as cmds
+
+
+class FloatRangeField( ui.RowLayout ):
+	"""Implements a queryable range of integers
+	:note: it uses text fields allowing them to be empty"""
+	
+	#{ Signals
+	# none currently, but if this was a real element, it would surely allow changed
+	# events to happen
+	#} END signals
+	
+	def __new__(cls, *args, **kwargs):
+		"""Assure we always have two columns with an appropriate size"""
+		# bail out early, otherwise we have to verify all our creation flags
+		if kwargs:
+			raise ValueError("Configure me afterwards please")
+			
+		kwargs['nc'] =  2
+		kwargs['cw2'] = (40,40)
+		kwargs['adj'] = 2
+		
+		return super(FloatRangeField, cls).__new__(cls, *args, **kwargs)
+		
+		
+	def __init__(self, *args, **kwargs):
+		"""Build our interface"""
+		
+		eSTrTf = ui.TextField(en=0, w=44)
+		eETrTf = ui.TextField(en=0, w=38)
+		
+		# hide that we are a layout actually and restore the previous parent
+		self.setParentActive()
+		
+		
+	#{ Interface
+	
+	def get(self):
+		""":return: Tuple(floatStartRance, floatEndRange)
+		:raise ValueError: if one of the ranges is invalid"""
+		pass
+	
+	def set(self, start, end):
+		"""Set the range of this element
+		:param start: start of the range as float
+		:param end: end of the range as float)"""
+		pass
+		
+	#} END interface 
+
 
 class ExportLayout( ui.FormLayout ):
 	"""Layout encapsulating all export functionality"""
 	
-	def __init__(self, **kwargs):
-		eTscl = ui.TextScrollList(w=180, numberOfRows=5, allowMultiSelection=True)
-		eBttn = ui.Button(label="Export...")
-		eHB = ui.Button(label="?", ann="...need help?", w=22, h=22)
-		eClm = ui.ColumnLayout(adjustableColumn=True)
+	#{ Annotations 
+	aHelp = "...need Help?"
+	aExport = "Export the current selection into a file of your choice"
+	
+	#} END annotations
+	
+	def __init__(self, *args, **kwargs):
 		
+		#{ members we care about 
+		self.tsl = None
+		self.range = None
+		self.filetype = None
+		self.rangetype = None
+		#} END members 
+		
+		# CREATE UI
+		############
+		self.tsl = ui.TextScrollList(w=180, numberOfRows=5, allowMultiSelection=True)
+		eBttn = ui.Button(label="Export...", ann=self.aExport)
+		eHB = ui.Button(	label="?", ann=self.aHelp, w=22, h=22)
+		
+		# RIGHT HAND SIDE
+		#################                         
+		eClm = ui.ColumnLayout(adjustableColumn=True)
 		if eClm:
-			ui.Text(l="timerange:", fn="boldLabelFont", al="left")
-			eGr0 = ui.RadioButtonGrp(nrb=1, l1="complete anim.", sl=1)
-			ui.RadioButtonGrp(nrb=1, scl=eGr0, l1="custom:")
-			eRowTR = ui.RowLayout(nc=2, cw=(1, 45), adj=2)
-			eRowTR.p_cw=(2, 40)
+			# TIME RANGE 
+			############
+			ui.Text(l="Timerange:", fn="boldLabelFont", al="left")
+			self.rangetype = ui.RadioCollection()
+			if self.rangetype:
+				ui.RadioButton(l="complete anim.", sl=1)
+				ui.RadioButton(l="custom:")
+			# END radio collection
 			
-			if eRowTR:
-				eSTrTf = ui.TextField(en=0, w=44)
-				eETrTf = ui.TextField(en=0, w=38)
-			eRowTR.setParentActive()
+			self.range = FloatRangeField()
 			
-			ui.Text(l="")
-			ui.Text(l="")
-			ui.Text(l="filetype", fn="boldLabelFont", align="left")
-			eGr1 = ui.RadioButtonGrp(nrb=1, l1="mayaASCII", sl=1)
-			ui.RadioButtonGrp(nrb=1, scl=eGr1, l1="mayaBinary")
-			ui.Text(l="")
+			ui.Separator(h=40, style="none")
+			
+			# FILE TYPE
+			###########
+			ui.Text(l="Filetype", fn="boldLabelFont", align="left")
+			self.filetype = ui.RadioCollection()
+			if self.filetype:
+				ui.RadioButton(l="mayaASCII", sl=1)
+				ui.RadioButton(l="mayaBinary")
+			# END radio collection
+			
+			ui.Separator(h=20, style="none")
 		# END column layout
 		self.setActive()
 
-		# setup 
+		# SETUP FORM
+		############
 		t, b, l, r = self.kSides
 		self.setup(
 			attachForm=[
-				(eTscl, t, 0),
-				(eTscl, l, 0),
-				(eTscl, r, 95),
+				(self.tsl, t, 0),
+				(self.tsl, l, 0),
+				(self.tsl, r, 95),
 				
 				(eBttn, l, 0),
 				(eBttn, b, 0),
@@ -49,10 +125,10 @@ class ExportLayout( ui.FormLayout ):
 				(eClm, r, 2)], 
 			
 			attachControl=[
-				(eTscl, b, 5, eBttn),
+				(self.tsl, b, 5, eBttn),
 				(eBttn, r, 0, eHB),
 				
-				(eClm, l, 5, eTscl),
+				(eClm, l, 5, self.tsl),
 				(eClm, b, 5, eBttn)],
 			
 			attachNone=[
@@ -62,6 +138,19 @@ class ExportLayout( ui.FormLayout ):
 				(eHB, l),
 				
 				(eClm, t)] )
+		
+		
+		# QUICK CONNECTIONS
+		###################
+		# connections we setup here as we don't need to keep the elements around
+		# for this simple secondary behaviour
+		
+		
+		self._setup_connections()
+		
+	def _setup_connections(self):
+		"""Initialize the relationships between our elements"""
+		
 	
 	
 class ImportLayout( ui.FormLayout ):
@@ -87,9 +176,10 @@ class ImportLayout( ui.FormLayout ):
 			iReplaceTF = ui.TextField(en=0, w=45)
 		iRow2.setParentActive()
 		
-		iAddBttn = ui.Button(en=0, h=15, l="Add")
+		small = 20
+		iAddBttn = ui.Button(en=0, h=small, l="Add")
 		iTscl = ui.TextScrollList(name="AnimIOSearchReplace", en=0, w=190, numberOfRows=3, allowMultiSelection=True)
-		iDelBttn = ui.Button(en=0, h=15, l="remove selected")
+		iDelBttn = ui.Button(en=0, h=small, l="Remove Selected")
 		
 		# filter
 		iFilterL = ui.TextScrollList(name="AnimIOFilter", w=180, en=0, numberOfRows=5, allowMultiSelection=True)
@@ -188,8 +278,7 @@ class ImportLayout( ui.FormLayout ):
 class AnimIO_UI( ui.Window ):
 	def __init__(self, *args, **kwargs):
 		self.p_title = "mfAnimIO v0.8.py"
-		self.p_width = 320
-		self.p_height = 362
+		self.p_wh = (320, 362)
 		
 		tab = ui.TabLayout()
 		if tab:
