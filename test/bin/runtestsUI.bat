@@ -8,7 +8,7 @@ set COLLECTED_ARGS=;
 REM collect command line arguments and convert files into fully qualified path names
 REM non filename arguments pass unchanged
 REM NOTE:could not find a way to make it work without giving full pathname of the modules to python 2.5
-REM      there was no way using python standart environment variables - thats why we do the hassle here
+REM      there was no way using python standard environment variables - thats why we do the hassle here
 :collect
 IF "%1"=="" goto argsDone 
 	IF EXIST %1 (set COLLECTED_ARGS=%COLLECTED_ARGS%%~f1;) ELSE set COLLECTED_ARGS=%COLLECTED_ARGS%%1;
@@ -16,7 +16,7 @@ IF "%1"=="" goto argsDone
 	GOTO collect
 :argsDone
 
-REM prepare the environment to use a minimal UI - put mayarv into the script path
+REM prepare the environment to use a minimal UI - put mrv into the script path
 REM as well as our helper script, but we create a command to hand over to cmd.exe
 REM to keep the current environment clean
 set COMMAND="set MAYA_SCRIPT_PATH=%BASE%;%BASE%..\..\..;%MAYA_SCRIPT_PATH%"
@@ -38,4 +38,4 @@ set COMMAND="%COMMAND:"=%"
 REM run
 cmd /c %COMMAND%
 
-:end	
+:end

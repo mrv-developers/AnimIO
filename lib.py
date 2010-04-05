@@ -81,15 +81,15 @@ class AnimationHandle( nt.Network ):
 		@param predicate: after conversion predicate(source_plug, target_plugname) is testet to pass this filter
 		@NOTE: for now, if target_plug does not exist we just print a message and continue"""
 		# get target strings as array
-		# mayarv provides this:
+		# mrv provides this:
 		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
 		
-		#  for a better understanding, without mayarv and just api step by step it would look like this:
-		#  first we need a funktionset initialisted with the MObject of our node (ins this case MFnDependencyNode)
+		#  for a better understanding, without mrv and just api step by step it would look like this:
+		#  first we need a functionset initialized with the MObject of our node (in this case MFnDependencyNode)
 		# mfndep=nt.api.MFnDependencyNode(self.object())
 		#  the functionset MFnDependencyNode provides the findPlug function returning the MPlug of our attribute
 		# mplug=mfndep.findPlug(self._s_connection_info_attr)
-		#  MPlug offers no asStringArrayData so we have to get the data asMObject end initialise the MFnStingArrayData functionset with it 
+		#  MPlug offers no asStringArrayData so we have to get the data asMObject and initialize the MFnStingArrayData FunctionSet with it 
 		# mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
 		#  finaly we get the data as arry from MFnStringArrayData functionset
 		# target_plug_names=mfnstr.array()
@@ -144,7 +144,7 @@ class AnimationHandle( nt.Network ):
 	@undoable
 	def create( cls, name="animationHandle", **kwargs ):
 		"""@return: New instance of our type providing the L{AnimationHandle} interface
-		@param **kwargs: Passed to L{createNode} method of mayarv"""
+		@param **kwargs: Passed to L{createNode} method of mrv"""
 		mynode = nt.createNode(name, "network", **kwargs)
 		
 		# add our custom attribute
@@ -175,7 +175,7 @@ class AnimationHandle( nt.Network ):
 		to nodes connected to animation.
 		@note: Will not raise if the nodes do not have any animation
 		@note: Heavily optimized for speed, hence we work directly with the 
-		apiObjects, skipping the mayarv layer as we are in a tight loop here"""
+		apiObjects, skipping the mrv layer as we are in a tight loop here"""
 		self.clear()
 		anim_nodes = nt.AnimCurve.findAnimation(iter_nodes, asNode=False)
 		mfndep = nt.api.MFnDependencyNode()

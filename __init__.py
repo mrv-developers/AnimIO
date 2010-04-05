@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import os
 import sys
 import glob 
@@ -9,7 +8,7 @@ import glob
 # the minimum version of MRV that you require to work properly - usually the 
 # version you used during development, its worth testing older versions though to 
 # be more compatible 
-mrv_min_version = (1, 0, 0)
+mrv_min_version = (1, 0, 0)		# ( major, minor, micro )
 
 # the name of your tool or program
 tool_name = "AnimIO"
@@ -26,8 +25,9 @@ def _setup_ext_path():
 	"""Put our external directory into the path to allow contained packages to be found"""
 	sys.path.insert(0, _get_ext_path())
 	
-def _assure_mayarv():
-	"""Assure we have access to mayarv , bark nicely if this is not the case"""
+def _assure_mrv_is_available():
+	"""Assure we have access to mrv 
+	:raise ImportError: if mrv is not available or does not have a compatible version"""
 	
 	# if we have non-mrv submodules, definitely add ext to the path.
 	module_dirs = glob.glob(_get_ext_path() + "/*")
@@ -60,7 +60,7 @@ def _assure_mayarv():
 
 #} END initilization
 
-_assure_mayarv()
+_assure_mrv_is_available()
 
 # import basic modules
 from lib import *

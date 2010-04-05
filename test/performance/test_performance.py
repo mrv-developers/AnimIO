@@ -3,7 +3,7 @@
 from animIO.test.lib import *
 from animIO import *
 
-import mayarv.maya.nt as nodes
+import mrv.maya.nt as nt
 import time
 import sys
 
@@ -11,13 +11,13 @@ class TestPerformance( unittest.TestCase ):
 	
 	@with_scene('21kcurves.mb')
 	def test_anim_handle(self):
-		# manage all anim nodes
+		# manage all anim nt
 		ah = AnimationHandle.create()
 		ahapi = ah.object()
 		
 		st = time.time()
 		is_not_ah = lambda n: n != ahapi
-		sellist = nodes.toSelectionList(nodes.it.iterDgNodes(asNode=False, predicate=is_not_ah))
+		sellist = nt.toSelectionList(nt.it.iterDgNodes(asNode=False, predicate=is_not_ah))
 		ah.set_animation(sellist)
 		elapsed = time.time() - st
 		print >>sys.stderr, "Managed animation of roughly 21k nodes in %f s" % elapsed
@@ -31,12 +31,12 @@ class TestPerformance( unittest.TestCase ):
 		
 		# clear animation
 		st = time.time()
-		pa = nodes.api.MPlugArray()
+		pa = nt.api.MPlugArray()
 		manim.MAnimUtil.findAnimatedPlugs(sellist, pa)
 		
 		# do it the fast way - its easier to use mrv, but much faster to do it 
 		# directly
-		mod = nodes.api.MDGModifier( )
+		mod = nt.api.MDGModifier( )
 		for anim_plug in pa:
 			mod.disconnect(anim_plug.minput(), anim_plug )
 		# END for each anim curve to disconnect
@@ -44,7 +44,7 @@ class TestPerformance( unittest.TestCase ):
 		elapsed = time.time() - st
 		print >>sys.stderr, "Cleared animation on %i plugs in %f s" % (len(pa), elapsed)
 		
-		assert len(nodes.AnimCurve.animation(sellist)) == 0
+		assert len(nt.AnimCurve.findAnimation(sellist)) == 0
 		
 		# apply animation, best case as it is not yet connected
 		st = time.time()
