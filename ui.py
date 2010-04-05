@@ -2,7 +2,12 @@
 """Module containing the user interface implementation of the AnimIO library"""
 
 import mrv.maya.ui as ui
+
 import maya.cmds as cmds
+import maya.OpenMayaAnim as apianim
+
+import logging
+log = logging.getLogger("animio.ui")
 
 
 class FloatRangeField( ui.RowLayout ):
@@ -30,8 +35,8 @@ class FloatRangeField( ui.RowLayout ):
 	def __init__(self, *args, **kwargs):
 		"""Build our interface"""
 		
-		eSTrTf = ui.TextField(en=0, w=44)
-		eETrTf = ui.TextField(en=0, w=38)
+		ui.TextField(w=44)
+		ui.TextField(w=38)
 		
 		# hide that we are a layout actually and restore the previous parent
 		self.setParentActive()
@@ -42,14 +47,30 @@ class FloatRangeField( ui.RowLayout ):
 	def get(self):
 		""":return: Tuple(floatStartRance, floatEndRange)
 		:raise ValueError: if one of the ranges is invalid"""
-		pass
+		fs, fe = self.children()
+		return (float(fs.p_text), float(fe.p_text))
 	
 	def set(self, start, end):
 		"""Set the range of this element
 		:param start: start of the range as float
 		:param end: end of the range as float)"""
-		pass
-		
+		fs, fe = self.children()
+		fs.p_text = "%g" % start
+		fe.p_text = "%g" % end
+	
+	def clear(self):
+		"""Don't display any value, clear out the existing ones"""
+		for field in self.children():
+			field.p_text = ""
+		# END for each field
+	
+	def setEnabled(self, state):
+		for field in reversed(self.children()):
+			field.p_enable = state
+			
+			# refresh the UI basically, also good to have the focus where you want it
+			field.setFocus()
+		# END for each child
 	#} END interface 
 
 
@@ -65,7 +86,7 @@ class ExportLayout( ui.FormLayout ):
 	def __init__(self, *args, **kwargs):
 		
 		#{ members we care about 
-		self.tsl = None
+		self._tsl = None
 		self.range = None
 		self.filetype = None
 		self.rangetype = None
@@ -73,7 +94,7 @@ class ExportLayout( ui.FormLayout ):
 		
 		# CREATE UI
 		############
-		self.tsl = ui.TextScrollList(w=180, numberOfRows=5, allowMultiSelection=True)
+		self._tsl = ui.TextScrollList(w=180, numberOfRows=5, allowMultiSelection=True)
 		eBttn = ui.Button(label="Export...", ann=self.aExport)
 		eHB = ui.Button(	label="?", ann=self.aHelp, w=22, h=22)
 		
@@ -87,7 +108,7 @@ class ExportLayout( ui.FormLayout ):
 			self.rangetype = ui.RadioCollection()
 			if self.rangetype:
 				ui.RadioButton(l="complete anim.", sl=1)
-				ui.RadioButton(l="custom:")
+				anim_mode_custom = ui.RadioButton(l="custom:")
 			# END radio collection
 			
 			self.range = FloatRangeField()
@@ -112,9 +133,9 @@ class ExportLayout( ui.FormLayout ):
 		t, b, l, r = self.kSides
 		self.setup(
 			attachForm=[
-				(self.tsl, t, 0),
-				(self.tsl, l, 0),
-				(self.tsl, r, 95),
+				(self._tsl, t, 0),
+				(self._tsl, l, 0),
+				(self._tsl, r, 95),
 				
 				(eBttn, l, 0),
 				(eBttn, b, 0),
@@ -125,10 +146,10 @@ class ExportLayout( ui.FormLayout ):
 				(eClm, r, 2)], 
 			
 			attachControl=[
-				(self.tsl, b, 5, eBttn),
+				(self._tsl, b, 5, eBttn),
 				(eBttn, r, 0, eHB),
 				
-				(eClm, l, 5, self.tsl),
+				(eClm, l, 5, self._tsl),
 				(eClm, b, 5, eBttn)],
 			
 			attachNone=[
@@ -140,16 +161,42 @@ class ExportLayout( ui.FormLayout ):
 				(eClm, t)] )
 		
 		
-		# QUICK CONNECTIONS
+		# SETUP CONNECTIONS
 		###################
 		# connections we setup here as we don't need to keep the elements around
 		# for this simple secondary behaviour
+		anim_mode_custom.e_changeCommand = self._range_mode_changed
+		eBttn.e_released = self._on_export
+		eHB.e_released = self._show_help
+		
+		# SET INITIAL STATE
+		###################
+		self._range_mode_changed(anim_mode_custom) 
 		
 		
-		self._setup_connections()
+	#{ Callbacks
+	def _range_mode_changed(self, sender, *args):
+		"""React if the animation mode changes, either enable our custom entry
+		field, or disable it"""
+		enable = sender.p_select
+		self.range.setEnabled(enable)
 		
-	def _setup_connections(self):
-		"""Initialize the relationships between our elements"""
+		# set to playback range or clear the field
+		if enable:
+			self.range.set(	apianim.MAnimControl.animationStartTime().value(), 
+							apianim.MAnimControl.animationEndTime().value())
+		else:
+			self.range.clear()
+		# END additional setop
+			
+	def _on_export(self, sender, *args):
+		"""Perform the actual export after gathering UI data"""
+		pass
+	
+	def _show_help(self, sender, *args):
+		print "TODO: link to offline docs once they are written"
+		
+	#} END callbacks
 		
 	
 	
@@ -162,7 +209,7 @@ class ImportLayout( ui.FormLayout ):
 		# prefix
 		if iRow1:
 			iPrefCB = ui.CheckBox(w=68, l="add prefix:")
-			iPrefTF = ui.TextField(en=0)
+			iPrefTF = ui.TextField()
 		iRow1.setParentActive()
 		
 		# search and replace
@@ -171,18 +218,18 @@ class ImportLayout( ui.FormLayout ):
 		iRow2.p_cw = (3, 42)
 		if iRow2:
 			iSearchCB = ui.CheckBox(w=55, l="search:")
-			iSearchTF = ui.TextField(en=0, w=50)
+			iSearchTF = ui.TextField(w=50)
 			ui.Text(w=42, l=" replace:")
-			iReplaceTF = ui.TextField(en=0, w=45)
+			iReplaceTF = ui.TextField(w=45)
 		iRow2.setParentActive()
 		
 		small = 20
-		iAddBttn = ui.Button(en=0, h=small, l="Add")
-		iTscl = ui.TextScrollList(name="AnimIOSearchReplace", en=0, w=190, numberOfRows=3, allowMultiSelection=True)
-		iDelBttn = ui.Button(en=0, h=small, l="Remove Selected")
+		iAddBttn = ui.Button(h=small, l="Add")
+		iTscl = ui.TextScrollList(name="AnimIOSearchReplace", w=190, numberOfRows=3, allowMultiSelection=True)
+		iDelBttn = ui.Button(h=small, l="Remove Selected")
 		
 		# filter
-		iFilterL = ui.TextScrollList(name="AnimIOFilter", w=180, en=0, numberOfRows=5, allowMultiSelection=True)
+		iFilterL = ui.TextScrollList(name="AnimIOFilter", w=180, numberOfRows=5, allowMultiSelection=True)
 		iFilterCB = ui.CheckBox(w=100, l="filtered input:")
 	
 		# buttons
@@ -209,8 +256,8 @@ class ImportLayout( ui.FormLayout ):
 			iRow3 = ui.RowLayout(nc=2, cw=(1, 45), adj=2)
 			iRow3.p_cw=(2, 40)
 			if iRow3:
-				iSTrTf = ui.TextField(en=0, w=44)
-				iETrTf = ui.TextField(en=0, w=38)
+				iSTrTf = ui.TextField(w=44)
+				iETrTf = ui.TextField(w=38)
 			iRow3.setParentActive()
 			iTrRadioG.append(ui.RadioButton(w=90, cl=iTrCol, l="last pose", al="left"))
 			iTrRadioG.append(ui.RadioButton(w=90, cl=iTrCol, l="firs pose", al="left"))
@@ -276,6 +323,7 @@ class ImportLayout( ui.FormLayout ):
 		
 
 class AnimIO_UI( ui.Window ):
+	
 	def __init__(self, *args, **kwargs):
 		self.p_title = "mfAnimIO v0.8.py"
 		self.p_wh = (320, 362)

@@ -60,7 +60,7 @@ global proc mfAnimIO_UI()
 		deleteUI mfAnimIOUI;
 			
 	$win = `window  -t "mfAnimIO v1.3" mfAnimIOUI`;
-	string $tabs = `tabLayout -i "ani/AnimIOTitle.xpm" -iv 1 `;
+	string $tabs = `tabLayout `;
 	
 	// --------------------------------------------------------	
 	// --------- export UI-------------------------------------
