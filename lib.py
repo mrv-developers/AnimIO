@@ -8,7 +8,7 @@ from mrv.maya.scene import Scene
 from mrv.maya.undo import UndoRecorder
 from mrv.path import Path
 
-import maya.OpenMayaAnim as manim
+import maya.OpenMayaAnim as apianim
 import maya.cmds as cmds
 
 import logging
@@ -257,10 +257,10 @@ class AnimationHandle( nt.Network ):
 		for s_plug, t_plug in iter_plugs:
 			s_animcrv=s_plug.mwn()
 			
-			if manim.MAnimUtil.isAnimated(t_plug):
+			if apianim.MAnimUtil.isAnimated(t_plug):
 				t_animcrv=t_plug.minput().mwn()
 			else:
-				t_animcrv=nt.Node(manim.MFnAnimCurve().create(t_plug))
+				t_animcrv=nt.Node(apianim.MFnAnimCurve().create(t_plug))
 			# END get new or existing animCurve
 				
 			cmds.copyKey(s_animcrv, time=sTimeRange, option="curve"  )

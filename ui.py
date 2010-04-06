@@ -126,9 +126,7 @@ class NodeSelector( ui.TextScrollList ):
 			self.p_append = self.kSelectedNodes
 		
 		for ns in RootNamespace.children():
-			if ns in ("UI", "shared"):
-				continue
-			self.p_append(ns)
+			self.p_append = ns
 		# END for each namespace in scene
 		
 		# reselect previous items
@@ -169,7 +167,7 @@ class NodeSelector( ui.TextScrollList ):
 	def show_seleted(self):
 		return self._show_selected
 		
-	def namespaces(self):
+	def selected_namespaces(self):
 		""":return: list(Namespace, ...) list of Namespace objects which have 
 		been selected"""
 		out = list()
@@ -183,6 +181,22 @@ class NodeSelector( ui.TextScrollList ):
 			assert ns.exists(), "Selected namespace did not exist: %s " % ns
 		# END for each item
 		return out
+		
+	def select_namespaces(self, iter_ns):
+		"""Select the given namespaces on our list if they exist.
+		:param iter_ns: iterable yielding namespace objects - they must be absolute
+		:return: self"""
+		for ns in iter_ns:
+			assert str(ns) != self.kSelectedNodes, "Cannot change our node-selection state here"
+			try:
+				self.p_selectItem = ns
+			except RuntimeError:
+				pass
+			# END ignore errors
+		# END for each namespace to selet
+		
+		return self
+		
 		
 	def iter_nodes(self, *args, **kwargs):
 		"""
@@ -208,7 +222,7 @@ class NodeSelector( ui.TextScrollList ):
 		# END handle selected nodes
 		
 		# HANDLE NAMESPACES
-		for ns in self.namespaces():
+		for ns in self.selected_namespaces():
 			iterators.append(ns.iterNodes(*args, **kwargs))
 		# END for each namespace
 		
@@ -341,7 +355,7 @@ class ExportLayout( ui.FormLayout ):
 	def _on_export(self, sender, *args):
 		"""Perform the actual export after gathering UI data"""
 		# NOTE: Ignores timerange for now
-		if not self.nodeselector.uses_selection() and not self.nodeselector.namespaces():
+		if not self.nodeselector.uses_selection() and not self.nodeselector.selected_namespaces():
 			raise ValueError("Please select what to export from the scroll list")
 		# END handle invalid input
 		
