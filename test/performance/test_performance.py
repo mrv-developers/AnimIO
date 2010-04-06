@@ -4,6 +4,9 @@ from animio.test.lib import *
 from animio import *
 
 import mrv.maya.nt as nt
+
+import maya.OpenMayaAnim as apianim 
+
 import time
 import sys
 
@@ -32,7 +35,7 @@ class TestPerformance( unittest.TestCase ):
 		# clear animation
 		st = time.time()
 		pa = nt.api.MPlugArray()
-		manim.MAnimUtil.findAnimatedPlugs(sellist, pa)
+		apianim.MAnimUtil.findAnimatedPlugs(sellist, pa)
 		
 		# do it the fast way - its easier to use mrv, but much faster to do it 
 		# directly
