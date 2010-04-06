@@ -5,6 +5,8 @@ import mrv.maya.nt as nt
 from mrv.maya.ns import Namespace
 from mrv.maya.ref import FileReference
 from mrv.maya.scene import Scene
+from mrv.maya.undo import UndoRecorder
+from mrv.path import Path
 
 import maya.OpenMayaAnim as manim
 import maya.cmds as cmds
@@ -12,9 +14,43 @@ import maya.cmds as cmds
 import logging
 log = logging.getLogger("animio.lib")
 
+__all__ = ('AnimInOutLibrary', 'AnimationHandle')
+
+
+
 class AnimInOutLibrary( object ):
-	"""contains default implementation"""
-	#{ Export/Import/Load 
+	"""contains default implementation for animation export and import"""
+	
+	#{ Export/Import/Load
+	@classmethod
+	@notundoable
+	def export(cls, destination_file, iter_nodes,  **kwargs):
+		"""Export animation retrieved from the given node iterator to the destination_file.
+		
+		:param destination_file: file to which to export the animation to
+		:param iter_nodes: iterator yielding nodes in a format compatible to ``AnimationHandle.set_animation``
+		:param **kwargs: passed to ``Scene.export``
+		:raise ValueError: if the passed in nodes have no animation
+		:return: destination_file as Path"""
+		rec = UndoRecorder()
+		rec.startRecording()
+		tmphandle = AnimationHandle()
+		tmphandle.set_animation(iter_nodes)
+		rec.stopRecording()
+		
+		try:
+			try:
+				tmphandle.iter_animation().next()
+			except StopIteration:
+				raise ValueError("Given nodes did not have any animation")
+			# END check for animation
+			
+			tmphandle.to_file(destination_file)
+			return Path(destination_file)
+		finally:
+			rec.undo()
+		# END revert to previous state
+		
 	
 	#} END Export/Import/Load
 	
@@ -83,15 +119,6 @@ class AnimationHandle( nt.Network ):
 		# mrv provides this:
 		target_plug_names = self.findPlug(self._s_connection_info_attr).masData().array()
 		
-		#  for a better understanding, without mrv and just api step by step it would look like this:
-		#  first we need a functionset initialized with the MObject of our node (in this case MFnDependencyNode)
-		# mfndep=nt.api.MFnDependencyNode(self.object())
-		#  the functionset MFnDependencyNode provides the findPlug function returning the MPlug of our attribute
-		# mplug=mfndep.findPlug(self._s_connection_info_attr)
-		#  MPlug offers no asStringArrayData so we have to get the data asMObject and initialize the MFnStingArrayData FunctionSet with it 
-		# mfnstr=nt.api.MFnStringArrayData(mplug.asMObject())
-		#  finaly we get the data as arry from MFnStringArrayData functionset
-		# target_plug_names=mfnstr.array()
 		assert len(target_plug_names) == len(self.affectedBy), "Number of animation nodes out of sync with their stored targets"
 		
 		# make iterator yielding source and target plug objects

@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 """Module containing the user interface implementation of the AnimIO library"""
-
+import animio.lib as lib
+import mrv.maya.nt as nt
 import mrv.maya.ui as ui
+import mrv.maya as mrvmaya
+from mrv.path import Path
+from mrv.maya.ns import Namespace, RootNamespace
+from mrv.maya.util import noneToList
 
 import maya.cmds as cmds
 import maya.OpenMayaAnim as apianim
 
+from itertools import chain
 import logging
 log = logging.getLogger("animio.ui")
 
@@ -71,8 +77,145 @@ class FloatRangeField( ui.RowLayout ):
 			# refresh the UI basically, also good to have the focus where you want it
 			field.setFocus()
 		# END for each child
-	#} END interface 
-
+		
+	#} END interface
+	
+	
+class NodeSelector( ui.TextScrollList ):
+	"""Element allowing the user to select nodes.
+	Either selected ones, or by namespace. The interface provides methods to retrieve
+	that information
+	
+	:note: requires update once the scene changes - the parent is responsible for this"""
+	
+	kSelectedNodes = "Selected Nodes"
+	
+	def __new__(cls, *args, **kwargs):
+		"""Initialize the instance according to our needs
+		
+		:param **kwargs: Additional configuration
+		
+			* **show_selected_nodes** : If True, default True, the user may specify 
+			to get the current node selection included in the managed set of nodes
+		"""
+		show_selected = kwargs.pop('show_selected_nodes', True)
+		if kwargs:
+			raise ValueError("Please do not specify any kwargs")
+		# END input handling
+		
+		kwargs['allowMultiSelection'] = 1
+		inst = super(NodeSelector, cls).__new__(cls, *args, **kwargs)
+		
+		inst._show_selected = show_selected
+		return inst
+		
+	#{ Callbacks
+	
+	#} END callbacks
+	
+	#{ Interface
+	
+	def update(self):
+		"""Call to force the element to update according to the contents of the
+		scene"""
+		curItems = noneToList(self.p_selectItem)
+		self.p_removeAll = 1
+		
+		# add all items according to the scene and the configuration
+		if self._show_selected:
+			self.p_append = self.kSelectedNodes
+		
+		for ns in RootNamespace.children():
+			if ns in ("UI", "shared"):
+				continue
+			self.p_append(ns)
+		# END for each namespace in scene
+		
+		# reselect previous items
+		for sli in curItems:
+			try:
+				self.p_selectItem = sli
+			except RuntimeError:
+				pass
+			# END ignore exceptions
+		# END for each previously selected item
+		
+	def uses_selection(self):
+		""":return: True if the user wants to handle selected nodes"""
+		return self.kSelectedNodes in noneToList(self.p_selectItem)
+		
+	def set_uses_selection(self, state):
+		"""Sets this element to return selected nodes when queried in 'iter_nodes' 
+		if state is True
+		:note: only works if set_show_selected was called with a True value
+		:return: self"""
+		if not self._show_selected:
+			raise ValueError("This element does not allow to use 'Selected Nodes'")
+			
+		if state:
+			self.p_selectItem = self.kSelectedNodes
+		else:
+			self.p_deselectItem = self.kSelectedNodes
+		# END 
+		return self
+			
+	def set_show_selected(self, state):
+		"""If state is True, we will allow the user to pick 'selected nodes'
+		:return: self"""
+		self._show_selected = state
+		self.update()
+		return self
+		
+	def show_seleted(self):
+		return self._show_selected
+		
+	def namespaces(self):
+		""":return: list(Namespace, ...) list of Namespace objects which have 
+		been selected"""
+		out = list()
+		for item_name in noneToList(self.p_selectItem):
+			if item_name == self.kSelectedNodes:
+				continue
+			# END skip sel node special item
+			
+			ns = Namespace(item_name)
+			out.append(ns)
+			assert ns.exists(), "Selected namespace did not exist: %s " % ns
+		# END for each item
+		return out
+		
+	def iter_nodes(self, *args, **kwargs):
+		"""
+		:return: iterator yielding all selected nodes ( if set by the user )
+			as well as all nodes in all selected namespaces
+		:param *args: passed to ``Namespace.iterNodes``
+		:param **kwargs: passed to ``Namespace.iterNodes``
+		:note: *args and **kwargs are passed to ``iterSelectionList`` as good 
+		as applicable"""
+		iterators = list()
+		
+		# HANDLE SELECTIONs
+		if self.uses_selection():
+			# configure the selection list iterator as good as we can
+			iterkwargs = dict()
+			if args:
+				iterkwargs['filterType'] = args[0]
+			# END use type filter
+			iterkwargs['asNode'] = kwargs.get('asNode', True)
+			iterkwargs['handlePlugs'] = False
+			
+			iterators.append(nt.activeSelectionList().mtoIter(**iterkwargs))
+		# END handle selected nodes
+		
+		# HANDLE NAMESPACES
+		for ns in self.namespaces():
+			iterators.append(ns.iterNodes(*args, **kwargs))
+		# END for each namespace
+		
+		return chain(*iterators)
+	
+	#} END interface
+		
 
 class ExportLayout( ui.FormLayout ):
 	"""Layout encapsulating all export functionality"""
@@ -86,7 +229,7 @@ class ExportLayout( ui.FormLayout ):
 	def __init__(self, *args, **kwargs):
 		
 		#{ members we care about 
-		self._tsl = None
+		self.nodeselector = None
 		self.range = None
 		self.filetype = None
 		self.rangetype = None
@@ -94,7 +237,7 @@ class ExportLayout( ui.FormLayout ):
 		
 		# CREATE UI
 		############
-		self._tsl = ui.TextScrollList(w=180, numberOfRows=5, allowMultiSelection=True)
+		self.nodeselector = NodeSelector()
 		eBttn = ui.Button(label="Export...", ann=self.aExport)
 		eHB = ui.Button(	label="?", ann=self.aHelp, w=22, h=22)
 		
@@ -104,14 +247,18 @@ class ExportLayout( ui.FormLayout ):
 		if eClm:
 			# TIME RANGE 
 			############
-			ui.Text(l="Timerange:", fn="boldLabelFont", al="left")
+			# NOTE: for now we deactivate the range, as we do not yet support it
+			ui.Text(l="Timerange:", fn="boldLabelFont", al="left").p_manage = False
 			self.rangetype = ui.RadioCollection()
 			if self.rangetype:
-				ui.RadioButton(l="complete anim.", sl=1)
+				ui.RadioButton(l="complete anim.", sl=1).p_manage = False
 				anim_mode_custom = ui.RadioButton(l="custom:")
+				anim_mode_custom.p_manage = False
 			# END radio collection
 			
 			self.range = FloatRangeField()
+			self.range.p_manage = False
+			
 			
 			ui.Separator(h=40, style="none")
 			
@@ -120,7 +267,7 @@ class ExportLayout( ui.FormLayout ):
 			ui.Text(l="Filetype", fn="boldLabelFont", align="left")
 			self.filetype = ui.RadioCollection()
 			if self.filetype:
-				ui.RadioButton(l="mayaASCII", sl=1)
+				ui.RadioButton(l="mayaAscii", sl=1)
 				ui.RadioButton(l="mayaBinary")
 			# END radio collection
 			
@@ -133,9 +280,9 @@ class ExportLayout( ui.FormLayout ):
 		t, b, l, r = self.kSides
 		self.setup(
 			attachForm=[
-				(self._tsl, t, 0),
-				(self._tsl, l, 0),
-				(self._tsl, r, 95),
+				(self.nodeselector, t, 0),
+				(self.nodeselector, l, 0),
+				(self.nodeselector, r, 95),
 				
 				(eBttn, l, 0),
 				(eBttn, b, 0),
@@ -146,10 +293,10 @@ class ExportLayout( ui.FormLayout ):
 				(eClm, r, 2)], 
 			
 			attachControl=[
-				(self._tsl, b, 5, eBttn),
+				(self.nodeselector, b, 5, eBttn),
 				(eBttn, r, 0, eHB),
 				
-				(eClm, l, 5, self._tsl),
+				(eClm, l, 5, self.nodeselector),
 				(eClm, b, 5, eBttn)],
 			
 			attachNone=[
@@ -171,10 +318,12 @@ class ExportLayout( ui.FormLayout ):
 		
 		# SET INITIAL STATE
 		###################
-		self._range_mode_changed(anim_mode_custom) 
+		self._range_mode_changed(anim_mode_custom)
+		self.update()
 		
 		
 	#{ Callbacks
+	
 	def _range_mode_changed(self, sender, *args):
 		"""React if the animation mode changes, either enable our custom entry
 		field, or disable it"""
@@ -191,14 +340,41 @@ class ExportLayout( ui.FormLayout ):
 			
 	def _on_export(self, sender, *args):
 		"""Perform the actual export after gathering UI data"""
-		pass
-	
+		# NOTE: Ignores timerange for now
+		if not self.nodeselector.uses_selection() and not self.nodeselector.namespaces():
+			raise ValueError("Please select what to export from the scroll list")
+		# END handle invalid input
+		
+		# GET FILEPATH
+		# on linux, only one filter is possible - it would be good to have a 
+		# capable file dialog coming from MRV ( in 2011 maybe just an adapter to 
+		# fileDialog2 )
+		file_path = cmds.fileDialog(mode=1,directoryMask="*.mb")
+		if not file_path:
+			return
+		# END bail out
+		
+		extlist = ( ".ma", ".mb" )
+		collection = [ p.basename() for p in ui.UI(self.filetype.p_collectionItemArray) ]
+		target_ext = extlist[collection.index(self.filetype.p_select)]
+		
+		file_path = Path(file_path)
+		file_path = file_path.stripext() + target_ext
+		
+		lib.AnimInOutLibrary.export(file_path, self.nodeselector.iter_nodes(asNode=False))
+		
 	def _show_help(self, sender, *args):
 		print "TODO: link to offline docs once they are written"
 		
 	#} END callbacks
-		
 	
+	#{ Interface 
+	def update(self):
+		"""Refresh our elements to represent the current scene state"""
+		self.nodeselector.update()
+	
+	#} END interface
+		
 	
 class ImportLayout( ui.FormLayout ):
 	"""Layout encapsulating all import functionality"""
@@ -322,28 +498,53 @@ class ImportLayout( ui.FormLayout ):
 				(iCol, b, -110, 50)])
 		
 
+class AnimIOLayout( ui.TabLayout ):
+	"""Represents a layout for exporting and importing animation"""
+	
+	def __init__(self, *args, **kwargs):
+		"""Initialize ourselves with ui elements"""
+		# CREATE ELEMENTS
+		#################
+		eFrame = ui.FrameLayout(label="Export Animation Of", labelAlign="top", borderStyle="etchedOut", mw=2, mh=5)
+		eFrame.p_mw = 2 
+		
+		if eFrame:
+			self.exportctrl = ExportLayout()
+		# END frame layout
+		self.setActive()
+		
+		iFrame = ui.FrameLayout(label="Import Animation", labelAlign="top", li=57, borderStyle="etchedOut", mw=2, mh=5)
+		if iFrame:
+			self.importctrl = ImportLayout()
+		# END frame layout
+		self.setActive()
+			
+		self.p_tabLabel = ((eFrame, "EXPORT"), (iFrame, "IMPORT"))
+		
+		# SETUP CALLBACKS
+		#################
+		mrvmaya.Scene.afterOpen = self.update
+		mrvmaya.Scene.afterNew = self.update
+		
+		
+		
+	#{ Callbacks
+	def uiDeleted(self):
+		"""Deregister our scene callbacks"""
+		mrvmaya.Scene.afterOpen.remove(self.update)
+		mrvmaya.Scene.afterNew.remove(self.update)
+	
+	def update(self, *args):
+		"""Update to represent the latest state of the scene"""
+		self.exportctrl.update()
+	#} END callbacks
+		
+
 class AnimIO_UI( ui.Window ):
 	
 	def __init__(self, *args, **kwargs):
 		self.p_title = "mfAnimIO v0.8.py"
 		self.p_wh = (320, 362)
 		
-		tab = ui.TabLayout()
-		if tab:
-			eFrame = ui.FrameLayout(label="Export Animation Of", labelAlign="top", borderStyle="etchedOut", mw=2, mh=5)
-			eFrame.p_mw = 2 
-			
-			if eFrame:
-				eForm = ExportLayout()
-			# END frame layout
-			tab.setActive()
-			
-			iFrame = ui.FrameLayout(label="Import Animation", labelAlign="top", li=57, borderStyle="etchedOut", mw=2, mh=5)
-			if iFrame:
-				eForm = ImportLayout()
-			# END frame layout
-			tab.setActive()
-		
-		tab.p_tabLabel = ((eFrame, "EXPORT"), (iFrame, "IMPORT"))
-		# END TabLayout
+		self.main = AnimIOLayout()
 		

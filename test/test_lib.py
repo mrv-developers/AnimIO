@@ -6,6 +6,8 @@ from animio import *
 import mrv.test.maya as tmrv
 import mrv.maya.nt as nt
 import mrv.maya as mrvmaya
+from mrv.path import Path
+from mrv.maya.ref import FileReference
 
 import maya.OpenMayaAnim as manim
 
@@ -226,21 +228,21 @@ class TestAnimationHandle( TestBase ):
 		cases=[(lambda x, y: True, None, str(num_anim), "", ""),
 		(lambda x, y: "Dodo" in x.name(), None, "0", "", ""),
 		(lambda x, y: "rotate" in x.name(), None, "", "rotate", "rotate"),
-		(lambda x, y: "Cone" in x.name(), None, "", "Cone", "Cone"),
-		(lambda x, y: "Cone" in y, None, "", "Cone", "Cone"),
-		(lambda x, y: "Cone" in x.name(), lambda x, y: y.replace("Cone", "Cube"), "", "Cone", "Cube"),
-		(lambda x, y: "Cone" in y, lambda x, y: y.replace("Cone", "Cube"), "0", "", ""),
-		(lambda x, y: "Cone" in y, lambda x, y: y.replace("Cube", "Cone"), "", "pC", "pC"),
-		(lambda x, y: True, lambda x, y: y.replace("nurbsSphere", "pCone"), "", "", "pC"),
-		(lambda x, y: True, lambda x, y: y.replace("nurbsSphere", "pC"), "", "", "pC"),
-		(lambda x, y: "Sphere" in x.name(), None, "", "Sphere", "Sphere")]
+		(lambda x, y: "cone" in x.name(), None, "", "cone", "cone"),
+		(lambda x, y: "cone" in y, None, "", "cone", "cone"),
+		(lambda x, y: "cone" in x.name(), lambda x, y: y.replace("cone", "cube"), "", "cone", "cube"),
+		(lambda x, y: "cone" in y, lambda x, y: y.replace("cone", "cube"), "0", "", ""),
+		(lambda x, y: "cone" in y, lambda x, y: y.replace("cube", "cone"), "", "c", "c"),
+		(lambda x, y: True, lambda x, y: y.replace("sphereAnimated", "coneAnimated"), "", "", "c"),
+		(lambda x, y: True, lambda x, y: y.replace("sphereAnimated", "pC"), "", "", "c"),
+		(lambda x, y: "sphere" in x.name(), None, "", "sphere", "sphere")]
 		
 		# test cases of arguments in tuple 
-		for argtpl in cases:
-			
+		for i, (predicate, converter, str_len_src_plgs, splug_name, dplug_name) in enumerate(cases):
+			print i
 			# get source - target lists
 			src_plgs, trgt_plgs = list(), list()
-			itty =  ahb.iter_assignments(predicate=argtpl[0], converter=argtpl[1])
+			itty =  ahb.iter_assignments(predicate=predicate, converter=converter)
 			for src_plg, trgt_plg in itty:
 				src_plgs.append(src_plg)
 				trgt_plgs.append(trgt_plg)
@@ -248,15 +250,19 @@ class TestAnimationHandle( TestBase ):
 			assert len(src_plgs) == len(trgt_plgs)
 			
 			# we have some plugs or the exact number we want 
-			if len(argtpl[2]):
-				assert len(src_plgs) == int(argtpl[2])
+			if len(str_len_src_plgs):
+				assert len(src_plgs) == int(str_len_src_plgs)
 			else:
 				assert len(src_plgs)
 				
 			# we got what we expected
 			for i in range(len(src_plgs)):
-				assert argtpl[3] in src_plgs[i].name()
-				assert argtpl[4] in trgt_plgs[i].name()
+				print splug_name, src_plgs[i].name()
+				print dplug_name, trgt_plgs[i].name()
+				print ""
+				assert splug_name in src_plgs[i].name()
+				assert dplug_name in trgt_plgs[i].name()
+			# END for each sourceplug/targetplug
 				
 	@with_scene('1still3moving.ma')
 	def test_paste( self ):
@@ -291,9 +297,12 @@ class TestAnimationHandle( TestBase ):
 		ahb.paste_animation((sfirst, sfirst+length), (sfirst+offset,sfirst+offset+length), option="scaleInsert")
 		
 		# paste animationdata on nodes without animation
-		cyl=nt.Node("pCylinder1")
+		cyl=nt.Node("cylinderStill")
 		assert len(nt.anim.AnimCurve.findAnimation([cyl])) == 0
-		ahb.paste_animation((sfirst, sfirst+length), (sfirst,sfirst+length), option="scaleReplace", predicate=lambda x, y:"pCylinder" in y, converter=lambda x,y: y.replace("pCube", "pCylinder"))
+		ahb.paste_animation((sfirst, sfirst+length), (sfirst,sfirst+length), 
+								option="scaleReplace", 
+								predicate=lambda x, y:"cylinder" in y, 
+								converter=lambda x,y: y.replace("cubeAnimated", "cylinderStill"))
 
 		# remove AnimationHandle and check if animation was pasted
 		ahb.delete()
@@ -307,5 +316,37 @@ class TestAnimationHandle( TestBase ):
 
 class TestLibrary( TestBase ):
 	
-	def _test_base( self ):
-		pass	
+	def _assert_no_handles(self):
+		assert len(list(AnimationHandle.iter_instances())) == 0
+	
+	@with_scene('1still3moving.ma')
+	def test_base( self ):
+		exp_file = Path(tempfile.mkstemp('.ma')[1])
+		exp_file.remove()		# just keep the path
+		
+		alib = AnimInOutLibrary
+		
+		# export with without any animation fails
+		self.failUnlessRaises(ValueError, alib.export, exp_file, iter(list()))
+		assert not exp_file.isfile()
+		self._assert_no_handles()
+		
+		# something is selected, but there is no animation 
+		nstill = nt.Node("cylinderStill")
+		self.failUnlessRaises(ValueError, alib.export, exp_file, (nstill,) )
+		assert not exp_file.isfile()
+		self._assert_no_handles()
+		
+		# something with keys works fine
+		nani = nt.Node('coneAnimated')
+		alib.export(exp_file, (nani,))
+		assert exp_file.isfile()
+		self._assert_no_handles()
+		
+		# import from the previous file, use remapping to get the animation onto still object
+		
+		exp_file.remove()
+		
+		
+		
+		
