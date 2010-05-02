@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from animio.test.lib import *
-from animio import *
+from animio.ui import *
 import tempfile
 
 from mrv.maya import Scene

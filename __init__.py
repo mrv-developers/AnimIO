@@ -61,7 +61,3 @@ def _assure_mrv_is_available():
 #} END initilization
 
 _assure_mrv_is_available()
-
-# import basic modules
-from lib import *
-from ui import *

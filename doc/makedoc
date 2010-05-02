@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Command to build the documentation"""
+__docformat__ = "restructuredtext"
+
+import os
+import sys
+
+
+#{ Initialization
+
+def _adjust_python_path(*paths):
+	"""Adjust python path variable to contain all paths we need to build docs
+	:param paths: the paths to add to the python path"""
+	# adjust the python path in order to allow subproecesses to use our 
+	# package right away
+	import mrv.cmds.base as cmdsbase
+	for path in paths:
+		cmdsbase.update_env_path(os.environ, 'PYTHONPATH', path)
+
+def _get_package_info():
+	""":return: tuple(root_path, package_root_path, root_package_name ) tuple of the path containing
+	all modules, path containing the root package, as well as the name of our root package 
+	as deduced from the package_root_path"""
+	ospd = os.path.dirname
+	rootpath = ospd(ospd(os.path.realpath(os.path.abspath(__file__))))
+	packageroot = ospd(rootpath)
+	packagename = os.path.basename(rootpath)
+	return (rootpath, packageroot, packagename)
+
+def prepare_root_package():
+	"""Assure we are able to import our root package. If this is not the case, 
+	resort to manually adjusting the sys.path."""
+	rootpath, packageroot, packagename = _get_package_info()
+	
+	# in any case, add the mrv source directory to the path so that 
+	# sphinx extensions can be found
+	# This needs to be in the PythonPath
+	mrvdocpath = os.path.join(rootpath, 'ext', 'mrv', 'doc')
+	
+	try:
+		__import__(packagename)
+		_adjust_python_path(mrvdocpath)
+	except ImportError:
+		
+		sys.path.insert(0, packageroot)
+		try:
+			__import__(packagename)
+		except ImportError, e:
+			raise EnvironmentError("Could import root package %r with error %s" % (packagename, e))
+		else:
+			_adjust_python_path(packageroot, mrvdocpath)
+		# END exception handling
+	else:
+		return
+	# END assure root package can be imported
+
+def makedoc_main(args):
+	"""Call the mrv base function"""
+	prepare_root_package()
+	from mrv.doc.base import DocGenerator
+	
+	rp, prp, packagename = _get_package_info()
+	DocGenerator.rootpackage = packagename
+	
+	epydoc_cfg = """[epydoc]
+name: AnimIO
+url: http://gitorious.org/animio
+
+sourcecode: yes
+modules: unittest
+modules: ../
+
+exclude: %s.test,%s.doc
+
+output: html""" % (packagename, packagename)
+
+	DocGenerator.epydoc_cfg = epydoc_cfg
+	DocGenerator.makedoc(args)
+	
+#} END initialization
+
+
+# run the script 
+if __name__ == "__main__":
+	makedoc_main(sys.argv[1:])

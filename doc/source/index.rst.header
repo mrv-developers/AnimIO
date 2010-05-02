@@ -21,13 +21,3 @@ Module Summary
 	:nosignatures:
 	:toctree: generated/
 	
-	animio.lib
-	animio.ui
-	
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-

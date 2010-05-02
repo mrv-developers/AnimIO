@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Module containing the user interface implementation of the AnimIO library"""
+__docformat__ = "restructuredtext"
+
 import animio.lib as lib
 import mrv.maya.nt as nt
 import mrv.maya.ui as ui

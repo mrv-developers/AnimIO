@@ -37,7 +37,7 @@ def with_scene( basename ):
 
 		scene_loader.__name__ = func.__name__
 		return scene_loader
-	# END wrapper	
+	# END wrapper
 	return wrapper
 
 #} END decorator

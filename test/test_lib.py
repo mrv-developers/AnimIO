@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """General library testing"""
 from animio.test.lib import *
-from animio import *
+from animio.lib import *
 
 import mrv.test.maya as tmrv
 import mrv.maya.nt as nt
 import mrv.maya as mrvmaya
+from  mrv.maya.ns import Namespace 
 from mrv.path import Path
 from mrv.maya.ref import FileReference
 
 import maya.OpenMayaAnim as manim
+import maya.cmds as cmds
 
 import time
 import tempfile
@@ -239,7 +241,6 @@ class TestAnimationHandle( TestBase ):
 		
 		# test cases of arguments in tuple 
 		for i, (predicate, converter, str_len_src_plgs, splug_name, dplug_name) in enumerate(cases):
-			print i
 			# get source - target lists
 			src_plgs, trgt_plgs = list(), list()
 			itty =  ahb.iter_assignments(predicate=predicate, converter=converter)
@@ -257,9 +258,6 @@ class TestAnimationHandle( TestBase ):
 				
 			# we got what we expected
 			for i in range(len(src_plgs)):
-				print splug_name, src_plgs[i].name()
-				print dplug_name, trgt_plgs[i].name()
-				print ""
 				assert splug_name in src_plgs[i].name()
 				assert dplug_name in trgt_plgs[i].name()
 			# END for each sourceplug/targetplug
