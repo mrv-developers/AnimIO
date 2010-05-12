@@ -14,9 +14,9 @@ def _adjust_python_path(*paths):
 	:param paths: the paths to add to the python path"""
 	# adjust the python path in order to allow subproecesses to use our 
 	# package right away
-	import mrv.cmds.base as cmdsbase
+	import mrv.cmd.base as cmdbase
 	for path in paths:
-		cmdsbase.update_env_path(os.environ, 'PYTHONPATH', path)
+		cmdbase.update_env_path(os.environ, 'PYTHONPATH', path)
 
 def _get_package_info():
 	""":return: tuple(root_path, package_root_path, root_package_name ) tuple of the path containing
@@ -61,21 +61,9 @@ def makedoc_main(args):
 	from mrv.doc.base import DocGenerator
 	
 	rp, prp, packagename = _get_package_info()
-	DocGenerator.rootpackage = packagename
 	
-	epydoc_cfg = """[epydoc]
-name: AnimIO
-url: http://gitorious.org/animio
-
-sourcecode: yes
-modules: unittest
-modules: ../
-
-exclude: %s.test,%s.doc
-
-output: html""" % (packagename, packagename)
-
-	DocGenerator.epydoc_cfg = epydoc_cfg
+	DocGenerator.epydoc_modules = "modules: unittest\nmodules: ../"
+	DocGenerator.epydoc_exclude = "%s.test,%s.doc" % (packagename, packagename)
 	DocGenerator.makedoc(args)
 	
 #} END initialization

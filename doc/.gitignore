@@ -1,4 +1,5 @@
 source/generated
 build
 source/index.rst
+*.version_info
 

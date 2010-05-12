@@ -4,14 +4,40 @@ import sys
 import glob 
 
 #{ Configuration 
+# The configuration provided here is used by the template to learn more about 
+# your particular project. Additionally it is used during distribution
+
 
 # the minimum version of MRV that you require to work properly - usually the 
 # version you used during development, its worth testing older versions though to 
 # be more compatible 
 mrv_min_version = (1, 0, 0)		# ( major, minor, micro )
 
+# Information about the version of your tool
+#               major, minor, micro, releaselevel, serial
+version_info = (1,     0,     0,     'Preview',        0)
+
 # the name of your tool or program
-tool_name = "AnimIO"
+project_name = "AnimIO"
+
+# Author Name
+author = "Martin Freitag & Sebastian Thiel"
+
+# Authors Email
+author_email = ''
+
+# url of the project's main web presence
+url = 'http://gitorious.org/animio'
+
+# A short description of your project
+description = 'Convenient Animation Export and Import'
+
+# License Identification String
+license = "BSD License"
+
+# Additional Keyword Arguments to be passed to distutils.core.setup
+# This should include the 'classifiers' keyword which is important to pipy
+setup_kwargs = dict()
 
 #} END configuration
 
@@ -54,7 +80,7 @@ def _assure_mrv_is_available():
 	mmajor, mminor, mmicro = mrv_min_version
 	major, minor, micro = mrv.version_info[:3]
 	if major < mmajor or minor < mminor or micro < mmicro:
-		raise EnvironmentError( "%s requires MRV version %i.%i.%i or higher, got %i.%i.%i instead" % ((tool_name, ) + mrv_min_version + mrv.version_info[:3]))   
+		raise EnvironmentError( "%s requires MRV version %i.%i.%i or higher, got %i.%i.%i instead" % ((project_name, ) + mrv_min_version + mrv.version_info[:3]))   
 	# END verify MRV version
 	
 
