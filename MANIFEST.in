@@ -1,0 +1,15 @@
+
+# if some of the following gets included, check the tests and fixtures as 
+# they have to be included as well
+
+graft test
+
+recursive-include doc *.py makedoc
+graft doc/source
+prune doc/source/generated
+
+include AUTHORS
+
+graft ext
+global-exclude .git*
+global-exclude *.pyc

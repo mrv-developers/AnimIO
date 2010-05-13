@@ -24,7 +24,7 @@ project_name = "AnimIO"
 author = "Martin Freitag & Sebastian Thiel"
 
 # Authors Email
-author_email = ''
+author_email = 'not@given.com'
 
 # url of the project's main web presence
 url = 'http://gitorious.org/animio'
