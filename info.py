@@ -47,12 +47,20 @@ setup_kwargs = dict()
 # paths to executables, relative to our project root
 regression_test_exec = 'ext/mrv/test/bin/tmrvr'
 nosetest_exec = 'ext/mrv/test/bin/tmrv'
-makedoc_exec = 'doc/makedoc'
+makedoc_exec = '../ext/mrv/doc/makedoc'
 
 setup_kwargs = dict(
 				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},
 				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), 
 											'exclude_items' 		: ('mrv.doc', 'mrv.test')} )
+				)
+
+
+# Optionally taken into consideration by the DocGenerator implementation 
+doc_config = dict(
+				epydoc_show_source = 'yes', 
+				epydoc_modules = "modules: unittest\nmodules: ../",  
+				epydoc_exclude = "%s.test,%s.doc" % (root_package, root_package),
 				)
 
 #} END configuration
