@@ -43,4 +43,16 @@ license = "BSD License"
 # This should include the 'classifiers' keyword which is important to pipy
 setup_kwargs = dict()
 
+
+# paths to executables, relative to our project root
+regression_test_exec = 'ext/mrv/test/bin/tmrvr'
+nosetest_exec = 'ext/mrv/test/bin/tmrv'
+makedoc_exec = 'doc/makedoc'
+
+setup_kwargs = dict(
+				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},
+				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), 
+											'exclude_items' 		: ('mrv.doc', 'mrv.test')} )
+				)
+
 #} END configuration

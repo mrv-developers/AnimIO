@@ -14,7 +14,9 @@ def include_setup_py():
 	try:
 		execfile(setuppath, globals())
 	except Exception, e:
-		raise EnvironmentError("Could not execute setup.py at %r with error %s" % (setuppath, e))
+		# lets show the original error
+		print "Could not execute setup.py at %r" % setuppath
+		raise
 	# END exception handling
 
 # main will be executed automatically

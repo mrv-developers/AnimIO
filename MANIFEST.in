@@ -8,8 +8,17 @@ recursive-include doc *.py makedoc
 graft doc/source
 prune doc/source/generated
 
+
 include AUTHORS
 
+# minimal mrv with enough support for own unittests, skipping the mrv ones though
 graft ext
+prune ext/mrv/test
+graft ext/mrv/test/bin
+graft ext/mrv/test/cmd
+include ext/mrv/test/maya/util.py
+include ext/mrv/test/maya/__init__.py
+graft ext/mrv/test/lib
+prune ext/mrv/doc
 global-exclude .git*
 global-exclude *.pyc
