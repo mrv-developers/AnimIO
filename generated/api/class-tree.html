@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class Hierarchy</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">&nbsp;</td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="class-tree.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<center><b>
+ [ <a href="module-tree.html">Module Hierarchy</a>
+ | <a href="class-tree.html">Class Hierarchy</a> ]
+</b></center><br />
+<h1 class="epydoc">Class Hierarchy</h1>
+<ul class="nomargin-top">
+    <li> <strong class="uidlink">animio.setup.BaseDistribution</strong>:
+      <em class="summary">The core of the Distutils.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.Distribution-class.html">animio.setup.Distribution</a></strong>:
+      <em class="summary">Customize available options and behaviour to work with mrv and derived projects</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">distutils.cmd.Command</strong>:
+      <em class="summary">Abstract base class for defining command classes, the &quot;worker 
+        bees&quot; of the Distutils.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.DocDistro-class.html">animio.setup.DocDistro</a></strong>:
+      <em class="summary">Build the documentation, and include everything into the git repository if
+required.</em>
+    </li>
+    <li> <strong class="uidlink">distutils.command.build_py.build_py</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.BuildPython-class.html">animio.setup.BuildPython</a></strong>:
+      <em class="summary">Customize the command preparing python modules in order to skip copying
+original py files if compile is specified.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">distutils.command.build_scripts.build_scripts</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.BuildScripts-class.html">animio.setup.BuildScripts</a></strong>:
+      <em class="summary">Uses our way to adjust the first line of the script, additionally rename
+the executable to indicate the required interpreter.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">distutils.command.install.install</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.InstallCommand-class.html">animio.setup.InstallCommand</a></strong>:
+      <em class="summary">Assure compilation is done by build_py</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">distutils.command.install_lib.install_lib</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.InstallLibCommand-class.html">animio.setup.InstallLibCommand</a></strong>:
+      <em class="summary">Makes sure the compilation does not happen - if the user wants it, it will
+only work in the build_py command.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">distutils.command.sdist.sdist</strong>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.GitSourceDistribution-class.html">animio.setup.GitSourceDistribution</a></strong>:
+      <em class="summary">Instead of creating an archive, we put the source tree into a git repository</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.FormLayout</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.FormLayout</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.nt.Network</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.RowLayout</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.TabLayout</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.TextScrollList</strong>
+    </li>
+    <li> <strong class="uidlink">mrv.maya.ui.Window</strong>
+    </li>
+    <li> <strong class="uidlink">object</strong>:
+      <em class="summary">The most base type</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.lib.AnimInOutLibrary-class.html">animio.lib.AnimInOutLibrary</a></strong>:
+      <em class="summary">contains default implementation for animation export and import</em>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup.Distribution-class.html">animio.setup.Distribution</a></strong>:
+      <em class="summary">Customize available options and behaviour to work with mrv and derived projects</em>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup._GitMixin-class.html" onclick="show_private();">animio.setup._GitMixin</a></strong>:
+      <em class="summary">Provides functionality to add files and folders within a base directory
+into the <strong>root</strong> of a git repository of our choice</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.BuildPython-class.html">animio.setup.BuildPython</a></strong>:
+      <em class="summary">Customize the command preparing python modules in order to skip copying
+original py files if compile is specified.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup.DocDistro-class.html">animio.setup.DocDistro</a></strong>:
+      <em class="summary">Build the documentation, and include everything into the git repository if
+required.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup.GitSourceDistribution-class.html">animio.setup.GitSourceDistribution</a></strong>:
+      <em class="summary">Instead of creating an archive, we put the source tree into a git repository</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup._RegressionMixin-class.html" onclick="show_private();">animio.setup._RegressionMixin</a></strong>:
+      <em class="summary">Provides a simple interface allowing to perform a regression test</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="animio.setup.BuildPython-class.html">animio.setup.BuildPython</a></strong>:
+      <em class="summary">Customize the command preparing python modules in order to skip copying
+original py files if compile is specified.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="animio.setup.GitSourceDistribution-class.html">animio.setup.GitSourceDistribution</a></strong>:
+      <em class="summary">Instead of creating an archive, we put the source tree into a git repository</em>
+    </li>
+    </ul>
+    </li>
+    </ul>
+    </li>
+</ul>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Trees&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

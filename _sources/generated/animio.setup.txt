@@ -1,0 +1,186 @@
+:mod:`animio.setup`
+===================
+:api:`animio.setup`
+
+
+.. automodule:: animio.setup
+
+
+Functions
+----------
+
+.. autofunction:: __init__
+
+.. autofunction:: convert_path
+
+.. autofunction:: find_packages
+
+.. autofunction:: include_setup_py
+
+.. autofunction:: main
+
+.. autofunction:: dirname
+
+.. autofunction:: setup
+
+
+
+
+Classes
+--------
+
+:api:`animio.setup.Distribution`
+
+.. autoclass:: Distribution
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.BuildPython`
+
+.. autoclass:: BuildPython
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.BuildScripts`
+
+.. autoclass:: BuildScripts
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.Command`
+
+.. autoclass:: Command
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.Distribution`
+
+.. autoclass:: Distribution
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.DocDistro`
+
+.. autoclass:: DocDistro
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.GitSourceDistribution`
+
+.. autoclass:: GitSourceDistribution
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.InstallCommand`
+
+.. autoclass:: InstallCommand
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.InstallLibCommand`
+
+.. autoclass:: InstallLibCommand
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup._GitMixin`
+
+.. autoclass:: _GitMixin
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup._RegressionMixin`
+
+.. autoclass:: _RegressionMixin
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.build_py`
+
+.. autoclass:: build_py
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.build_scripts`
+
+.. autoclass:: build_scripts
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.chain`
+
+.. autoclass:: chain
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.install`
+
+.. autoclass:: install
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.install_lib`
+
+.. autoclass:: install_lib
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.setup.sdist`
+
+.. autoclass:: sdist
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+

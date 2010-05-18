@@ -1,0 +1,11 @@
+:mod:`animio.info`
+==================
+:api:`animio.info`
+
+
+.. automodule:: animio.info
+
+
+
+
+

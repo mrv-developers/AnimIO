@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>animio.setup.DocDistro</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="animio-module.html">Package&nbsp;animio</a> ::
+        <a href="animio.setup-module.html">Module&nbsp;setup</a> ::
+        Class&nbsp;DocDistro
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="animio.setup.DocDistro-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class DocDistro</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+           object --+    
+                    |    
+            <a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a> --+
+                        |
+distutils.cmd.Command --+
+                        |
+                       <strong class="uidshort">DocDistro</strong>
+</pre>
+
+<hr />
+Build the documentation, and include everything into the git repository if
+required.
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
+      Allows to configure some details, such as
+* remote name - name of the remote for which branches should be created/updated</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#_doc_directory" class="summary-sig-name" onclick="show_private();">_doc_directory</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+path to the doc directory which (usually) contains the makedoc
+executable</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro._doc_directory">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_init_doc_generator"></a><span class="summary-sig-name">_init_doc_generator</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      initialize the docgen instance, and return it</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro._init_doc_generator">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#build_documentation" class="summary-sig-name">build_documentation</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Build the documentation with our current version tag - this allows
+it to be included in the release as it has been updated</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.build_documentation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="create_zip_archive"></a><span class="summary-sig-name">create_zip_archive</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">html_out_dir</span>)</span><br />
+      Create a zip archive from the data in the html output directory
+:return: path to the created zip file</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.create_zip_archive">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#finalize_options" class="summary-sig-name">finalize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Assure our args are of the correct type</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.finalize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#initialize_options" class="summary-sig-name">initialize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Set default values for all the options that this command supports.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.initialize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.DocDistro-class.html#run" class="summary-sig-name">run</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      A command's raison d'etre: carry out the action it exists to perform,
+      controlled by the options initialized in 'initialize_options()', 
+      customized by other commands, the setup script, the command-line, and
+      config files, and finalized in 'finalize_options()'.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.run">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#add_files_and_commit">add_files_and_commit</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#branch_name">branch_name</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#item_chooser">item_chooser</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#push_to_remotes">push_to_remotes</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#set_head_to">set_head_to</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#update_git">update_git</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>__getattr__</code>,
+      <code>announce</code>,
+      <code>copy_file</code>,
+      <code>copy_tree</code>,
+      <code>debug_print</code>,
+      <code>dump_options</code>,
+      <code>ensure_dirname</code>,
+      <code>ensure_filename</code>,
+      <code>ensure_finalized</code>,
+      <code>ensure_string</code>,
+      <code>ensure_string_list</code>,
+      <code>execute</code>,
+      <code>get_command_name</code>,
+      <code>get_finalized_command</code>,
+      <code>get_sub_commands</code>,
+      <code>make_archive</code>,
+      <code>make_file</code>,
+      <code>mkpath</code>,
+      <code>move_file</code>,
+      <code>reinitialize_command</code>,
+      <code>run_command</code>,
+      <code>set_undefined_options</code>,
+      <code>spawn</code>,
+      <code>warn</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b> (private):
+      <code>_ensure_stringlike</code>,
+      <code>_ensure_tested_string</code>
+      </p></div>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#adjust_user_options">adjust_user_options</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Static Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-StaticMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#__new__">__new__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="branch_suffix"></a><span class="summary-name">branch_suffix</span> = <code title="'-doc'"><code class="variable-quote">'</code><code class="variable-string">-doc</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="cmdname"></a><span class="summary-name">cmdname</span> = <code title="'docdist'"><code class="variable-quote">'</code><code class="variable-string">docdist</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="doc_dir"></a><span class="summary-name">doc_dir</span> = <code title="'doc'"><code class="variable-quote">'</code><code class="variable-string">doc</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="animio.setup.DocDistro-class.html#user_options" class="summary-name">user_options</a> = <code title="[('zip-archive', 'z', 'If set, a zip archive will be created'),
+ ('from-build-version',
+  'b',
+  'If set, the documentation will be built from the recent build_py or\
+ sdist version'),
+ ('dist-remotes=',
+  'd',
+  'Default remotes to push the distribution branches to'),
+..."><code class="variable-group">[</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">zip-archive</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">If set, a zip archive wi</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#prev_head_name">prev_head_name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>sub_commands</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Allows to configure some details, such as
+* remote name - name of the remote for which branches should be created/updated
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="animio.setup-module.html#__init__">__init__</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_doc_directory"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_doc_directory</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro._doc_directory">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>path to the doc directory which (usually) contains the makedoc
+executable</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="build_documentation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">build_documentation</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.build_documentation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Build the documentation with our current version tag - this allows
+it to be included in the release as it has been updated
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>tuple(html_base, Bool) tuple with base directory containing all html
+files ( possibly with subdirectories ), and a boolean which is True if
+the documentation was build, False if it was still uptodate</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.finalize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Assure our args are of the correct type
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.finalize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="initialize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.initialize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set default values for all the options that this command supports.  
+  Note that these defaults may be overridden by other commands, by the 
+  setup script, by config files, or by the command-line.  Thus, this is not
+  the place to code dependencies between options; generally, 
+  'initialize_options()' implementations are just a bunch of &quot;self.foo
+  = None&quot; assignments.</p>
+  <p>This method must be implemented by all command classes.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.initialize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="run"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">run</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#DocDistro.run">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>A command's raison d'etre: carry out the action it exists to perform, 
+  controlled by the options initialized in 'initialize_options()', 
+  customized by other commands, the setup script, the command-line, and 
+  config files, and finalized in 'finalize_options()'.  All terminal output
+  and filesystem interaction should be done by 'run()'.</p>
+  <p>This method must be implemented by all command classes.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.run
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="user_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">user_options</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">zip-archive</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">z</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">If set, a zip archive will be created</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">from-build-version</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">b</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">If set, the documentation will be built from the recent build_py or</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string"> sdist version</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+ <code class="variable-group">(</code><code class="variable-quote">'</code><code class="variable-string">dist-remotes=</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">d</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+  <code class="variable-quote">'</code><code class="variable-string">Default remotes to push the distribution branches to</code><code class="variable-quote">'</code><code class="variable-group">)</code><code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

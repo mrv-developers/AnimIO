@@ -1,0 +1,92 @@
+<html>
+<head>
+<title>animio.info</title>
+</head>
+<body>
+animio.info
+<style>
+.coverage pre {float: left; margin: 0px 1em; border: none;
+               padding: 0px; }
+.num pre { margin: 0px }
+.nocov, .nocov pre {background-color: #faa}
+.cov, .cov pre {background-color: #cfc}
+div.coverage div { clear: both; height: 1.1em}
+</style>
+<div class="stats">
+Covered: 26 lines<br/>
+Missed: 0 lines<br/>
+Skipped 41 lines<br/>
+Percent: 100 %<br/>
+
+</div>
+<div class="coverage">
+<div class="skip"><span class="num"><pre> 1</pre></span><pre># -*- coding: utf-8 -*-</pre></div>
+<div class="cov"><span class="num"><pre> 2</pre></span><pre>import os</pre></div>
+<div class="cov"><span class="num"><pre> 3</pre></span><pre>import sys</pre></div>
+<div class="cov"><span class="num"><pre> 4</pre></span><pre>import glob </pre></div>
+<div class="skip"><span class="num"><pre> 5</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre> 6</pre></span><pre>#{ Configuration </pre></div>
+<div class="skip"><span class="num"><pre> 7</pre></span><pre># The configuration provided here is used by the template to learn more about </pre></div>
+<div class="skip"><span class="num"><pre> 8</pre></span><pre># your particular project. Additionally it is used during distribution</pre></div>
+<div class="skip"><span class="num"><pre> 9</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>10</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>11</pre></span><pre># the minimum version of MRV that you require to work properly - usually the </pre></div>
+<div class="skip"><span class="num"><pre>12</pre></span><pre># version you used during development, its worth testing older versions though to </pre></div>
+<div class="skip"><span class="num"><pre>13</pre></span><pre># be more compatible </pre></div>
+<div class="cov"><span class="num"><pre>14</pre></span><pre>mrv_min_version = (1, 0, 0)		# ( major, minor, micro )</pre></div>
+<div class="skip"><span class="num"><pre>15</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>16</pre></span><pre># Information about the version of your tool</pre></div>
+<div class="skip"><span class="num"><pre>17</pre></span><pre>#               major, minor, micro, releaselevel, serial</pre></div>
+<div class="cov"><span class="num"><pre>18</pre></span><pre>version = (0,     2,     0,     'Preview',        0)</pre></div>
+<div class="skip"><span class="num"><pre>19</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>20</pre></span><pre># the name of your tool or program</pre></div>
+<div class="cov"><span class="num"><pre>21</pre></span><pre>project_name = &quot;AnimIO&quot;</pre></div>
+<div class="skip"><span class="num"><pre>22</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>23</pre></span><pre># The name of the rootpackage/root-directory under which all other modules are </pre></div>
+<div class="skip"><span class="num"><pre>24</pre></span><pre># located</pre></div>
+<div class="cov"><span class="num"><pre>25</pre></span><pre>root_package = &quot;animio&quot;</pre></div>
+<div class="skip"><span class="num"><pre>26</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>27</pre></span><pre># Author Name</pre></div>
+<div class="cov"><span class="num"><pre>28</pre></span><pre>author = &quot;Martin Freitag &amp; Sebastian Thiel&quot;</pre></div>
+<div class="skip"><span class="num"><pre>29</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>30</pre></span><pre># Authors Email</pre></div>
+<div class="cov"><span class="num"><pre>31</pre></span><pre>author_email = 'not@provided.com'</pre></div>
+<div class="skip"><span class="num"><pre>32</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>33</pre></span><pre># url of the project's main web presence</pre></div>
+<div class="cov"><span class="num"><pre>34</pre></span><pre>url = 'http://gitorious.org/animio'</pre></div>
+<div class="skip"><span class="num"><pre>35</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>36</pre></span><pre># A short description of your project</pre></div>
+<div class="cov"><span class="num"><pre>37</pre></span><pre>description = 'Convenient Animation Export and Import'</pre></div>
+<div class="skip"><span class="num"><pre>38</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>39</pre></span><pre># License Identification String</pre></div>
+<div class="cov"><span class="num"><pre>40</pre></span><pre>license = &quot;BSD License&quot;</pre></div>
+<div class="skip"><span class="num"><pre>41</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>42</pre></span><pre># Additional Keyword Arguments to be passed to distutils.core.setup</pre></div>
+<div class="skip"><span class="num"><pre>43</pre></span><pre># This should include the 'classifiers' keyword which is important to pipy</pre></div>
+<div class="cov"><span class="num"><pre>44</pre></span><pre>setup_kwargs = dict()</pre></div>
+<div class="skip"><span class="num"><pre>45</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>46</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>47</pre></span><pre># paths to executables, relative to our project root</pre></div>
+<div class="cov"><span class="num"><pre>48</pre></span><pre>regression_test_exec = 'ext/mrv/test/bin/tmrvr'</pre></div>
+<div class="cov"><span class="num"><pre>49</pre></span><pre>nosetest_exec = 'ext/mrv/test/bin/tmrv'</pre></div>
+<div class="cov"><span class="num"><pre>50</pre></span><pre>makedoc_exec = '../ext/mrv/doc/makedoc'</pre></div>
+<div class="skip"><span class="num"><pre>51</pre></span><pre></pre></div>
+<div class="cov"><span class="num"><pre>52</pre></span><pre>setup_kwargs = dict(</pre></div>
+<div class="cov"><span class="num"><pre>53</pre></span><pre>				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},</pre></div>
+<div class="cov"><span class="num"><pre>54</pre></span><pre>				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), </pre></div>
+<div class="cov"><span class="num"><pre>55</pre></span><pre>											'exclude_items' 		: ('mrv.doc', 'mrv.test')} )</pre></div>
+<div class="cov"><span class="num"><pre>56</pre></span><pre>				)</pre></div>
+<div class="skip"><span class="num"><pre>57</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>58</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>59</pre></span><pre># Optionally taken into consideration by the DocGenerator implementation </pre></div>
+<div class="cov"><span class="num"><pre>60</pre></span><pre>doc_config = dict(</pre></div>
+<div class="cov"><span class="num"><pre>61</pre></span><pre>				epydoc_show_source = 'yes', </pre></div>
+<div class="cov"><span class="num"><pre>62</pre></span><pre>				epydoc_modules = &quot;modules: unittest\nmodules: ../&quot;,  </pre></div>
+<div class="cov"><span class="num"><pre>63</pre></span><pre>				epydoc_exclude = &quot;%s.test,%s.doc&quot; % (root_package, root_package),</pre></div>
+<div class="cov"><span class="num"><pre>64</pre></span><pre>				)</pre></div>
+<div class="skip"><span class="num"><pre>65</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>66</pre></span><pre>#} END configuration</pre></div>
+<div class="skip"><span class="num"><pre>67</pre></span><pre></pre></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>animio.setup.BuildScripts</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="animio-module.html">Package&nbsp;animio</a> ::
+        <a href="animio.setup-module.html">Module&nbsp;setup</a> ::
+        Class&nbsp;BuildScripts
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="animio.setup.BuildScripts-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class BuildScripts</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+                    distutils.cmd.Command --+    
+                                            |    
+distutils.command.build_scripts.build_scripts --+
+                                                |
+                                               <strong class="uidshort">BuildScripts</strong>
+</pre>
+
+<hr />
+Uses our way to adjust the first line of the script, additionally rename
+the executable to indicate the required interpreter. Otherwise scripts
+would override each other anyway.
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildScripts-class.html#copy_scripts" class="summary-sig-name">copy_scripts</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Copy each script listed in 'self.scripts'; if it's marked as a Python
+      script in the Unix way (first line matches 'first_line_re', ie.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.copy_scripts">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildScripts-class.html#finalize_options" class="summary-sig-name">finalize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Set final values for all the options that this command supports.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.finalize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildScripts-class.html#initialize_options" class="summary-sig-name">initialize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Set default values for all the options that this command supports.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.initialize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.command.build_scripts.build_scripts</code></b>:
+      <code>get_source_files</code>,
+      <code>run</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>__getattr__</code>,
+      <code>__init__</code>,
+      <code>announce</code>,
+      <code>copy_file</code>,
+      <code>copy_tree</code>,
+      <code>debug_print</code>,
+      <code>dump_options</code>,
+      <code>ensure_dirname</code>,
+      <code>ensure_filename</code>,
+      <code>ensure_finalized</code>,
+      <code>ensure_string</code>,
+      <code>ensure_string_list</code>,
+      <code>execute</code>,
+      <code>get_command_name</code>,
+      <code>get_finalized_command</code>,
+      <code>get_sub_commands</code>,
+      <code>make_archive</code>,
+      <code>make_file</code>,
+      <code>mkpath</code>,
+      <code>move_file</code>,
+      <code>reinitialize_command</code>,
+      <code>run_command</code>,
+      <code>set_undefined_options</code>,
+      <code>spawn</code>,
+      <code>warn</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b> (private):
+      <code>_ensure_stringlike</code>,
+      <code>_ensure_tested_string</code>
+      </p></div>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildScripts-class.html#handle_scripts" class="summary-sig-name">handle_scripts</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">scripts</span>,
+        <span class="summary-sig-arg">adjust_first_line</span>,
+        <span class="summary-sig-arg">suffix</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span><br />
+      Handle the given scripts to work for later installation
+:param scripts: paths to scripts to hanlde
+:param adjust_first_line: if True, the first line will receive the actual 
+        python version to match the version of the this python interpreter
+:param suffix: if given, the suffix is assumed to be a suffix for all scripts.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.handle_scripts">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="animio.setup.BuildScripts-class.html#re_script_first_line" class="summary-name">re_script_first_line</a> = <code title="re.compile(r'^(#!.*python)[0-9\.]*([ \t].*)?$')">re.compile(r'^<code class="re-group">(</code>#!.<code class="re-op">*</code>python<code class="re-group">)</code><code class="re-group">[</code>0<code class="re-op">-</code>9\.<code class="re-group">]</code><code class="re-op">*</code><code class="re-group">(</code><code class="re-group">[</code> \t<code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.command.build_scripts.build_scripts</code></b>:
+      <code>boolean_options</code>,
+      <code>description</code>,
+      <code>user_options</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>sub_commands</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="copy_scripts"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">copy_scripts</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.copy_scripts">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Copy each script listed in 'self.scripts'; if it's marked as a Python 
+  script in the Unix way (first line matches 'first_line_re', ie. starts 
+  with &quot;\#!&quot; and contains &quot;python&quot;), then adjust the 
+  first line to refer to the current Python interpreter as we copy.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.command.build_scripts.build_scripts.copy_scripts
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.finalize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set final values for all the options that this command supports. This 
+  is always called as late as possible, ie.  after any option assignments 
+  from the command-line or from other commands have been done.  Thus, this 
+  is the place to code option dependencies: if 'foo' depends on 'bar', then
+  it is safe to set 'foo' from 'bar' as long as 'foo' still has the same 
+  value it was assigned in 'initialize_options()'.</p>
+  <p>This method must be implemented by all command classes.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.finalize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="handle_scripts"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">handle_scripts</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">scripts</span>,
+        <span class="sig-arg">adjust_first_line</span>,
+        <span class="sig-arg">suffix</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string"></code><code class="variable-quote">'</code></span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.handle_scripts">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+Handle the given scripts to work for later installation
+:param scripts: paths to scripts to hanlde
+:param adjust_first_line: if True, the first line will receive the actual 
+        python version to match the version of the this python interpreter
+:param suffix: if given, the suffix is assumed to be a suffix for all scripts.
+        If scripts want to execfile each other, the name of the script needs adjustment
+        to actually work, which is unknown to the script in advance. Hence we fix
+        the string ourselves.
+        The suffix is assumed to be appended to all input script files, revealing the 
+        original script basename if the suffix is removed. The latter one is searched for 
+        in the script.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="initialize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildScripts.initialize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set default values for all the options that this command supports.  
+  Note that these defaults may be overridden by other commands, by the 
+  setup script, by config files, or by the command-line.  Thus, this is not
+  the place to code dependencies between options; generally, 
+  'initialize_options()' implementations are just a bunch of &quot;self.foo
+  = None&quot; assignments.</p>
+  <p>This method must be implemented by all command classes.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.initialize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="re_script_first_line"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">re_script_first_line</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+re.compile(r'^<code class="re-group">(</code>#!.<code class="re-op">*</code>python<code class="re-group">)</code><code class="re-group">[</code>0<code class="re-op">-</code>9\.<code class="re-group">]</code><code class="re-op">*</code><code class="re-group">(</code><code class="re-group">[</code> \t<code class="re-group">]</code>.<code class="re-op">*</code><code class="re-group">)</code><code class="re-op">?</code>$')
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

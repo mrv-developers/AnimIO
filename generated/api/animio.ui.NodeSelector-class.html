@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>animio.ui.NodeSelector</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="animio-module.html">Package&nbsp;animio</a> ::
+        <a href="animio.ui-module.html">Module&nbsp;ui</a> ::
+        Class&nbsp;NodeSelector
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="animio.ui.NodeSelector-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class NodeSelector</h1><p class="nomargin-top"><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+mrv.maya.ui.TextScrollList --+
+                             |
+                            <strong class="uidshort">NodeSelector</strong>
+</pre>
+
+<hr />
+Element allowing the user to select nodes.
+Either selected ones, or by namespace. The interface provides methods to retrieve
+that information
+
+<hr />
+<div class="fields">      <p><strong>Note:</strong>
+        requires update once the scene changes - the parent is responsible for this
+      </p>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.ui.NodeSelector-class.html#__new__" class="summary-sig-name">__new__</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Initialize the instance according to our needs</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.__new__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Interface</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update"></a><span class="summary-sig-name">update</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Call to force the element to update according to the contents of the
+scene</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.update">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.ui.NodeSelector-class.html#uses_selection" class="summary-sig-name">uses_selection</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+True if the user wants to handle selected nodes</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.uses_selection">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_uses_selection"></a><span class="summary-sig-name">set_uses_selection</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">state</span>)</span><br />
+      Sets this element to return selected nodes when queried in 'iter_nodes'
+if state is True
+:note: only works if set_show_selected was called with a True value
+:return: self</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.set_uses_selection">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="set_show_selected"></a><span class="summary-sig-name">set_show_selected</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">state</span>)</span><br />
+      If state is True, we will allow the user to pick 'selected nodes'
+:return: self</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.set_show_selected">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="show_seleted"></a><span class="summary-sig-name">show_seleted</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.show_seleted">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.ui.NodeSelector-class.html#selected_namespaces" class="summary-sig-name">selected_namespaces</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      been selected</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.selected_namespaces">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.ui.NodeSelector-class.html#select_namespaces" class="summary-sig-name">select_namespaces</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">iter_ns</span>)</span><br />
+      Select the given namespaces on our list if they exist.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.select_namespaces">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.ui.NodeSelector-class.html#iter_nodes" class="summary-sig-name">iter_nodes</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*args</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      as applicable</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.iter_nodes">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="kSelectedNodes"></a><span class="summary-name">kSelectedNodes</span> = <code title="&quot;Selected Nodes&quot;">&quot;Selected Nodes&quot;</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__new__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__new__</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.__new__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Initialize the instance according to our needs
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><p><strong class="pname"><code>**kwargs</code></strong> - Additional configuration</p>
+<ul class="rst-simple">
+<li><strong>show_selected_nodes</strong> : If True, default True, the user may specify</li>
+</ul>
+<p>to get the current node selection included in the managed set of nodes</p></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="uses_selection"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">uses_selection</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.uses_selection">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>True if the user wants to handle selected nodes</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="selected_namespaces"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">selected_namespaces</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.selected_namespaces">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  been selected
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>list(Namespace, ...) list of Namespace objects which have</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="select_namespaces"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">select_namespaces</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">iter_ns</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.select_namespaces">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Select the given namespaces on our list if they exist.
+:param iter_ns: iterable yielding namespace objects - they must be absolute
+:return: self
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="iter_nodes"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iter_nodes</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.ui-pysrc.html#NodeSelector.iter_nodes">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  as applicable
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>*args</code></strong> - passed to <tt class="rst-docutils literal"><span class="pre">Namespace.iterNodes</span></tt></li>
+        <li><strong class="pname"><code>**kwargs</code></strong> - passed to <tt class="rst-docutils literal"><span class="pre">Namespace.iterNodes</span></tt></li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>iterator yielding all selected nodes ( if set by the user )
+as well as all nodes in all selected namespaces</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        <a href="#id5"><span class="rst-problematic" id="rst-id6">*</span></a>args and <a href="#id7"><span class="rst-problematic" id="rst-id8">**</span></a>kwargs are passed to <tt class="rst-docutils literal"><span class="pre">iterSelectionList</span></tt> as good
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

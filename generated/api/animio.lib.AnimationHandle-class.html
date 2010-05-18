@@ -1,0 +1,832 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>animio.lib.AnimationHandle</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="animio-module.html">Package&nbsp;animio</a> ::
+        <a href="animio.lib-module.html">Module&nbsp;lib</a> ::
+        Class&nbsp;AnimationHandle
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="animio.lib.AnimationHandle-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class AnimationHandle</h1><p class="nomargin-top"><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+mrv.maya.nt.Network --+
+                      |
+                     <strong class="uidshort">AnimationHandle</strong>
+</pre>
+
+<hr />
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__new__"></a><span class="summary-sig-name">__new__</span>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">*args</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.__new__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Iteration</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#iter_animation" class="summary-sig-name">iter_animation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">asNode</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Returns:
+iterator yielding managed animation curves as wrapped Node or MObject</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_animation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#iter_assignments" class="summary-sig-name">iter_assignments</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">predicate</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">converter</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Returns:
+iterator yielding source-target assignments as plugs in a tuple(source_plug, target_plug)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_assignments">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Edit</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#clear" class="summary-sig-name">clear</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Forget our managed animation completely</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.clear">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#set_animation" class="summary-sig-name">set_animation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">iter_nodes</span>)</span><br />
+      The previous animation information will be removed.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.set_animation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#apply_animation" class="summary-sig-name">apply_animation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">converter</span>=<span class="summary-sig-default">None</span>)</span><br />
+      respective target plugs</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.apply_animation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Utilities</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#paste_animation" class="summary-sig-name">paste_animation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">sTimeRange</span>=<span class="summary-sig-default">tuple()</span>,
+        <span class="summary-sig-arg">tTimeRange</span>=<span class="summary-sig-default">tuple()</span>,
+        <span class="summary-sig-arg">option</span>=<span class="summary-sig-default">&quot;fitInsert&quot;</span>,
+        <span class="summary-sig-arg">predicate</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">converter</span>=<span class="summary-sig-default">None</span>)</span><br />
+      paste the stored animation to their respective target animation curves, if target does not exist it will be created
+:param sTimeRange: tuple of timerange passed to copyKey
+:param tTimeRange: tuple of timerange passed to pasteKey
+:param option: option on how to paste forwarded to pasteKey (useful: &quot;fitInsert&quot;, &quot;fitReplace&quot;, &quot;scaleInsert&quot;, &quot;scaleReplace&quot;)
+:param predicate and converter: passed to <tt class="rst-docutils literal"><span class="pre">iter_assignments</span></tt>, see documentation there
+:todo: handle if range is out of curve (error:nothing to paste from) - should paste the pose in this range</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.paste_animation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;File IO</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#to_file" class="summary-sig-name">to_file</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">output_file</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      export the AnimationHandle and all managed nodes to the given file</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.to_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="delete"></a><span class="summary-sig-name">delete</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      AnimationHandle will disapear without a trace, no matter if it was created in
+the current file or if it came from a referenced file</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.delete">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#_is_handle" class="summary-sig-name" onclick="show_private();">_is_handle</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">ah</span>)</span><br />
+      Returns:
+True if ah in a propper AnimationHandle</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle._is_handle">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Iteration</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#iter_instances" class="summary-sig-name">iter_instances</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Returns:
+iterator yielding AnimationHandle instances of scene</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_instances">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Edit</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#create" class="summary-sig-name">create</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">name</span>=<span class="summary-sig-default">&quot;animationHandle&quot;</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      Returns:
+New instance of our type providing the <tt class="rst-docutils literal"><span class="pre">AnimationHandle</span></tt> interface</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.create">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;File IO</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.lib.AnimationHandle-class.html#from_file" class="summary-sig-name">from_file</a>(<span class="summary-sig-arg">cls</span>,
+        <span class="summary-sig-arg">input_file</span>)</span><br />
+      FileReference as well as an iterator yielding AmimationHandles of input_file</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.from_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__mrv_virtual_subtype__"></a><span class="summary-name">__mrv_virtual_subtype__</span> = <code title="True">True</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_l_connection_info_attr"></a><span class="summary-name">_l_connection_info_attr</span> = <code title="'connectionInfo'">'connectionInfo'</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_s_connection_info_attr"></a><span class="summary-name">_s_connection_info_attr</span> = <code title="'cifo'">'cifo'</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_k_separator"></a><span class="summary-name">_k_separator</span> = <code title="','">','</code>
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="_networktype"></a><span class="summary-name">_networktype</span> = <code title="nt.api.MFn.kAffect">nt.api.MFn.kAffect</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="_is_handle"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_is_handle</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">ah</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle._is_handle">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>True if ah in a propper AnimationHandle</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="iter_instances"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iter_instances</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_instances">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>iterator yielding AnimationHandle instances of scene</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="iter_animation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iter_animation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">asNode</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_animation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>asNode</code></strong> - if true, iterator yields Node instances else MObjects</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>iterator yielding managed animation curves as wrapped Node or MObject</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="iter_assignments"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">iter_assignments</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">predicate</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">converter</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.iter_assignments">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>converter</code></strong> - if not None, the function returns the desired target plug name to use
+instead of the given plug name. Its called as follows: (string) convert(source_plug, target_plugname).</li>
+        <li><strong class="pname"><code>predicate</code></strong> - if not None, after the converter function has been applied,
+(bool) predicate(source_plug, target_plugname) returns True for each plug to be yielded</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>iterator yielding source-target assignments as plugs in a tuple(source_plug, target_plug)</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        for now, if target_plug does not exist we just print a message and continue
+      </p>
+</div></td></tr></table>
+</div>
+<a name="create"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">create</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">name</span>=<span class="sig-default">&quot;animationHandle&quot;</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.create">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>kwargs</code></strong> - Passed to <tt class="rst-docutils literal"><span class="pre">createNode</span></tt> method of mrv</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New instance of our type providing the <tt class="rst-rst-docutils literal rst-docutils literal"><span class="pre">AnimationHandle</span></tt> interface</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@undoable</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="clear"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">clear</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.clear">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Forget our managed animation completely
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@undoable</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_animation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_animation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">iter_nodes</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.set_animation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <dl class="rst-docutils">
+<dt>Set this handle to manage the animation of the given nodes.</dt>
+<dd>The previous animation information will be removed.</dd>
+</dl>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>iter_nodes</code></strong> - MSelectionList or iterable of Nodes or api objects pointing
+to nodes connected to animation.</li>
+    </ul></dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@undoable</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        Will not raise if the nodes do not have any animation
+        </li>
+        <li>
+        Heavily optimized for speed, hence we work directly with the
+apiObjects, skipping the mrv layer as we are in a tight loop here
+        </li>
+      </ul>
+</div></td></tr></table>
+</div>
+<a name="apply_animation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">apply_animation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">converter</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.apply_animation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <dl class="rst-docutils">
+<dt>Apply the stored animation by (re)connecting the animation nodes to their</dt>
+<dd>respective target plugs</dd>
+</dl>
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@undoable</code></li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Will break existing destination connections
+      </p>
+</div></td></tr></table>
+</div>
+<a name="paste_animation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">paste_animation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">sTimeRange</span>=<span class="sig-default">tuple()</span>,
+        <span class="sig-arg">tTimeRange</span>=<span class="sig-default">tuple()</span>,
+        <span class="sig-arg">option</span>=<span class="sig-default">&quot;fitInsert&quot;</span>,
+        <span class="sig-arg">predicate</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">converter</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.paste_animation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  paste the stored animation to their respective target animation curves, if target does not exist it will be created
+:param sTimeRange: tuple of timerange passed to copyKey
+:param tTimeRange: tuple of timerange passed to pasteKey
+:param option: option on how to paste forwarded to pasteKey (useful: &quot;fitInsert&quot;, &quot;fitReplace&quot;, &quot;scaleInsert&quot;, &quot;scaleReplace&quot;)
+:param predicate and converter: passed to <tt class="rst-rst-docutils literal rst-docutils literal"><span class="pre">iter_assignments</span></tt>, see documentation there
+:todo: handle if range is out of curve (error:nothing to paste from) - should paste the pose in this range
+  <dl class="fields">
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@undoable</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="from_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">from_file</span>(<span class="sig-arg">cls</span>,
+        <span class="sig-arg">input_file</span>)</span>
+    <br /><em class="fname">Class Method</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.from_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <dl class="rst-docutils">
+<dt>references imput_file into scene by using an unique namespace, returning</dt>
+<dd>FileReference as well as an iterator yielding AmimationHandles of input_file</dd>
+</dl>
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>input_file</code></strong> - valid path to a maya file</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>tuple(FileReference, iterator of AnimationHandles)</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@notundoable</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="to_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">to_file</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">output_file</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.lib-pysrc.html#AnimationHandle.to_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  export the AnimationHandle and all managed nodes to the given file
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>output_file</code></strong> - Path object or path string to export file.
+Parent directories will be created as needed</li>
+        <li><strong class="pname"><code>kwargs</code></strong> - passed to the <tt class="rst-docutils literal"><span class="pre">Scene.export</span></tt> method</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>path to exported file</dd>
+    <dt>Decorators:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code>@notundoable</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

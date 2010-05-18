@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>animio</title>
+</head>
+<body>
+animio
+<style>
+.coverage pre {float: left; margin: 0px 1em; border: none;
+               padding: 0px; }
+.num pre { margin: 0px }
+.nocov, .nocov pre {background-color: #faa}
+.cov, .cov pre {background-color: #cfc}
+div.coverage div { clear: both; height: 1.1em}
+</style>
+<div class="stats">
+Covered: 20 lines<br/>
+Missed: 9 lines<br/>
+Skipped 23 lines<br/>
+Percent: 68 %<br/>
+
+</div>
+<div class="coverage">
+<div class="skip"><span class="num"><pre> 1</pre></span><pre># -*- coding: utf-8 -*-</pre></div>
+<div class="cov"><span class="num"><pre> 2</pre></span><pre>import os</pre></div>
+<div class="cov"><span class="num"><pre> 3</pre></span><pre>import sys</pre></div>
+<div class="cov"><span class="num"><pre> 4</pre></span><pre>import glob </pre></div>
+<div class="skip"><span class="num"><pre> 5</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre> 6</pre></span><pre>#{ Initialization</pre></div>
+<div class="skip"><span class="num"><pre> 7</pre></span><pre></pre></div>
+<div class="cov"><span class="num"><pre> 8</pre></span><pre>def _get_ext_path():</pre></div>
+<div class="cov"><span class="num"><pre> 9</pre></span><pre>	&quot;&quot;&quot;:return: path containing our external packages&quot;&quot;&quot;</pre></div>
+<div class="cov"><span class="num"><pre>10</pre></span><pre>	return os.path.join(os.path.dirname(__file__), 'ext')</pre></div>
+<div class="skip"><span class="num"><pre>11</pre></span><pre></pre></div>
+<div class="cov"><span class="num"><pre>12</pre></span><pre>def _setup_ext_path():</pre></div>
+<div class="cov"><span class="num"><pre>13</pre></span><pre>	&quot;&quot;&quot;Put our external directory into the path to allow contained packages to be found&quot;&quot;&quot;</pre></div>
+<div class="nocov"><span class="num"><pre>14</pre></span><pre>	sys.path.insert(0, _get_ext_path())</pre></div>
+<div class="skip"><span class="num"><pre>15</pre></span><pre>	</pre></div>
+<div class="cov"><span class="num"><pre>16</pre></span><pre>def _assure_mrv_is_available():</pre></div>
+<div class="cov"><span class="num"><pre>17</pre></span><pre>	&quot;&quot;&quot;Assure we have access to mrv </pre></div>
+<div class="cov"><span class="num"><pre>18</pre></span><pre>	:raise ImportError: if mrv is not available or does not have a compatible version&quot;&quot;&quot;</pre></div>
+<div class="cov"><span class="num"><pre>19</pre></span><pre>	import info</pre></div>
+<div class="skip"><span class="num"><pre>20</pre></span><pre>	</pre></div>
+<div class="skip"><span class="num"><pre>21</pre></span><pre>	# if we have non-mrv submodules, definitely add ext to the path.</pre></div>
+<div class="cov"><span class="num"><pre>22</pre></span><pre>	module_dirs = glob.glob(_get_ext_path() + &quot;/*&quot;)</pre></div>
+<div class="cov"><span class="num"><pre>23</pre></span><pre>	if len(module_dirs) &gt; 1 or (len(module_dirs) == 1 and not module_dirs[0].endswith('mrv')):</pre></div>
+<div class="nocov"><span class="num"><pre>24</pre></span><pre>		_setup_ext_path()</pre></div>
+<div class="skip"><span class="num"><pre>25</pre></span><pre>	# END setup externals </pre></div>
+<div class="skip"><span class="num"><pre>26</pre></span><pre>	</pre></div>
+<div class="cov"><span class="num"><pre>27</pre></span><pre>	try:</pre></div>
+<div class="cov"><span class="num"><pre>28</pre></span><pre>		import mrv.info as mrvinfo</pre></div>
+<div class="nocov"><span class="num"><pre>29</pre></span><pre>	except ImportError:</pre></div>
+<div class="skip"><span class="num"><pre>30</pre></span><pre>		# its not installed by default, try to use it as external</pre></div>
+<div class="nocov"><span class="num"><pre>31</pre></span><pre>		_setup_ext_path()</pre></div>
+<div class="nocov"><span class="num"><pre>32</pre></span><pre>		try:</pre></div>
+<div class="nocov"><span class="num"><pre>33</pre></span><pre>			import mrv.info as mrvinfo</pre></div>
+<div class="nocov"><span class="num"><pre>34</pre></span><pre>		except ImportError:</pre></div>
+<div class="nocov"><span class="num"><pre>35</pre></span><pre>			raise ImportError(&quot;could not import mrv, please make sure it exists in your PYTHONPATH&quot;)</pre></div>
+<div class="skip"><span class="num"><pre>36</pre></span><pre>		# END exception handling, 2nd attempt</pre></div>
+<div class="skip"><span class="num"><pre>37</pre></span><pre>	# END exception handling - try import mrv</pre></div>
+<div class="skip"><span class="num"><pre>38</pre></span><pre>	</pre></div>
+<div class="skip"><span class="num"><pre>39</pre></span><pre>	</pre></div>
+<div class="skip"><span class="num"><pre>40</pre></span><pre>	# CHECK MRV VERSION</pre></div>
+<div class="skip"><span class="num"><pre>41</pre></span><pre>	###################</pre></div>
+<div class="skip"><span class="num"><pre>42</pre></span><pre>	# check the version</pre></div>
+<div class="cov"><span class="num"><pre>43</pre></span><pre>	mmajor, mminor, mmicro = info.mrv_min_version</pre></div>
+<div class="cov"><span class="num"><pre>44</pre></span><pre>	major, minor, micro = mrvinfo.version[:3]</pre></div>
+<div class="cov"><span class="num"><pre>45</pre></span><pre>	if major &lt; mmajor or minor &lt; mminor or micro &lt; mmicro:</pre></div>
+<div class="nocov"><span class="num"><pre>46</pre></span><pre>		raise EnvironmentError( &quot;%s requires MRV version %i.%i.%i or higher, got %i.%i.%i instead&quot; % ((project_name, ) + info.mrv_min_version + mrvinfo.version[:3]))   </pre></div>
+<div class="skip"><span class="num"><pre>47</pre></span><pre>	# END verify MRV version</pre></div>
+<div class="skip"><span class="num"><pre>48</pre></span><pre>	</pre></div>
+<div class="skip"><span class="num"><pre>49</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>50</pre></span><pre>#} END initilization</pre></div>
+<div class="skip"><span class="num"><pre>51</pre></span><pre></pre></div>
+<div class="cov"><span class="num"><pre>52</pre></span><pre>_assure_mrv_is_available()</pre></div>
+</div>
+</body>
+</html>

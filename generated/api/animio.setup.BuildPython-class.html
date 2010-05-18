@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>animio.setup.BuildPython</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="animio-module.html">Package&nbsp;animio</a> ::
+        <a href="animio.setup-module.html">Module&nbsp;setup</a> ::
+        Class&nbsp;BuildPython
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="animio.setup.BuildPython-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class BuildPython</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+                         object --+    
+                                  |    
+                          <a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a> --+
+                                      |
+                         object --+   |
+                                  |   |
+                   <a href="animio.setup._RegressionMixin-class.html" onclick="show_private();">_RegressionMixin</a> --+
+                                      |
+          distutils.cmd.Command --+   |
+                                  |   |
+distutils.command.build_py.build_py --+
+                                      |
+                                     <strong class="uidshort">BuildPython</strong>
+</pre>
+
+<hr />
+Customize the command preparing python modules in order to skip copying
+original py files if compile is specified. Additionally we allow the python
+interpreter to be specified as the bytecode is incompatible between the versions
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#_build_dir" class="summary-sig-name" onclick="show_private();">_build_dir</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+directory into which all files will be put</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._build_dir">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#_exclude_items" class="summary-sig-name" onclick="show_private();">_exclude_items</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">package_name</span>)</span><br />
+      Exclude the given package name from our packages and datafiles
+:param package_name: The name of the package, i.e.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._exclude_items">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_filter_by_token"></a><span class="summary-sig-name">_filter_by_token</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">token</span>,
+        <span class="summary-sig-arg">array</span>)</span><br />
+      Use a simple filter function and return all array items which do not contain
+the token</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._filter_by_token">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#_filtered_module_list" class="summary-sig-name" onclick="show_private();">_filtered_module_list</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">modules</span>)</span><br />
+      Because things multiply in our base class ...</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._filtered_module_list">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#_test_abspath" class="summary-sig-name" onclick="show_private();">_test_abspath</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Returns:
+First the executable in our build dir, then the one our distro
+deems best</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._test_abspath">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#byte_compile" class="summary-sig-name">byte_compile</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">files</span>,
+        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+      If we are supposed to compile, remove the original file afterwards</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.byte_compile">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#finalize_options" class="summary-sig-name">finalize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Assure our args are of the correct type</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.finalize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#find_all_modules" class="summary-sig-name">find_all_modules</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Same as above, but ...</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_all_modules">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#find_data_files" class="summary-sig-name">find_data_files</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">package</span>,
+        <span class="summary-sig-arg">src_dir</span>)</span><br />
+      Fixes the underlying method by allowing to specify whole directories
+whose files will be copied recursively.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_data_files">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#find_package_modules" class="summary-sig-name">find_package_modules</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">package</span>,
+        <span class="summary-sig-arg">package_dir</span>)</span><br />
+      Overridden to filter return value using our exludes</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_package_modules">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#fix_scripts" class="summary-sig-name">fix_scripts</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Check what the user classified as script and fix the first line
+to point to the right python interpreter version (only if we are compiling).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.fix_scripts">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="handle_exclusion"></a><span class="summary-sig-name">handle_exclusion</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Apply the exclusion patterns</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.handle_exclusion">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#initialize_options" class="summary-sig-name">initialize_options</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Set default values for all the options that this command supports.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.initialize_options">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup.BuildPython-class.html#run" class="summary-sig-name">run</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Perform the main operation, and handle git afterwards
+:note: It is done at a point where the py modules as well as the executables
+are available.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.run">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#__init__">__init__</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#add_files_and_commit">add_files_and_commit</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#branch_name">branch_name</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#item_chooser">item_chooser</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#push_to_remotes">push_to_remotes</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#set_head_to">set_head_to</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#update_git">update_git</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._RegressionMixin-class.html" onclick="show_private();">_RegressionMixin</a></code></b>:
+      <code><a href="animio.setup._RegressionMixin-class.html#post_regression_test">post_regression_test</a></code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._RegressionMixin-class.html" onclick="show_private();">_RegressionMixin</a></code></b> (private):
+      <code><a href="animio.setup._RegressionMixin-class.html#_find_test_modules" onclick="show_private();">_find_test_modules</a></code>
+      </p></div>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__format__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__str__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.command.build_py.build_py</code></b>:
+      <code>build_module</code>,
+      <code>build_modules</code>,
+      <code>build_package_data</code>,
+      <code>build_packages</code>,
+      <code>check_module</code>,
+      <code>check_package</code>,
+      <code>find_modules</code>,
+      <code>get_data_files</code>,
+      <code>get_module_outfile</code>,
+      <code>get_outputs</code>,
+      <code>get_package_dir</code>,
+      <code>get_source_files</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>__getattr__</code>,
+      <code>announce</code>,
+      <code>copy_file</code>,
+      <code>copy_tree</code>,
+      <code>debug_print</code>,
+      <code>dump_options</code>,
+      <code>ensure_dirname</code>,
+      <code>ensure_filename</code>,
+      <code>ensure_finalized</code>,
+      <code>ensure_string</code>,
+      <code>ensure_string_list</code>,
+      <code>execute</code>,
+      <code>get_command_name</code>,
+      <code>get_finalized_command</code>,
+      <code>get_sub_commands</code>,
+      <code>make_archive</code>,
+      <code>make_file</code>,
+      <code>mkpath</code>,
+      <code>move_file</code>,
+      <code>reinitialize_command</code>,
+      <code>run_command</code>,
+      <code>set_undefined_options</code>,
+      <code>spawn</code>,
+      <code>warn</code>
+      </p>
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b> (private):
+      <code>_ensure_stringlike</code>,
+      <code>_ensure_tested_string</code>
+      </p></div>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS METHODS ==================== -->
+<a name="section-ClassMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#adjust_user_options">adjust_user_options</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== STATIC METHODS ==================== -->
+<a name="section-StaticMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Static Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-StaticMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#__new__">__new__</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="animio.setup.BuildPython-class.html#description" class="summary-name">description</a> = <code title="'Implements byte-compilation with different python interpreter version\
+s'"><code class="variable-quote">'</code><code class="variable-string">Implements byte-compilation with different pyth</code><code class="variable-ellipsis">...</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="remove_tests_if_optimize"></a><span class="summary-name">remove_tests_if_optimize</span> = <code title="True">True</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="rename_pyo_to_pyc"></a><span class="summary-name">rename_pyo_to_pyc</span> = <code title="True">True</code>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._GitMixin-class.html" onclick="show_private();">_GitMixin</a></code></b>:
+      <code><a href="animio.setup._GitMixin-class.html#branch_suffix">branch_suffix</a></code>,
+      <code><a href="animio.setup._GitMixin-class.html#prev_head_name">prev_head_name</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="animio.setup._RegressionMixin-class.html" onclick="show_private();">_RegressionMixin</a></code></b>:
+      <code><a href="animio.setup._RegressionMixin-class.html#test_sub_dir">test_sub_dir</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.command.build_py.build_py</code></b>:
+      <code>boolean_options</code>,
+      <code>negative_opt</code>,
+      <code>user_options</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.cmd.Command</code></b>:
+      <code>sub_commands</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Properties</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="_build_dir"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_build_dir</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._build_dir">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>directory into which all files will be put</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="_exclude_items"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_exclude_items</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">package_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._exclude_items">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Exclude the given package name from our packages and datafiles
+:param package_name: The name of the package, i.e. '.test'
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="_filtered_module_list"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_filtered_module_list</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">modules</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._filtered_module_list">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Because things multiply in our base class ...  argh
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="_test_abspath"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_test_abspath</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython._test_abspath">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>First the executable in our build dir, then the one our distro
+deems best</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="byte_compile"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">byte_compile</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">files</span>,
+        <span class="sig-arg">**kwargs</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.byte_compile">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  If we are supposed to compile, remove the original file afterwards
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.command.build_py.build_py.byte_compile
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="finalize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">finalize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.finalize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Assure our args are of the correct type
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.finalize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="find_all_modules"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">find_all_modules</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_all_modules">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Same as above, but ... different. Instaed of using the find_package_modules method,
+it reimplements the same functionality ... wtf ??
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.command.build_py.build_py.find_all_modules
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="find_data_files"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">find_data_files</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">package</span>,
+        <span class="sig-arg">src_dir</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_data_files">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Fixes the underlying method by allowing to specify whole directories
+whose files will be copied recursively. Thanks python for not even providing
+the bare mininum so people end up reimplementing parts of the 'distribution system'
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.command.build_py.build_py.find_data_files
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="find_package_modules"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">find_package_modules</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">package</span>,
+        <span class="sig-arg">package_dir</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.find_package_modules">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Overridden to filter return value using our exludes
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.command.build_py.build_py.find_package_modules
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="fix_scripts"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fix_scripts</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.fix_scripts">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Check what the user classified as script and fix the first line
+to point to the right python interpreter version (only if we are compiling).
+Additionally, make the file executable on linux
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="initialize_options"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">initialize_options</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.initialize_options">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set default values for all the options that this command supports.  
+  Note that these defaults may be overridden by other commands, by the 
+  setup script, by config files, or by the command-line.  Thus, this is not
+  the place to code dependencies between options; generally, 
+  'initialize_options()' implementations are just a bunch of &quot;self.foo
+  = None&quot; assignments.</p>
+  <p>This method must be implemented by all command classes.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.initialize_options
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="run"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">run</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#BuildPython.run">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Perform the main operation, and handle git afterwards
+:note: It is done at a point where the py modules as well as the executables
+are available. In case there are c-modules, these wouldn't be availble here.
+  <dl class="fields">
+    <dt>Overrides:
+        distutils.cmd.Command.run
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
+<a name="section-ClassVariableDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variable Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariableDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="description"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">description</h3>
+  
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-quote">'</code><code class="variable-string">Implements byte-compilation with different python interpreter version</code><span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+<code class="variable-string">s</code><code class="variable-quote">'</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="animio-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://gitorious.org/animio">AnimIO</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

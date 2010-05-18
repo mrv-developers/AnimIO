@@ -1,0 +1,78 @@
+:mod:`animio.lib`
+=================
+:api:`animio.lib`
+
+
+.. automodule:: animio.lib
+
+
+
+
+Classes
+--------
+
+:api:`animio.lib.AnimInOutLibrary`
+
+.. autoclass:: AnimInOutLibrary
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.AnimationHandle`
+
+.. autoclass:: AnimationHandle
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.FileReference`
+
+.. autoclass:: FileReference
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.Namespace`
+
+.. autoclass:: Namespace
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.Path`
+
+.. autoclass:: Path
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.Scene`
+
+.. autoclass:: Scene
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+:api:`animio.lib.UndoRecorder`
+
+.. autoclass:: UndoRecorder
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
+
+
