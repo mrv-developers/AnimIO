@@ -13,12 +13,23 @@ include AUTHORS
 
 # minimal mrv with enough support for own unittests, skipping the mrv ones though
 graft ext
+prune ext/mrv/coverage
+
+# mrv testing
 prune ext/mrv/test
 graft ext/mrv/test/bin
 graft ext/mrv/test/cmd
 include ext/mrv/test/maya/util.py
 include ext/mrv/test/maya/__init__.py
+include ext/mrv/test/__init__.py
 graft ext/mrv/test/lib
-prune ext/mrv/doc
+
+# mrv docs
+prune ext/mrv/doc/source
+prune ext/mrv/doc/mindmaps
+prune ext/mrv/doc/build
+
+# general handling
 global-exclude .git*
 global-exclude *.pyc
+global-exclude *.version_info

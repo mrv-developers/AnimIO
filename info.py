@@ -15,7 +15,7 @@ mrv_min_version = (1, 0, 0)		# ( major, minor, micro )
 
 # Information about the version of your tool
 #               major, minor, micro, releaselevel, serial
-version = (1,     0,     0,     'Preview',        0)
+version = (0,     2,     0,     'Preview',        0)
 
 # the name of your tool or program
 project_name = "AnimIO"
