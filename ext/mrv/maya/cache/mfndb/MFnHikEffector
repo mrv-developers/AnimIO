@@ -1,0 +1,7 @@
+    | create                                  | None                |                                         
+    | getAuxiliaryEffectors                   | None                |                                         
+    | getEffColor                             | None                |                                         
+    | getPivotOffset                          | None                |                                         
+    | setEffColor                             | None                |                                         
+    | setPivotOffset                          | None                |                                         
+    | type                                    | None                |                                         

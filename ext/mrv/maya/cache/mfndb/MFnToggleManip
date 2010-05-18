@@ -1,0 +1,15 @@
+    | connectToTogglePlug                     | None                |                                         
+    | create                                  | None                |                                         
+    | direction                               | None                |                                         
+    | directionIndex                          | None                |                                         
+    | length                                  | None                |                                         
+    | lengthIndex                             | None                |                                         
+    | setDirection                            | None                |                                         
+    | setLength                               | None                |                                         
+    | setStartPoint                           | None                |                                         
+    | setToggle                               | None                |                                         
+    | startPoint                              | None                |                                         
+    | startPointIndex                         | None                |                                         
+    | toggle                                  | None                |                                         
+    | toggleIndex                             | None                |                                         
+    | type                                    | None                |                                         

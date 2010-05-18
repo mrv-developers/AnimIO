@@ -1,0 +1,15 @@
+    | deleteManipulator                       | None                |                                         
+    | globalSize                              | None                |                                         
+    | handleSize                              | None                |                                         
+    | isOptimizePlaybackOn                    | None                |                                         
+    | isVisible                               | None                |                                         
+    | lineSize                                | None                |                                         
+    | manipScale                              | None                |                                         
+    | rotateXYZValue                          | None                |                                         
+    | setGlobalSize                           | None                |                                         
+    | setHandleSize                           | None                |                                         
+    | setLineSize                             | None                |                                         
+    | setManipScale                           | None                |                                         
+    | setOptimizePlayback                     | None                |                                         
+    | setVisible                              | None                |                                         
+    | type                                    | None                |                                         

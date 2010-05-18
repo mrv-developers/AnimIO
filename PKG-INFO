@@ -1,0 +1,14 @@
+Metadata-Version: 1.1
+Name: AnimIO
+Version: 0.2.0-Preview
+Summary: Convenient Animation Export and Import
+Home-page: http://gitorious.org/animio
+Author: Martin Freitag & Sebastian Thiel
+Author-email: not@provided.com
+License: BSD License
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires: epydoc
+Requires: gitpython
+Requires: nose
+Requires: sphinx

@@ -1,0 +1,11 @@
+    | connectToParamPlug                      | None                |                                         
+    | connectToSurfacePlug                    | None                |                                         
+    | create                                  | None                |                                         
+    | getParameters                           | None                |                                         
+    | isDrawSurfaceOn                         | None                |                                         
+    | paramIndex                              | None                |                                         
+    | setDrawArrows                           | None                |                                         
+    | setDrawSurface                          | None                |                                         
+    | setParameters                           | None                |                                         
+    | surfaceIndex                            | None                |                                         
+    | type                                    | None                |                                         

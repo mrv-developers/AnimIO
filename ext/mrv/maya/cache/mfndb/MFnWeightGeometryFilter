@@ -1,0 +1,5 @@
+    | getWeightPlugStrings                    | None                |                                         
+    | getWeights                              | None                |                                         
+    | setWeight                               | None                |                                         
+    | type                                    | None                | getType                                 
+    | weightPlugStrings                       | None                | getWeightPlugStrings                    

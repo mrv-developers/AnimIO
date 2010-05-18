@@ -1,0 +1,119 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""This module can run standalone, within the native project directory, or with
+mrv available in the python path. It can be imported in order to provide common 
+functionality"""
+import sys
+import os
+
+__docformat__ = "restructuredtext"
+
+#{ Initialization
+
+def prepare_project_syspath():
+	"""Make sure the project's root package is in the python path, and manipulate 
+	sys.path if required in order to assure that.
+	
+	:return: imported root module/package
+	:raise ImportError: If project's root package could not be found in this interpreter"""
+	# try to figure out our actual root package, resort to a hardcoded choice
+	ospd = os.path.dirname
+	default_package = 'mrv'
+	root_package = default_package
+	
+	# try to import the root info
+	# We search upwards 
+	search_path = os.path.abspath('.')
+	while True:
+		sys.path.append(search_path)
+		try:
+			import info
+			root_package = info.root_package
+		except (ImportError, AttributeError):
+			sys.path.pop()
+		else:
+			# we have one - one above it should be the project include path
+			sys.path.pop()
+			sys.path.append(ospd(search_path))
+			break
+		# END get root package
+		
+		new_path = os.path.split(search_path)[0]
+		if new_path == search_path:
+			break
+		search_path = new_path
+	# END endless loop
+	
+
+	# IMPORT ROOT PACKAGE
+	#####################
+	# This should work if we have found the info module beforehand
+	root = None
+	try:
+		root = __import__(root_package)
+	except ImportError:
+		if root_package != default_package:
+			raise AssertionError("Managed to import info package of %s, but could not import it" % root_package)
+		# END assertion 
+		
+		# manipulate the import path - first we may be within the mrv structurure
+		# or alternatively within /usr/bin/, that is outside of the structure.
+		# In the latter case we can't do anything though, and in fact we 
+		# should be natively installed.
+		# default candidate assumes we are mrv/bin/
+		sys.path.append(ospd(ospd(ospd(os.path.realpath(os.path.abspath(__file__))))))
+		# END handle extra opportunity
+		 
+		try:
+			root = __import__(root_package)
+		except ImportError, e:
+			last_path = sys.path.pop()
+			raise ImportError("Failed to import %s as it could not be found in your syspath, tried it at %r, error was : %s" % (root_package, last_path, str(e)))
+		# END exception handling
+			
+	# END import exception handling
+	
+	# HANDLE PYTHONPATH
+	###################
+	# At this point, we either imported mrv or we imported the root package 
+	# of a derived project.
+	# As mrv is just like a shell script, it adjust the environment in order to 
+	# allow subprograms to run with an environment that allows them to import 
+	# what they need right away.
+	# If code that follows in a subprocess is from mrv, the import mrv statement 
+	# would fail as only the project root package would work by default, and will 
+	# adjust the sys.path to allow direct mrv imports.
+	# To allow all code to run, we put both paths to the PYTHONPATH, so it will be 
+	# inherited by subprocessess
+	import mrv.cmd.base as cmdbase
+	envppath = "PYTHONPATH"
+	def add_package_to_env(p):
+		cmdbase.update_env_path(os.environ, envppath, ospd(ospd(os.path.abspath(p.__file__))), append=True)
+	# END utility
+	
+	add_package_to_env(root)
+	if root.__name__ != default_package:
+		import mrv
+		add_package_to_env(mrv)
+	# END add mrv specificallys
+		
+	return root
+	
+
+def mrvmain(args, args_modifier=lambda a, v, m: a):
+	"""Prepare the path and redirect the call to the actual library module"""
+	prepare_project_syspath()
+	try:
+		import mrv.cmd.startup as startup
+	except ImportError:
+		raise EnvironmentError("Failed to import mrv as the root package did not initialize the python import path correctly")
+	# END final exception handling
+	startup.mrv(args, args_modifier)
+	
+#} END initialization
+
+
+if __name__ == "__main__":
+	# ignore first arg which is the executable
+	mrvmain(sys.argv[1:])
+# END initialization

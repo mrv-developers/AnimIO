@@ -1,0 +1,17 @@
+    | addObjectGroup                          | None                |                                         
+    | addObjectGroupComponent                 | None                |                                         
+    | changeObjectGroupId                     | None                |                                         
+    | copyObjectGroups                        | None                |                                         
+    | getMatrix                               | None                |                                         
+    | hasObjectGroup                          | None                |                                         
+    | matrixIsIdentity                        | None                |                                         
+    | matrixIsNotIdentity                     | None                |                                         
+    | objectGroup                             | None                |                                         
+    | objectGroupComponent                    | Component           |                                         
+    | objectGroupCount                        | None                |                                         
+    | objectGroupType                         | None                |                                         
+    | removeObjectGroup                       | None                |                                         
+    | removeObjectGroupComponent              | None                |                                         
+    | setMatrix                               | None                |                                         
+    | setObjectGroupComponent                 | None                |                                         
+    | type                                    | None                |                                         

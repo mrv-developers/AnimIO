@@ -1,0 +1,45 @@
+
+# if some of the following gets included, check the tests and fixtures as 
+# they have to be included as well
+
+graft maya
+prune automation 
+prune maya/automation
+exclude dge.py 
+exclude dgfe.py 
+exclude batch.py 
+exclude mdp.py
+exclude conf.py
+
+graft test
+prune test/automation
+prune test/maya/automation
+exclude test/test_conf.py 
+exclude test/test_dge.py 
+exclude test/test_dgfe.py 
+exclude test/test_batch.py 
+exclude test/test_mdp.py
+
+graft test/fixtures
+prune test/fixtures/ma/huge
+
+# excluded as long conf.py is excluded
+prune test/fixtures/*ini*
+prune test/fixtures/*INI*
+
+graft bin
+graft test/bin
+recursive-include doc *.py makedoc
+graft doc/source
+prune doc/source/generated
+
+include AUTHORS
+
+graft ext
+prune ext/networkx/.git
+prune ext/pydot/.git
+prune ext/pyparsing/.git
+
+
+global-exclude .git*
+global-exclude *.pyc

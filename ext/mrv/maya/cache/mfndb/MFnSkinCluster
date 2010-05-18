@@ -1,0 +1,8 @@
+    | getBlendWeights                         | None                |                                         
+    | getPointsAffectedByInfluence            | None                |                                         
+    | getWeights                              | None                |                                         
+    | indexForInfluenceObject                 | None                | getIndexForInfluenceObject              
+    | influenceObjects                        | None                | getInfluenceObjects                     
+    | setBlendWeights                         | None                |                                         
+    | setWeights                              | None                |                                         
+    | type                                    | None                | getType                                 

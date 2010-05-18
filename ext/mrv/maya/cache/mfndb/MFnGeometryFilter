@@ -1,0 +1,14 @@
+    | deformerSet                             | Node                | getDeformerSet                          
+    | envelope                                | None                | getEnvelope                             
+    | getInputGeometry                        | None                |                                         
+    | getOutputGeometry                       | None                |                                         
+    | getPathAtIndex                          | None                |                                         
+    | groupIdAtIndex                          | None                | getGroupIdAtIndex                       
+    | indexForGroupId                         | None                | getIndexForGroupId                      
+    | indexForOutputConnection                | None                | getIndexForOutputConnection             
+    | indexForOutputShape                     | None                | getIndexForOutputShape                  
+    | inputShapeAtIndex                       | Node                | getInputShapeAtIndex                    
+    | numOutputConnections                    | None                | getNumOutputConnections                 
+    | outputShapeAtIndex                      | None                | getOutputShapeAtIndex                   
+    | setEnvelope                             | None                |                                         
+    | type                                    | None                | getType                                 

@@ -1,0 +1,17 @@
+    | create                                  | None                |                                         
+    | getEffector                             | None                |                                         
+    | getStartJoint                           | None                |                                         
+    | poWeight                                | None                |                                         
+    | priority                                | None                |                                         
+    | setEffector                             | None                |                                         
+    | setPOWeight                             | None                |                                         
+    | setPriority                             | None                |                                         
+    | setSolver                               | None                |                                         
+    | setStartJoint                           | None                |                                         
+    | setStartJointAndEffector                | None                |                                         
+    | setStickiness                           | None                |                                         
+    | setWeight                               | None                |                                         
+    | solver                                  | NodeFromObj         |                                         
+    | stickiness                              | None                |                                         
+    | type                                    | None                |                                         
+    | weight                                  | None                |                                         

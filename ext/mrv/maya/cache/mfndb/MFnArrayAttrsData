@@ -1,0 +1,14 @@
+    | checkArrayExist                         | None                |                                         
+    | clear                                   | None                |                                         
+    | count                                   | None                |                                         
+    | create                                  | None                |                                         
+    | doubleArray                             | None                |                                         
+    | getDoubleData                           | None                |                                         
+    | getIntData                              | None                |                                         
+    | getStringData                           | None                |                                         
+    | getVectorData                           | None                |                                         
+    | intArray                                | None                |                                         
+    | list                                    | None                |                                         
+    | stringArray                             | None                |                                         
+    | type                                    | None                |                                         
+    | vectorArray                             | None                |                                         

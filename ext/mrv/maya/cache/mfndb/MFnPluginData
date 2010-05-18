@@ -1,0 +1,5 @@
+    | constData                               | None                |                                         
+    | create                                  | None                |                                         
+    | data                                    | None                | getData                                 
+    | type                                    | None                | getType                                 
+    | typeId                                  | None                | getTypeId                               

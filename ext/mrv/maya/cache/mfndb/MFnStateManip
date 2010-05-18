@@ -1,0 +1,9 @@
+    | connectToStatePlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | maxStates                               | None                |                                         
+    | positionIndex                           | None                |                                         
+    | setInitialState                         | None                |                                         
+    | setMaxStates                            | None                |                                         
+    | state                                   | None                |                                         
+    | stateIndex                              | None                |                                         
+    | type                                    | None                |                                         

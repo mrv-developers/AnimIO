@@ -1,0 +1,7 @@
+    | addChild                                | None                |                                         
+    | child                                   | Attribute           |                                         
+    | create                                  | Attribute           |                                         
+    | getAddAttrCmds                          | None                |                                         
+    | numChildren                             | None                |                                         
+    | removeChild                             | None                |                                         
+    | type                                    | None                |                                         

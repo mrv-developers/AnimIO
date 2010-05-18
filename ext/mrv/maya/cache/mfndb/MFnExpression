@@ -1,0 +1,11 @@
+    | create                                  | None                |                                         
+    | evaluate                                | None                |                                         
+    | expression                              | None                |                                         
+    | getDefaultObject                        | None                |                                         
+    | isAnimated                              | None                |                                         
+    | setAnimated                             | None                |                                         
+    | setDefaultObject                        | None                |                                         
+    | setExpression                           | None                |                                         
+    | setUnitConversion                       | None                |                                         
+    | type                                    | None                |                                         
+    | unitConversion                          | None                |                                         

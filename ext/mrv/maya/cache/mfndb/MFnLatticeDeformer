@@ -1,0 +1,10 @@
+    | addGeometry                             | None                |                                         
+    | baseLattice                             | NodeFromObj         |                                         
+    | create                                  | None                |                                         
+    | deformLattice                           | NodeFromObj         |                                         
+    | getAffectedGeometry                     | None                |                                         
+    | getDivisions                            | None                |                                         
+    | removeGeometry                          | None                |                                         
+    | resetLattice                            | None                |                                         
+    | setDivisions                            | None                |                                         
+    | type                                    | None                |                                         

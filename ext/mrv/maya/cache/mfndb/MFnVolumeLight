@@ -1,0 +1,14 @@
+    | arc                                     | None                |                                         
+    | colorRamp                               | None                |                                         
+    | coneEndRadius                           | None                |                                         
+    | create                                  | None                |                                         
+    | emitAmbient                             | None                |                                         
+    | lightShape                              | None                |                                         
+    | penumbraRamp                            | None                |                                         
+    | setArc                                  | None                |                                         
+    | setConeEndRadius                        | None                |                                         
+    | setEmitAmbient                          | None                |                                         
+    | setLightShape                           | None                |                                         
+    | setVolumeLightDirection                 | None                |                                         
+    | type                                    | None                |                                         
+    | volumeLightDirection                    | None                |                                         

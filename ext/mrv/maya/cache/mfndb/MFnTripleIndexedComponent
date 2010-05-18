@@ -1,0 +1,8 @@
+    | addElement                              | None                |                                         
+    | addElements                             | None                |                                         
+    | create                                  | Component           |                                         
+    | getCompleteData                         | None                |                                         
+    | getElement                              | None                |                                         
+    | getElements                             | None                |                                         
+    | setCompleteData                         | None                |                                         
+    | type                                    | None                | getType                                 

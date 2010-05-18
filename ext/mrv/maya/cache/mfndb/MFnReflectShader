@@ -1,0 +1,9 @@
+    | reflectedColor                          | None                |                                         
+    | reflectedRayDepthLimit                  | None                |                                         
+    | reflectivity                            | None                |                                         
+    | setReflectedColor                       | None                |                                         
+    | setReflectedRayDepthLimit               | None                |                                         
+    | setReflectivity                         | None                |                                         
+    | setSpecularColor                        | None                |                                         
+    | specularColor                           | None                |                                         
+    | type                                    | None                |                                         

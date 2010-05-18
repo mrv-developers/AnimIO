@@ -1,0 +1,8 @@
+    | ambientShade                            | None                |                                         
+    | castSoftShadows                         | None                |                                         
+    | create                                  | None                |                                         
+    | setAmbientShade                         | None                |                                         
+    | setCastSoftShadows                      | None                |                                         
+    | setShadowRadius                         | None                |                                         
+    | shadowRadius                            | None                |                                         
+    | type                                    | None                |                                         

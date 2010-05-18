@@ -1,0 +1,15 @@
+    | connectToDistancePlug                   | None                |                                         
+    | create                                  | None                |                                         
+    | currentPointIndex                       | None                |                                         
+    | directionIndex                          | None                |                                         
+    | distanceIndex                           | None                |                                         
+    | isDrawLineOn                            | None                |                                         
+    | isDrawStartOn                           | None                |                                         
+    | scalingFactor                           | None                |                                         
+    | setDirection                            | None                |                                         
+    | setDrawLine                             | None                |                                         
+    | setDrawStart                            | None                |                                         
+    | setScalingFactor                        | None                |                                         
+    | setStartPoint                           | None                |                                         
+    | startPointIndex                         | None                |                                         
+    | type                                    | None                |                                         

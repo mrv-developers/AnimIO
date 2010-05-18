@@ -1,0 +1,14 @@
+    | attenuation                             | None                |                                         
+    | falloffCurve                            | None                |                                         
+    | getForceAtPoint                         | None                |                                         
+    | isFalloffCurveConstantOne               | None                |                                         
+    | magnitude                               | None                |                                         
+    | maxDistance                             | None                |                                         
+    | perVertex                               | None                |                                         
+    | setAttenuation                          | None                |                                         
+    | setMagnitude                            | None                |                                         
+    | setMaxDistance                          | None                |                                         
+    | setPerVertex                            | None                |                                         
+    | setUseMaxDistance                       | None                |                                         
+    | type                                    | None                |                                         
+    | useMaxDistance                          | None                |                                         

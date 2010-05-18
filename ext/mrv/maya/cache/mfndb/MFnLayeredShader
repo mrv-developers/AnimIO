@@ -1,0 +1,14 @@
+    | color                                   | None                |                                         
+    | compositingFlag                         | None                |                                         
+    | create                                  | None                |                                         
+    | glowColor                               | None                |                                         
+    | hardwareColor                           | None                |                                         
+    | hardwareShader                          | None                |                                         
+    | setColor                                | None                |                                         
+    | setCompositingFlag                      | None                |                                         
+    | setGlowColor                            | None                |                                         
+    | setHardwareColor                        | None                |                                         
+    | setHardwareShader                       | None                |                                         
+    | setTransparency                         | None                |                                         
+    | transparency                            | None                |                                         
+    | type                                    | None                |                                         

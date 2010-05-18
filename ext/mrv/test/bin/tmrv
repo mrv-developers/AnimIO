@@ -1,0 +1,123 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Prepares the nose test environment for use with mrv"""
+import sys
+import os
+import tempfile
+
+__docformat__ = "restructuredtext"
+
+
+#{ Initialization
+def import_mrv_program():
+	"""Fake-import everything that is available in the mrv program. Its something
+	like the #import statement in c++"""
+	# we assume to be launched using a relative path 
+	ospd = os.path.dirname
+	# mrv/test/bin/tmrv -> mrv/bin/mrv
+	includefile_path = os.path.join(ospd(ospd(ospd(os.path.realpath(os.path.abspath(__file__))))), 'bin', 'mrv')
+	
+	# it could be an installed script, so mrv is assumed in the same directory
+	includefile_path_bin = os.path.join(ospd(os.path.realpath(os.path.abspath(__file__))), 'mrv')
+	globals()['__name__'] = "prevent execution of main"
+	
+	included_mrv = False
+	for ifile in (includefile_path, includefile_path_bin):
+		globals()['__file__'] = ifile
+		try:
+			execfile(ifile, globals())
+		except Exception:
+			pass
+		else:
+			included_mrv = True
+			break
+		# END exception handling
+	# END for each include file
+	
+	if not included_mrv:
+		raise EnvironmentError("Could not execute mrv at %r or %r" % (includefile_path, includefile_path_bin))
+	# END check issues
+	
+def tmrvmain(args):
+	"""Launch mrv main with customized startup"""
+	import_mrv_program()
+	mrvmain(args, args_modifier=_parse_args)
+	
+#} END initialization
+
+#{ Utilities 
+def _parse_args(args, maya_version, start_maya):
+	"""Parse our arguments and react accordingly. 
+	args don't contain the maya version number anymore, but may contain our 
+	args interleaved with nose args
+	
+	:return: altered arguments to be passed to mrv"""
+	import mrv
+	import mrv.test.cmd
+	
+	# run nose, no matter what
+	args = list(args)
+	base = ['-c', 'import mrv.test.cmd.startup as startup; startup.nose()']
+	mine = list()
+	
+	# HANDLE COVERAGE
+	#################
+	for i, arg in enumerate(args[:]):
+		if arg.startswith(mrv.test.cmd.tmrv_coverage_flag):
+			del(args[i])
+			tokens = arg.split('=', 1)
+			package = mrv.__name__
+			if len(tokens) == 2:
+				package = tokens[1]
+			# END if a package is set
+			
+			mine.extend(['--with-coverage', '--cover-erase', 
+					'--cover-html', '--cover-package=%s' % package, 
+					'--cover-html-dir=%s' % mrv.test.cmd.tmrv_coverage_dir])
+			break
+		# END if coverage arg is set
+	# END for each argument
+	
+	# HANDLE MAYA
+	#############
+	if start_maya:
+		ospd = os.path.dirname
+		env = os.environ
+		import mrv.cmd.base as mrvbase
+		import mrv.test.cmd as mrvtestcmd
+		
+		# SETUP MAYA SCRIPT PATH 
+		# It must contain our override UI script
+		# NOTE: at this point, we have altered our own file to become 'mrv'
+		scriptpath = os.path.join(ospd(ospd(__file__)), 'test', 'cmd')
+		
+		# set environment
+		mrvbase.update_env_path(env, 'MAYA_SCRIPT_PATH', scriptpath, append=True)
+		env['MAYA_OVERRIDE_UI'] = 'initialLayout_minimal.mel'
+		
+		# Use all our args as 	 test args
+		env[mrvtestcmd.env_nose_args] = mrvtestcmd.nose_args_splitter.join(mine + args)
+		
+		# SETUP MAYA APP DIR
+		# Create a dummy Maya.env and a separate app dir
+		mappdir = os.path.join(tempfile.gettempdir(), 'maya_test_prefsdir')
+		if not os.path.isdir(mappdir):
+			os.mkdir(mappdir)
+		open(os.path.join(mappdir, 'Maya.env'), 'w').close()
+		
+		env['MAYA_APP_DIR'] = mappdir
+		
+		# clear the args, maya may not see them
+		del(mine[:])
+		del(base[:])
+		del(args[:])
+	# END handle maya
+	
+	return tuple(base + mine + args)
+
+#} END utilities
+	
+if __name__ == "__main__":
+	# ignore first arg which is the executable
+	tmrvmain(sys.argv[1:])
+# END initialization

@@ -1,0 +1,12 @@
+    | connectToScaleCenterPlug                | None                |                                         
+    | connectToScalePlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | displayWithNode                         | None                |                                         
+    | isSnapModeOn                            | None                |                                         
+    | scaleCenterIndex                        | None                |                                         
+    | scaleIndex                              | None                |                                         
+    | setInitialScale                         | None                |                                         
+    | setSnapIncrement                        | None                |                                         
+    | setSnapMode                             | None                |                                         
+    | snapIncrement                           | None                |                                         
+    | type                                    | None                |                                         

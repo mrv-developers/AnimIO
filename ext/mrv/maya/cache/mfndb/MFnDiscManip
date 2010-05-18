@@ -1,0 +1,10 @@
+    | angleIndex                              | None                |                                         
+    | axisIndex                               | None                |                                         
+    | centerIndex                             | None                |                                         
+    | connectToAnglePlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | setAngle                                | None                |                                         
+    | setCenterPoint                          | None                |                                         
+    | setNormal                               | None                |                                         
+    | setRadius                               | None                |                                         
+    | type                                    | None                |                                         

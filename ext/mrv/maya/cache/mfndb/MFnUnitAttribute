@@ -1,0 +1,17 @@
+    | create                                  | Attribute           |                                         
+    | getDefault                              | None                |                                         
+    | getMax                                  | None                |                                         
+    | getMin                                  | None                |                                         
+    | getSoftMax                              | None                |                                         
+    | getSoftMin                              | None                |                                         
+    | hasMax                                  | None                |                                         
+    | hasMin                                  | None                |                                         
+    | hasSoftMax                              | None                |                                         
+    | hasSoftMin                              | None                |                                         
+    | setDefault                              | None                |                                         
+    | setMax                                  | None                |                                         
+    | setMin                                  | None                |                                         
+    | setSoftMax                              | None                |                                         
+    | setSoftMin                              | None                |                                         
+    | type                                    | None                | getType                                 
+    | unitType                                | None                | getUnitType                             

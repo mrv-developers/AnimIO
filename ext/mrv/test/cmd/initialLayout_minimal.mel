@@ -1,0 +1,119 @@
+
+//
+//  Alias|Wavefront Script File
+//  MODIFY THIS AT YOUR OWN RISK
+//
+//  Creation Date:  Aug 12 1996
+//
+//  Description:
+//      Starts up the maya UI, but gives additional callbacks for environment control
+//
+//  Input Arguments:
+//      None.
+//
+//  Return Value:
+//      None.
+//
+//	Note:
+//		None.                                     
+//
+// 	CHANGENOTE: 
+//	This change has been done to allow us to split into userSetup into pre
+// 	and post UI events.
+//	The PreUI Environment will set all the variables we need that are independent of 
+//	existing items, while the 
+//	postUI event will be called after the UI has been initialized and can rely on UI
+//	elements to be existing
+// Copyright (C) 1997-2004 Alias Systems Corp.
+// 
+// The information in this file is provided for the exclusive use of the
+// licensees of Alias.  Such users have the right to use, modify,
+// and incorporate this code into other products for purposes authorized
+// by the Alias license agreement, without fee.
+// 
+// ALIAS DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
+// INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
+// EVENT SHALL ALIAS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
+// CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
+// DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+// TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+// PERFORMANCE OF THIS SOFTWARE.
+
+//
+//  Alias|Wavefront Script File
+//  MODIFY THIS AT YOUR OWN RISK
+//
+//  Creation Date:  Aug 12 1996
+//
+//  Description:
+//      This script creates the UI for the main window on startup.
+//
+//  Input Arguments:
+//      None.
+//
+//  Return Value:
+//      None.
+//
+//	Note:
+//		None.
+// 
+
+global proc setupUITest()
+{
+	// getting the arguments for the nose test from NOSE_ARGS variable,
+	// putting them into sys.argv and run nose
+
+	string $pycmd = "import mrv.test.cmd.startup as start; start.nose()\n";
+	print $pycmd;
+	catch(` python $pycmd`);
+	
+	// show a little window helping to quit the application
+	windowPref -ra;		// can do this as we run in a custom configuration with custom prefs
+	string $win = `window -rtf true "killMayaWindow"`;
+	columnLayout -adj true;
+	button -c "quit -f" -l "QUIT MAYA" -w 300 -h 150;	
+	showWindow $win;
+}
+
+{
+	
+	int $printMemoryExists = `exists printMemory`;
+	if ($printMemoryExists) {
+	    printMemory("Static initializers complete");
+	}
+
+	global string $gMainWindow = "";
+	global string $gCommandWindow = "CommandWindow";
+
+	//
+	//  Determine values for initial setup states
+	//
+	int $buildMainWindow = !`optionVar -q mainWindowDisable`;
+
+	//
+	//  Get the window positions before creating any windows
+	//
+	windowPref -enableAll `optionVar -q saveWindowPos`;
+	if (`optionVar -q saveWindowPos`) {
+		windowPref -loadAll;
+	}
+	
+	// Force out of xformNoSelect mode			
+	selectPref -xformNoSelect off; 
+
+	//
+	//  Start building the application UI.
+	//
+
+	if (`exists setDefaultTemplates`) { 
+		eval "source setDefaultTemplates"; 
+	}
+
+	setStartupMessage("Initializing Script Editor.");
+	if (`exists initCommandWindow`) eval "source initCommandWindow"; 
+
+	
+	ScriptEditor();
+	setupUITest();
+	
+}

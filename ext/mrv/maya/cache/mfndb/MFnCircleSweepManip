@@ -1,0 +1,17 @@
+    | angleIndex                              | None                |                                         
+    | axisIndex                               | None                |                                         
+    | centerIndex                             | None                |                                         
+    | connectToAnglePlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | endCircleIndex                          | None                |                                         
+    | endPoint                                | None                |                                         
+    | setAngle                                | None                |                                         
+    | setCenterPoint                          | None                |                                         
+    | setDrawAsArc                            | None                |                                         
+    | setEndPoint                             | None                |                                         
+    | setNormal                               | None                |                                         
+    | setRadius                               | None                |                                         
+    | setStartPoint                           | None                |                                         
+    | startCircleIndex                        | None                |                                         
+    | startPoint                              | None                |                                         
+    | type                                    | None                |                                         

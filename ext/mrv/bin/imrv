@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Prepares ipython to startup with mrv support"""
+import sys
+import os
+
+__docformat__ = "restructuredtext"
+
+def imrvmain(args):
+	"""Launch mrv main with customized startup"""
+	# pull in mrv 
+	includefile_path = os.path.join(os.path.dirname(os.path.realpath(os.path.abspath(__file__))), 'mrv')
+	globals()['__name__'] = "prevent execution of main"
+	
+	# use exec to use globals - execfile does something differently, it separates
+	# the environments more it appears
+	try:
+		execfile(includefile_path, globals())
+	except Exception, e:
+		raise EnvironmentError("Could not execute mrv at %r with error %s" % (includefile_path, e))
+	# END exception handling
+	
+	# NOTE: using the module (-m) does not work in py2.4
+	args_mod = lambda a, v, m: ('-c', 'import mrv.cmd.startup as startup; startup.imrv()') + a
+	mrvmain(args, args_modifier=args_mod)
+	
+	
+if __name__ == "__main__":
+	# ignore first arg which is the executable
+	imrvmain(sys.argv[1:])
+# END initialization 

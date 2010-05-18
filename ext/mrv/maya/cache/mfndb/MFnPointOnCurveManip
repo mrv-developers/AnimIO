@@ -1,0 +1,11 @@
+    | connectToCurvePlug                      | None                |                                         
+    | connectToParamPlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | curveIndex                              | None                |                                         
+    | curvePoint                              | None                |                                         
+    | isDrawCurveOn                           | None                |                                         
+    | paramIndex                              | None                |                                         
+    | parameter                               | None                |                                         
+    | setDrawCurve                            | None                |                                         
+    | setParameter                            | None                |                                         
+    | type                                    | None                |                                         

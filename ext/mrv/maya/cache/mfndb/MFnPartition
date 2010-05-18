@@ -1,0 +1,5 @@
+    | addMember                               | None                |                                         
+x   | create                                  | None                |                                         
+    | isRenderPartition                       | None                |                                         
+    | removeMember                            | None                |                                         
+    | type                                    | None                | getType                                 

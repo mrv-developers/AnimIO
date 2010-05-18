@@ -1,0 +1,15 @@
+    | componentOnly                           | None                |                                         
+    | direction                               | None                |                                         
+    | enableSpread                            | None                |                                         
+    | inheritRotation                         | None                |                                         
+    | inheritVelocity                         | None                |                                         
+    | setComponentOnly                        | None                |                                         
+    | setDirection                            | None                |                                         
+    | setEnableSpread                         | None                |                                         
+    | setInheritRotation                      | None                |                                         
+    | setInheritVelocity                      | None                |                                         
+    | setSpeed                                | None                |                                         
+    | setSpread                               | None                |                                         
+    | speed                                   | None                |                                         
+    | spread                                  | None                |                                         
+    | type                                    | None                |                                         

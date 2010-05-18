@@ -1,0 +1,7 @@
+    | create                                  | None                |                                         
+    | getCached                               | None                |                                         
+    | getCollide                              | None                |                                         
+    | getObjectPtr                            | None                |                                         
+    | setCached                               | None                |                                         
+    | setObjectPtr                            | None                |                                         
+    | type                                    | None                |                                         

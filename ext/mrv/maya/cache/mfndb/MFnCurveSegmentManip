@@ -1,0 +1,12 @@
+    | connectToCurvePlug                      | None                |                                         
+    | connectToEndParamPlug                   | None                |                                         
+    | connectToStartParamPlug                 | None                |                                         
+    | create                                  | None                |                                         
+    | curveIndex                              | None                |                                         
+    | endParamIndex                           | None                |                                         
+    | endParameter                            | None                |                                         
+    | setEndParameter                         | None                |                                         
+    | setStartParameter                       | None                |                                         
+    | startParamIndex                         | None                |                                         
+    | startParameter                          | None                |                                         
+    | type                                    | None                |                                         

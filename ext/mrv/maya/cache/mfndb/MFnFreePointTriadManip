@@ -1,0 +1,14 @@
+    | connectToPointPlug                      | None                |                                         
+    | create                                  | None                |                                         
+    | isDrawAxesOn                            | None                |                                         
+    | isKeyframeAllOn                         | None                |                                         
+    | isSnapModeOn                            | None                |                                         
+    | pointIndex                              | None                |                                         
+    | setDirection                            | None                |                                         
+    | setDrawArrowHead                        | None                |                                         
+    | setDrawAxes                             | None                |                                         
+    | setGlobalTriadPlane                     | None                |                                         
+    | setKeyframeAll                          | None                |                                         
+    | setPoint                                | None                |                                         
+    | setSnapMode                             | None                |                                         
+    | type                                    | None                |                                         

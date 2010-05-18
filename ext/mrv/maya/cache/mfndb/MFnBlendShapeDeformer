@@ -1,0 +1,16 @@
+    | addBaseObject                           | None                |                                         
+    | addTarget                               | None                |                                         
+x   | create                                  | None                |                                         
+    | envelope                                | None                | getEnvelope                             
+    | getBaseObjects                          | None                |                                         
+    | getTargets                              | None                |                                         
+    | numWeights                              | None                | getNumWeights                           
+    | origin                                  | None                | getOrigin                               
+    | removeTarget                            | None                |                                         
+    | setEnvelope                             | None                |                                         
+    | setOrigin                               | None                |                                         
+    | setWeight                               | None                |                                         
+    | targetItemIndexList                     | None                | getTargetItemIndexList                  
+    | type                                    | None                | getType                                 
+    | weight                                  | None                | getWeight                               
+    | weightIndexList                         | None                | getWeightIndexList                      

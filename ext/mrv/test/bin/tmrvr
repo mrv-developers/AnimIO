@@ -1,0 +1,166 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Executes mrv regression tests"""
+import sys
+import os
+import optparse
+import subprocess
+
+__docformat__ = "restructuredtext"
+
+#{ Globals 
+_mrv_mayapy_flag = '--mrv-mayapy'
+#} END globals
+
+def parse_opts(args):
+	"""Parse our options
+	:return: tuple(options, maya_versions) tuple of options hash and the maya_versions to run."""
+	usage = """%prog [8.5 [2008 ...]] --skip-single
+	
+If run without arguments, all installed maya versions will run all available tests
+including standalone tests. If one test fails, the operation will abort with a non-zero value
+"""
+	# setup parser
+	parser = optparse.OptionParser(usage=usage)
+	
+	hlp = """If set, the single-file tests will not run. The regression test will 
+always fail in that case"""
+	parser.add_option('--skip-single', dest='skip_single', action='store_true', help=hlp)
+	
+	hlp = """If set, mayapy will be used to startup the mrv tests even though the system
+interpreter may be available."""
+	parser.add_option(_mrv_mayapy_flag, dest='mayapy_only', action='store_true', help=hlp) 
+	options, args = parser.parse_args(args)
+	
+	
+	# PARSE MAYA VERSIONS
+	######################
+	import mrv.cmd.base as mrvbase
+	maya_versions = list()
+	for arg in args:
+		parsed, version = mrvbase.parse_maya_version(arg, 8.5)
+		if not parsed:
+			raise EnvironmentError("Invalid maya version: %s" % arg)
+		# END abort if it couldn't be parsed
+		maya_versions.append(version)
+	# END for each arg
+	
+	if not maya_versions:
+		maya_versions = mrvbase.maya_to_py_version_map.keys()
+	# END set maya versions to all
+	
+	# prune maya versions which do not exist on this machine
+	for version in maya_versions[:]:
+		try:
+			mrvbase.maya_location(version)
+		except EnvironmentError, e:
+			print "Ignoring maya version %g with error: %s" % (version, e)
+			maya_versions.remove(version)
+		# END exception handling check maya version
+	# END for each version
+	
+	return (options, sorted(maya_versions))
+	
+	
+def tmrvrmain(args):
+	# pull in mrv 
+	ospd = os.path.dirname
+	includefile_path = os.path.join(ospd(ospd(ospd(os.path.realpath(os.path.abspath(__file__))))), 'bin', 'mrv')
+	includefile_path_bin = os.path.join(ospd(os.path.realpath(os.path.abspath(__file__))), 'mrv')
+	
+	includefile_path_tmrv = tmrvpath = os.path.join(ospd(os.path.realpath(os.path.abspath(__file__))), 'tmrv')
+	
+	globals()['__name__'] = "prevent execution of main"
+	globals()['__file__'] = includefile_path
+	
+	# use exec to use globals - execfile does something differently, it separates
+	# the environments more it appears
+	include_success = False
+	for ifile in (includefile_path, includefile_path_bin):
+		try:
+			fp = open(ifile)
+			exec fp in globals()
+			fp.close()
+		except Exception:
+			pass
+		else:
+			include_success = True
+			break
+		# END exception handling 
+	# END for each include path for testing 
+	
+	if not include_success:
+		raise EnvironmentError("Could not execute mrv at %r or %r" % (includefile_path, includefile_path_bin))
+	# END exception handling
+	
+	prepare_project_syspath()
+	options, maya_versions = parse_opts(args)
+	
+	if not maya_versions:
+		raise ValueError("No maya version found to run regression tests with")
+	# END handle zero versions
+	
+	baseargs = tuple()
+	if sys.platform.startswith('win'):
+		baseargs = ("python", )
+	# END handle windows
+	
+	
+	from mrv.path import Path
+	tmrvrelapath = Path(tmrvpath).relpath()
+	if len(tmrvrelapath) < len(tmrvpath):
+		tmrvpath = tmrvrelapath
+	# END use optically shortest path
+	
+	# find the single tests to run
+	testfiles = [None]	# none indicates no test file, which runs all tests
+	search_root = os.path.join('.', 'test')
+	
+	# on windows though, things are a little different so that we have to specify 
+	# absolute paths, and to run all tests
+	if sys.platform.startswith('win'):
+		search_root = os.path.abspath(search_root)
+		testfiles[0] = search_root
+	# END windoze special handling as usual
+	
+	if not options.skip_single:
+		for root, dirs, files in os.walk(search_root):
+			testfiles.extend(os.path.join(root, f) for f in files if f.startswith('test_single_') and f.endswith('.py'))
+		# END filter fiels
+	# END find single tests
+	
+	for version in maya_versions:
+		for testfile in testfiles:
+			args = baseargs + (tmrvpath, "%g" % version)
+			if testfile:
+				args += (testfile, )
+			# END add testfile
+			if options.mayapy_only:
+				args += (_mrv_mayapy_flag, )
+			# END add mayapy only flag
+			
+			callstring = ' '.join(args)
+			sys.stderr.write(callstring + "\n")
+			rval = subprocess.call(args)
+			if rval:
+				print "Failed to run: %s" % callstring
+				raise sys.exit(rval)
+			# END handle rval
+		# END for each testfile
+	# END for each maya_version
+	
+	if options.skip_single and testfiles > 1:
+		raise ValueError("Cannot pass regression test as single tests have been skipped")
+	# END fail if we skipped single tests
+	
+	# finally !
+	print "-----------------------------------------------------------------"
+	print "-----------------------------------------------------------------"
+	print "You are ready for a release once you have tested the UI manually!"
+	print "-----------------------------------------------------------------"
+	print "-----------------------------------------------------------------"
+	
+if __name__ == "__main__":
+	# ignore first arg which is the executable
+	tmrvrmain(sys.argv[1:])
+# END initialization 
