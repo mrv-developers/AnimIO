@@ -11,4 +11,4 @@ all:
 
 # Moving-Tag Preview Commit 
 preview:
-	/usr/bin/python setup.py --force-git-tag  --use-git=1 --regression-tests=1 clean --all sdist --format=zip --post-testing=2011 --dist-remotes=distro --root-remotes=origin docdist --zip-archive --from-build-version --dist-remotes=docdistro --root-remotes=origin
+	/usr/bin/python setup.py --force-git-tag  --use-git=1 --regression-tests=1 clean --all sdist --format=zip --post-testing=2011 --dist-remotes=distro,hub --root-remotes=gitorious,hub docdist --zip-archive --from-build-version --dist-remotes=docdistro,hub --root-remotes=gitorious,hub

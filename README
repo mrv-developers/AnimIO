@@ -1,0 +1,34 @@
+AnimIO
+------
+A maya tool for exporting an importing animation as fast and convenient as possible.
+It provides an MRV library for performing the operations which are made available
+to a separate graphical user interface.
+
+
+Documentation
+-------------
+Compiled Documentation can be viewed online at
+http://packages.python.org/AnimIO
+
+
+Links
+-----
+
+Issues are tracked by Lighthouse:
+http://byronimo.lighthouseapp.com/projects/52720-animio/overview
+
+Developers can obtain the source code from github or gitorious, which also enable collaboration:
+http://gitorious.org/animio     ( main )
+http://github.com/Byron/AnimIO  ( secondary )
+
+If there are any questions about AnimIO, direct them to the MRV mailing list:
+http://groups.google.de/group/mrv-dev
+
+
+License
+-------
+This software is licensed under the *New BSD License*. A version for human beings 
+with translations into many languages can be found here:
+	
+	http://creativecommons.org/licenses/BSD
+		
