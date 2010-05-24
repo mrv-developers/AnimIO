@@ -202,94 +202,6 @@ def _decrStack( name = "unnamed" ):
 	if sys._maya_stack_depth == 0:
 		mel.eval( "storeAPIUndo -id \""+name+"\"" )
 
-
-def undoable( func ):
-	"""Decorator wrapping func so that it will start undo when it begins and end undo
-	when it ends. It assures that only toplevel undoable functions will actually produce
-	an undo event
-	To mark a function undoable, decorate it:
-	
-	>>> @undoable
-	>>> def func( ):
-	>>> 	pass
-	
-	:note: Using decorated functions appears to be only FASTER  than implementing it
-		manually, thus using these is will greatly improve code readability
-	:note: if you use undoable functions, you should mark yourself undoable too - otherwise the
-		functions you call will create individual undo steps
-	:note: if the undo queue is disabled, the decorator does nothing"""
-	if not _maya_undo_enabled:
-		return func
-
-	name = "unnamed"
-	if hasattr( func, "__name__" ):
-		name = func.__name__
-
-	def undoableDecoratorWrapFunc( *args, **kwargs ):
-		"""This is the long version of the method as it is slightly faster than
-		simply using the StartUndo helper"""
-		_incrStack( )
-		try:
-			return func( *args, **kwargs )
-		finally:
-			_decrStack( name )
-		# END try finally
-	# END wrapFunc
-
-	undoableDecoratorWrapFunc.__name__ = name
-	return undoableDecoratorWrapFunc
-
-def forceundoable( func ):
-	"""As undoable, but will enable the undo queue if it is currently disabled. It will 
-	forcibly enable maya's undo queue.
-	
-	:note: can only be employed reasonably if used in conjunction with `undoAndClear`
-		as it will restore the old state of the undoqueue afterwards, which might be off, thus
-		rendering attempts to undo impossible"""
-	undoable_func = undoable( func )
-	def forcedUndo( *args, **kwargs ):
-		disable = False
-		if not undoInfo( q=1, st=1 ):
-			disable = True
-			undoInfo( swf=1 )
-		# END undo info handling
-		try:
-			return undoable_func( *args, **kwargs )
-		finally:
-			if disable:
-				undoInfo( swf=0 )
-		# END exception handling
-	# END forced undo function
-	return forcedUndo
-
-def notundoable( func ):
-	"""Decorator wrapping a function into a muteUndo call, thus all undoable operations
-	called from this method will not enter the UndoRecorder and thus pollute it.
-	
-	:note: use it if your method cannot support undo, butcalls undoable operations itself
-	:note: all functions using a notundoable should be notundoable themselves
-	:note: does nothing if the undo queue is globally disabled"""
-	if not _maya_undo_enabled:
-		return func
-	
-	def notundoableDecoratorWrapFunc( *args, **kwargs ):
-		"""This is the long version of the method as it is slightly faster than
-		simply using the StartUndo helper"""
-		prevstate = undoInfo( q=1, st=1 )
-		undoInfo( swf = 0 )
-		try:
-			return func( *args, **kwargs )
-		finally:
-			undoInfo( swf = prevstate )
-		# END exception handling
-	# END wrapFunc
-
-	if hasattr( func, "__name__" ):
-		notundoableDecoratorWrapFunc.__name__ = func.__name__
-
-	return notundoableDecoratorWrapFunc
-
-
 class MuteUndo( object ):
 	"""Instantiate this class to disable the maya undo queue - on deletion, the
 	previous state will be restored
@@ -510,6 +422,104 @@ class UndoRecorder( object ):
 	
 #} END utilities
 
+
+#{ Decorators
+
+def undoable( func ):
+	"""Decorator wrapping func so that it will start undo when it begins and end undo
+	when it ends. It assures that only toplevel undoable functions will actually produce
+	an undo event
+	To mark a function undoable, decorate it:
+	
+	>>> @undoable
+	>>> def func( ):
+	>>> 	pass
+	
+	:note: Using decorated functions appears to be only FASTER  than implementing it
+		manually, thus using these is will greatly improve code readability
+	:note: if you use undoable functions, you should mark yourself undoable too - otherwise the
+		functions you call will create individual undo steps
+	:note: if the undo queue is disabled, the decorator does nothing"""
+	if not _maya_undo_enabled:
+		return func
+
+	name = "unnamed"
+	if hasattr( func, "__name__" ):
+		name = func.__name__
+
+	def undoableDecoratorWrapFunc( *args, **kwargs ):
+		"""This is the long version of the method as it is slightly faster than
+		simply using the StartUndo helper"""
+		_incrStack( )
+		try:
+			return func( *args, **kwargs )
+		finally:
+			_decrStack( name )
+		# END try finally
+	# END wrapFunc
+
+	undoableDecoratorWrapFunc.__name__ = name
+	undoableDecoratorWrapFunc.__doc__ = func.__doc__
+	return undoableDecoratorWrapFunc
+
+def forceundoable( func ):
+	"""As undoable, but will enable the undo queue if it is currently disabled. It will 
+	forcibly enable maya's undo queue.
+	
+	:note: can only be employed reasonably if used in conjunction with `undoAndClear`
+		as it will restore the old state of the undoqueue afterwards, which might be off, thus
+		rendering attempts to undo impossible"""
+	undoable_func = undoable( func )
+	def forcedUndo( *args, **kwargs ):
+		disable = False
+		if not undoInfo( q=1, st=1 ):
+			disable = True
+			undoInfo( swf=1 )
+		# END undo info handling
+		try:
+			return undoable_func( *args, **kwargs )
+		finally:
+			if disable:
+				undoInfo( swf=0 )
+		# END exception handling
+	# END forced undo function
+	
+	if hasattr( func, "__name__" ):
+		forcedUndo.__name__ = func.__name__
+	# END assume name
+	forcedUndo.__doc__ = func.__doc__
+	
+	return forcedUndo
+
+def notundoable( func ):
+	"""Decorator wrapping a function into a muteUndo call, thus all undoable operations
+	called from this method will not enter the UndoRecorder and thus pollute it.
+	
+	:note: use it if your method cannot support undo, butcalls undoable operations itself
+	:note: all functions using a notundoable should be notundoable themselves
+	:note: does nothing if the undo queue is globally disabled"""
+	if not _maya_undo_enabled:
+		return func
+	
+	def notundoableDecoratorWrapFunc( *args, **kwargs ):
+		"""This is the long version of the method as it is slightly faster than
+		simply using the StartUndo helper"""
+		prevstate = undoInfo( q=1, st=1 )
+		undoInfo( swf = 0 )
+		try:
+			return func( *args, **kwargs )
+		finally:
+			undoInfo( swf = prevstate )
+		# END exception handling
+	# END wrapFunc
+
+	if hasattr( func, "__name__" ):
+		notundoableDecoratorWrapFunc.__name__ = func.__name__
+	# END assume name
+	notundoableDecoratorWrapFunc.__doc__ = func.__doc__
+	return notundoableDecoratorWrapFunc
+
+#} END decorators
 
 
 #{ Operations

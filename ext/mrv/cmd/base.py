@@ -4,11 +4,13 @@ import os
 import sys
 import subprocess
 from mrv.path import Path
+import logging
+log = logging.getLogger("mrv.cmd.base")
 
 __docformat__ = "restructuredtext"
 
 __all__ = ( 'is_supported_maya_version', 'python_version_of', 'parse_maya_version', 'update_env_path', 
-			'maya_location', 'update_maya_environment', 'exec_python_interpreter', 
+			'maya_location', 'update_maya_environment', 'exec_python_interpreter', 'uses_mayapy', 
 			'exec_maya_binary', 'available_maya_versions', 'python_executable', 'find_mrv_script' )
 
 #{ Globals
@@ -33,20 +35,55 @@ def is_supported_maya_version(version):
 		
 	return str(version)[:2] == "20"
 	
+def uses_mayapy():
+	""":return: True if the executable is mayapy"""
+	try:
+		mayapy_maya_version()
+		return True
+	except EnvironmentError:
+		return False
+	# END handle exceptions
+	
+def mayapy_maya_version():
+	""":return: float representing the maya version of the currently running 
+	mayapy interpreter. 
+	:raise EnvironmentError: If called from a 'normal' python interpreter"""
+	if 'maya' not in sys.executable.lower():
+		raise EnvironmentError("Not running mayapy")
+	# END quick first check 
+	
+	exec_path = Path(os.path.realpath(sys.executable))	# Maya is capitalized on windows
+	try:
+		version_token = [ t[4:] for t in exec_path.splitall() if t.lower().startswith('maya') ][0]
+	except IndexError:
+		raise EnvironmentError("Not running mayapy or invalid path mayapy path: %s" % exec_path)
+	# END handle errors
+	
+	if version_token.endswith('-x64'):
+		version_token = version_token[:-4]
+	# END handle 64 bit paths
+	
+	return float(version_token)
+	
 def parse_maya_version(arg, default):
 	""":return: tuple(bool, version) tuple of bool indicating whether the version could 
 	be parsed and was valid, and a float representing the parsed or default version.
 	:param default: The desired default maya version"""
+	parsed_arg = False
+	version = default
 	try:
 		candidate = float(arg)
-		if not is_supported_maya_version(candidate):
+		if is_supported_maya_version(candidate):
+			parsed_arg, version = True, candidate
+		else:
+			pass
 			# in that case, we don't claim the arg and just use the default
-			return (False, default)
-		# END verify version
-		return (True, candidate)
+		# END handle candidate
 	except ValueError:
-		return (False, default)
+		pass
 	# END exception handling
+	
+	return parsed_arg, version
 	
 def python_version_of(maya_version):
 	""":return: python version matching the given maya version
@@ -200,8 +237,7 @@ def update_maya_environment(maya_version):
 	
 	# ADJUST PYTHON PATH
 	####################
-	# mrv is already in the path, we just make sure that the respective path can 
-	# be found in the python path. We add additional paths as well
+	# root project is already in the path, we add additional paths as well
 	ospd = os.path.dirname
 	if not sys.platform.startswith('win'):
 		ppath = os.path.join(mayalocation, pylibdir, "python%s"%py_version, "site-packages")
@@ -209,7 +245,8 @@ def update_maya_environment(maya_version):
 		ppath = os.path.join(mayalocation, pylibdir, "lib", "site-packages")
 	# END windows special handling
 	
-	ppath += os.pathsep + ospd(ospd(ospd(__file__)))
+	# don't prepend, otherwise system-interpreter mrv versions will not be able
+	# to override the possibly existing mrv version installed in maya.
 	update_env_path(env, envppath, ppath, append=True)
 	
 	# SET MAYA LOCATION
@@ -262,30 +299,56 @@ def init_environment(args):
 	one we prepared
 	
 	:param args: commandline arguments excluding the executable ( usually first arg )
-	:return: tuple(maya_version, args) tuple of maya_version, and the remaining args"""
+	:return: tuple(use_this_interpreter, maya_version, args) tuple of Bool, maya_version, and the remaining args
+		The boolean indicates whether we have to reuse this interpreter, as it is mayapy"""
 	# see if first argument is the maya version
 	maya_version=None
 	if args:
-		parsed_successfully, maya_version = parse_maya_version(args[0], maya_version)
+		parsed_successfully, maya_version = parse_maya_version(args[0], default=None)
 		if parsed_successfully:
+			# if the user wants a specific maya version, he should get it no matter what
 			args = args[1:]
 		# END cut version arg
 	# END if there are args at all
 	
 	# choose the newest available maya version if none was specified
 	if maya_version is None:
-		versions = available_maya_versions()
-		if versions:
-			maya_version = versions[-1]
-		# END set latest
+		# If there is no version given, and we are in mayapy, we use the maypy 
+		# version. Otherwise we use the newest available version
+		if uses_mayapy():
+			maya_version = mayapy_maya_version()
+			# in that case, we have a valid maya environment already. This also means 
+			# that we must use this interpreter !
+			return (True, maya_version, tuple(args))
+		else:
+			versions = available_maya_versions()
+			if versions:
+				maya_version = versions[-1]
+				log.info("Using newest available maya version: %g" % maya_version)
+			# END set latest
+		# END handle maya version
 	# END set maya version 
+	
+	# The user has specified a maya version to start. As mayapy sets up everything in 
+	# a distinctive way, we are kind of too late to alter that.
+	# Hence we must prevent the user from starting different maya versions than 
+	# the one defined by mayapy.
+	# NOTE: If we use mayapy, the things mentioned above are an issue. If we 
+	# use the delivered python-bin (linux) or Python (osx) executables, this 
+	# is not an issue. This way, its consistent among all platforms though as 
+	# windows always uses mayapy.
+	if uses_mayapy():
+		mayapy_version = mayapy_maya_version()
+		if mayapy_version != maya_version:
+			raise EnvironmentError("If using mayapy, you cannot run any other maya version than the one mayapy uses: %g" % mayapy_version)
+	# END assert version
 	
 	if maya_version is None:
 		raise EnvironmentError("Maya version not specified on the commandline, couldn't find any maya version on this system")
 	# END abort if not installed
 	
 	update_maya_environment(maya_version)
-	return (maya_version, tuple(args))
+	return (False, maya_version, tuple(args))
 	
 def _execute(executable, args):
 	"""Perform the actual execution of the executable with the given args.

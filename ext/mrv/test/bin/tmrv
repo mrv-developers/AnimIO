@@ -46,7 +46,7 @@ def tmrvmain(args):
 #} END initialization
 
 #{ Utilities 
-def _parse_args(args, maya_version, start_maya):
+def _parse_args(args, maya_version, start_maya, info):
 	"""Parse our arguments and react accordingly. 
 	args don't contain the maya version number anymore, but may contain our 
 	args interleaved with nose args
@@ -66,7 +66,7 @@ def _parse_args(args, maya_version, start_maya):
 		if arg.startswith(mrv.test.cmd.tmrv_coverage_flag):
 			del(args[i])
 			tokens = arg.split('=', 1)
-			package = mrv.__name__
+			package = info.root_package
 			if len(tokens) == 2:
 				package = tokens[1]
 			# END if a package is set

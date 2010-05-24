@@ -19,6 +19,7 @@ exclude test/test_dge.py
 exclude test/test_dgfe.py 
 exclude test/test_batch.py 
 exclude test/test_mdp.py
+exclude maya/ui/qa.py
 
 graft test/fixtures
 prune test/fixtures/ma/huge

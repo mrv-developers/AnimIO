@@ -39,9 +39,10 @@ description = 'Convenient Animation Export and Import'
 # License Identification String
 license = "BSD License"
 
-# Additional Keyword Arguments to be passed to distutils.core.setup
-# This should include the 'classifiers' keyword which is important to pipy
-setup_kwargs = dict()
+# Will be automatically set during build to track the source version used for 
+# the distribution
+src_commit_sha = '8993ee2e48c85da252b0821d3beaf6b1b89f71f8'
+
 
 
 # paths to executables, relative to our project root
@@ -49,6 +50,9 @@ regression_test_exec = 'ext/mrv/test/bin/tmrvr'
 nosetest_exec = 'ext/mrv/test/bin/tmrv'
 makedoc_exec = '../ext/mrv/doc/makedoc'
 
+
+# Additional Keyword Arguments to be passed to distutils.core.setup
+# This should include the 'classifiers' keyword which is important to pipy
 setup_kwargs = dict(
 				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},
 				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), 

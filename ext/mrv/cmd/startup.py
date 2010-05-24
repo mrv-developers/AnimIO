@@ -57,15 +57,17 @@ def ipython_setup():
 
 #{ Startup
 
-def mrv(args, args_modifier=None):
+def mrv(args, info, args_modifier=None):
 	"""Prepare the environment to allow the operation of maya
+	:param info: info module instance
 	:param args_modifier: Function returning a possibly modified argument list. The passed 
 		in argument list was parsed already to find and extract the maya version. 
-		Signature: ``arglist func(arglist, maya_version, start_maya)
+		Signature: ``arglist func(arglist, maya_version, start_maya, info)
 		If start_maya is True, the process to be started will be maya.bin, not the 
 		python interpreter. If maya_version is 0, the process will continue execution
 		within this python interpreter which is assured to have mrv facilities availble 
-		which do not require maya."""
+		which do not require maya.
+		The last argument is the project's info module"""
 	import mrv.cmd
 	import mrv.cmd.base as cmdbase
 	
@@ -88,14 +90,20 @@ def mrv(args, args_modifier=None):
 	if no_maya and ( start_maya or mayapy_only ):
 		raise EnvironmentError("If %s is specified, %s or %s may not be given as well" % (mrv.cmd.mrv_nomaya_flag, mrv.cmd.mrv_ui_flag, mrv.cmd.mrv_mayapy_flag))
 	
+	force_reuse_this_interpreter = False 
 	if not no_maya:
-		maya_version, rargs = cmdbase.init_environment(rargs)
+		force_reuse_this_interpreter, maya_version, rargs = cmdbase.init_environment(rargs)
 	else:
 		maya_version = 0.0
 	# EMD initialize maya if required
 	
-	rargs = list(args_modifier(tuple(rargs), maya_version, start_maya))
-	if no_maya:
+	if args_modifier is not None:
+		rargs = list(args_modifier(tuple(rargs), maya_version, start_maya, info))
+	else:
+		rargs = list(rargs)
+	# END handle arg list
+	
+	if no_maya or (force_reuse_this_interpreter and not start_maya):
 		# parse the option ourselves, the optparse would throw on unknown opts
 		remaining_args = list()
 		eval_script = None
@@ -120,8 +128,17 @@ def mrv(args, args_modifier=None):
 			exec(eval_script)
 		elif module:
 			__import__(module)
+		elif remaining_args and os.path.isfile(remaining_args[0]):
+			# if the first remaining arg is a file, execute it - all other args will
+			# be accessible too
+			execfile(remaining_args[0])
+		elif not sys.stdin.closed:
+			# read everything until stdin is closed, and execute it
+			eval_script = sys.stdin.read()
+			exec(eval_script)
 		else:
-			raise EnvironmentError("Please specify '-c CMD' or '-m MODULE' to indicate which code to execute")
+			# we actually never get here, but leave it just ... in case
+			raise EnvironmentError("Please specify '-c CMD' or '-m MODULE', or provide a file to indicate which code to execute")
 		# END handle flags
 		
 	else:

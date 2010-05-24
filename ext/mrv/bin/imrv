@@ -21,7 +21,7 @@ def imrvmain(args):
 	# END exception handling
 	
 	# NOTE: using the module (-m) does not work in py2.4
-	args_mod = lambda a, v, m: ('-c', 'import mrv.cmd.startup as startup; startup.imrv()') + a
+	args_mod = lambda a, v, m, i: ('-c', 'import mrv.cmd.startup as startup; startup.imrv()') + a
 	mrvmain(args, args_modifier=args_mod)
 	
 	

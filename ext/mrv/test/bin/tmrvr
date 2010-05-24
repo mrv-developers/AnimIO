@@ -93,7 +93,7 @@ def tmrvrmain(args):
 		raise EnvironmentError("Could not execute mrv at %r or %r" % (includefile_path, includefile_path_bin))
 	# END exception handling
 	
-	prepare_project_syspath()
+	root, info = prepare_project_syspath()
 	options, maya_versions = parse_opts(args)
 	
 	if not maya_versions:

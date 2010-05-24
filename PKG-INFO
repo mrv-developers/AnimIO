@@ -1,4 +1,4 @@
-Metadata-Version: 1.1
+Metadata-Version: 1.0
 Name: AnimIO
 Version: 0.2.0-Preview
 Summary: Convenient Animation Export and Import
@@ -8,7 +8,3 @@ Author-email: not@provided.com
 License: BSD License
 Description: UNKNOWN
 Platform: UNKNOWN
-Requires: epydoc
-Requires: gitpython
-Requires: nose
-Requires: sphinx

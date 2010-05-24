@@ -40,7 +40,7 @@ class DocGenerator(object):
 modules: pydot,pyparsing
 modules: ../,../ext/networkx/networkx"""
 
-	epydoc_exclude = "mrv.test,mrv.doc,mrv.cmd.ipythonstartup"  
+	epydoc_exclude = "mrv.test,mrv.doc,mrv.cmd.ipythonstartup"
 
 
 	# DYNAMICALLY ADJUSTED MEMBERS
@@ -60,7 +60,7 @@ output: html"""
 
 	#} END configuration
 
-	def __init__(self, sphinx=True, coverage=True, epydoc=True, base_dir='.', *args):
+	def __init__(self, sphinx=True, sphinx_autogen=True, coverage=True, epydoc=True, base_dir='.', *args):
 		"""Initialize the instance
 		
 		:param sphinx: If True, sphinx documentation will be produced
@@ -72,6 +72,7 @@ output: html"""
 		
 		
 		self._sphinx = sphinx
+		self._sphinx_autogen = sphinx_autogen
 		self._coverage = coverage
 		self._epydoc = epydoc
 		
@@ -86,6 +87,15 @@ output: html"""
 		self._project_dir = Path(self._base_dir / "..")
 	
 	#{ Public Interface
+	
+	@classmethod
+	def remove_version_info(cls, idstring, basedir='.'):
+		"""Remove the version info file if it exists"""
+		try:
+			os.remove(cls.version_file_name(idstring, basedir))
+		except OSError:
+			pass
+		# END exception handling
 	
 	@classmethod
 	def version_file_name(cls, idstring, basedir='.'):
@@ -128,9 +138,12 @@ output: html"""
 		Make documentation or remove the generated files."""
 		parser = optparse.OptionParser(usage=usage)
 		
-		hlp = """Specifies sphinx documentation. It will include the epydoc pages, whether 
-		they exist or not"""
+		hlp = """Specifies to build sphinx documentation"""
 		parser.add_option('-s', '--sphinx', dest='sphinx', type='int',default=1,
+							help=hlp, metavar='STATE')
+		
+		hlp = """If specified, sphinx API docuementation will be generated"""
+		parser.add_option('-a', '--sphinx-autogen', dest='sphinx_autogen', type='int', default=1, 
 							help=hlp, metavar='STATE')
 		
 		hlp = """Specifies epydoc documentation"""
@@ -190,7 +203,9 @@ output: html"""
 		
 		if self._sphinx:
 			self._make_sphinx_index()
-			self._make_sphinx_autogen()
+			if self._sphinx_autogen:
+				self._make_sphinx_autogen()
+			# END generate autogen
 			self._make_sphinx()
 		# END make sphinx
 	
@@ -199,6 +214,7 @@ output: html"""
 		:note: Must respect the options the same way as done by the ``generate``
 		method"""
 		if self._coverage:
+			self.remove_version_info('coverage')
 			bdd = self.build_downloads_dir()
 			csdd = self.source_downloads_coverage_dir()
 			coverage_dir = Path(self._project_dir / cmd.tmrv_coverage_dir)
@@ -222,6 +238,7 @@ output: html"""
 		# END clean coverage 
 		
 		if self._epydoc:
+			self.remove_version_info('epydoc')
 			try:
 				shutil.rmtree(self.epydoc_target_dir())
 			except OSError:
@@ -230,6 +247,7 @@ output: html"""
 		# END clean epydoc
 		
 		if self._sphinx:
+			self.remove_version_info('sphinx')
 			ip = self.index_rst_path()
 			if ip.isfile():
 				ip.remove()
@@ -371,30 +389,33 @@ output: html"""
 		# write header
 		ifp.write((indexpath+'.header').bytes())
 		
-		basepath = self._base_dir / ".."
-		rootmodule = basepath.abspath().basename()
-		for root, dirs, files in os.walk(basepath):
-			remove_dirs = list()
-			for dirname in dirs:
-				if dirname in self.forbidden_dirs:
-					remove_dirs.append(dirname)
-				# END for each forbidden dir
-			# END for each directory
-			
-			for dirname in remove_dirs:
-				del(dirs[dirs.index(dirname)])
-			# END for each dirname to remove
-			
-			for fname in files:
-				if not fname.endswith('.py') or fname.startswith('_'):
-					continue
-				filepath = os.path.join(root, fname)
+		# write api index
+		if self._sphinx_autogen:
+			basepath = self._base_dir / ".."
+			rootmodule = basepath.abspath().basename()
+			for root, dirs, files in os.walk(basepath):
+				remove_dirs = list()
+				for dirname in dirs:
+					if dirname in self.forbidden_dirs:
+						remove_dirs.append(dirname)
+					# END for each forbidden dir
+				# END for each directory
 				
-				# + 1 as there is a trailing path separator
-				modulepath = "%s.%s" % (rootmodule, filepath[len(basepath)+1:-3].replace(os.path.sep, '.'))
-				ifp.write("\t%s\n" % modulepath)
+				for dirname in remove_dirs:
+					del(dirs[dirs.index(dirname)])
+				# END for each dirname to remove
+				
+				for fname in files:
+					if not fname.endswith('.py') or fname.startswith('_'):
+						continue
+					filepath = os.path.join(root, fname)
+					
+					# + 1 as there is a trailing path separator
+					modulepath = "%s.%s" % (rootmodule, filepath[len(basepath)+1:-3].replace(os.path.sep, '.'))
+					ifp.write("\t%s\n" % modulepath)
+				# END for each file
 			# END for each file
-		# END for each file
+		# END generate api index 
 		
 		# finalize it, write the footer
 		ifp.write((indexpath+'.footer').bytes())

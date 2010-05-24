@@ -5,7 +5,6 @@ Initialize mrv system assisting development, debugging and maintenance
 	- install general `decorator` into __builtin__ namespace
 """
 import __builtin__
-from inspect import isfunction
 import logging
 import logging.config
 log = logging.getLogger("mrv")
