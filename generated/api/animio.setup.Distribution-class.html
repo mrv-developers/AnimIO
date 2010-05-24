@@ -63,11 +63,11 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Distribution</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#Distribution">source&nbsp;code</a></span></p>
 <pre class="base-tree">
-          object --+
-                   |
-BaseDistribution --+
-                   |
-                  <strong class="uidshort">Distribution</strong>
+                     object --+
+                              |
+distutils.dist.Distribution --+
+                              |
+                             <strong class="uidshort">Distribution</strong>
 </pre>
 
 <hr />
@@ -311,23 +311,6 @@ test fails</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="animio.setup.Distribution-class.html#postprocess_metadata" class="summary-sig-name">postprocess_metadata</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Called after the commandline has been parsed.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#Distribution.postprocess_metadata">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="animio.setup.Distribution-class.html#run_commands" class="summary-sig-name">run_commands</a>(<span class="summary-sig-arg">self</span>)</span><br />
       Perform required pre- and post-run actions</td>
           <td align="right" valign="top">
@@ -373,7 +356,7 @@ test fails</td>
       <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code>BaseDistribution</code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.dist.Distribution</code></b>:
       <code>announce</code>,
       <code>dump_option_dicts</code>,
       <code>finalize_options</code>,
@@ -398,7 +381,7 @@ test fails</td>
       <code>reinitialize_command</code>,
       <code>run_command</code>
       </p>
-    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>BaseDistribution</code></b> (private):
+    <div class="private">    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.dist.Distribution</code></b> (private):
       <code>_get_toplevel_options</code>,
       <code>_parse_command_opts</code>,
       <code>_set_command_options</code>,
@@ -589,13 +572,6 @@ stream accordingly.</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="include_external"></a><span class="summary-name">include_external</span> = <code title="True">True</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="opt_maya_version"></a><span class="summary-name">opt_maya_version</span> = <code title="'maya-version'"><code class="variable-quote">'</code><code class="variable-string">maya-version</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
@@ -610,19 +586,12 @@ stream accordingly.</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="animio.setup.Distribution-class.html#requires_map" class="summary-name">requires_map</a> = <code title="{'bdist': [], 'sdist': ['nose', 'epydoc', 'sphinx', 'gitpython']}"><code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">bdist</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-group">]</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sdist</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">nose</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">epydoc</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sphi</code><code class="variable-ellipsis">...</code></code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="rootpackage"></a><span class="summary-name">rootpackage</span> = <code title="None">None</code>
     </td>
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code>BaseDistribution</code></b>:
+    <p class="indent-wrapped-lines"><b>Inherited from <code>distutils.dist.Distribution</code></b>:
       <code>common_usage</code>,
       <code>display_option_names</code>,
       <code>display_options</code>,
@@ -695,7 +664,7 @@ stream accordingly.</td>
   Initialize base and set some useful defaults
   <dl class="fields">
     <dt>Overrides:
-        BaseDistribution.__init__
+        distutils.dist.Distribution.__init__
     </dt>
   </dl>
 </td></tr></table>
@@ -924,7 +893,7 @@ If so, continue, if not, try to create a tag with the current version.
 If the version was already tagged before, help the user to adjust his
 version string in the root module, make a commit, and finally create
 the tag we were so desperate for. The main idea is to enforce a unique
-version each time we make a release, and to make that easy
+version each time we make a release, and to make that easy.
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>TagReference object created</dd>
@@ -976,28 +945,8 @@ stream accordingly.
   Handle our custom options
   <dl class="fields">
     <dt>Overrides:
-        BaseDistribution.parse_command_line
+        distutils.dist.Distribution.parse_command_line
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="postprocess_metadata"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">postprocess_metadata</span>(<span class="sig-arg">self</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="animio.setup-pysrc.html#Distribution.postprocess_metadata">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Called after the commandline has been parsed. With all information available
-we can decide whether additional dependencies need to be specified
-  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -1018,7 +967,7 @@ we can decide whether additional dependencies need to be specified
   Perform required pre- and post-run actions
   <dl class="fields">
     <dt>Overrides:
-        BaseDistribution.run_commands
+        distutils.dist.Distribution.run_commands
     </dt>
   </dl>
 </td></tr></table>
@@ -1076,43 +1025,6 @@ Start the default python interpreter, and handle the windows special case
 </td></tr></table>
 </div>
 <br />
-<!-- ==================== CLASS VARIABLE DETAILS ==================== -->
-<a name="section-ClassVariableDetails"></a>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Class Variable Details</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-ClassVariableDetails"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-</table>
-<a name="requires_map"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">requires_map</h3>
-  
-  <dl class="fields">
-  </dl>
-  <dl class="fields">
-    <dt>Value:</dt>
-      <dd><table><tr><td><pre class="variable">
-<code class="variable-group">{</code><code class="variable-quote">'</code><code class="variable-string">bdist</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-group">]</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sdist</code><code class="variable-quote">'</code><code class="variable-op">: </code><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">nose</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">epydoc</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">sphinx</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">gitpython</code><code class="variable-quote">'</code><code class="variable-group">]</code><code class="variable-group">}</code>
-</pre></td></tr></table>
-</dd>
-  </dl>
-</td></tr></table>
-</div>
-<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -1144,7 +1056,7 @@ Start the default python interpreter, and handle the windows special case
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    Generated by Epydoc 3.0.1 on Mon May 24 16:21:56 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

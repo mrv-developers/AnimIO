@@ -535,7 +535,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.AnimIOLayout.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIOLayout.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIOLayout.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -558,7 +558,7 @@ sequence.  The separator between elements is S.</p>
 
 <dl class="method">
 <dt id="animio.ui.AnimIOLayout.listChildren">
-<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6d3ac08&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIOLayout.listChildren" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIOLayout.listChildren" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1805,7 +1805,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.AnimIO_UI.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIO_UI.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIO_UI.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1828,7 +1828,7 @@ sequence.  The separator between elements is S.</p>
 
 <dl class="method">
 <dt id="animio.ui.AnimIO_UI.listChildren">
-<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6d3ac08&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIO_UI.listChildren" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.AnimIO_UI.listChildren" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2656,6 +2656,1137 @@ of the specified width. The string S is never truncated.</p>
 
 </dd></dl>
 
+<p><a class="reference external" href="api/animio.ui.ConverterControl-class.html">Epydoc: animio.ui.ConverterControl</a></p>
+<dl class="class">
+<dt id="animio.ui.ConverterControl">
+<em class="property">class </em><tt class="descclassname">animio.ui.</tt><tt class="descname">ConverterControl</tt><a class="headerlink" href="#animio.ui.ConverterControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">mrv.maya.ui.FormLayout</span></tt></p>
+<p>Implements an interface to a layout allowing the user to enter search and replace
+tokens</p>
+<dl class="class">
+<dt id="animio.ui.ConverterControl.FormConstraint">
+<em class="property">class </em><tt class="descname">FormConstraint</tt><a class="headerlink" href="#animio.ui.ConverterControl.FormConstraint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>defines the way a child is constrained, possibly to other children</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Todo:</th><td class="field-body">proper constraint system, but could be complicated to make it really easy to use</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="animio.ui.ConverterControl.activeParent">
+<em class="property">classmethod </em><tt class="descclassname">ConverterControl.</tt><tt class="descname">activeParent</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.activeParent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">NameUI of the currently set parent</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises RuntimeError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">if no active parent was set</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.add">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">add</tt><big>(</big><em>child</em>, <em>set_self_active=False</em>, <em>revert_to_previous_parent=True</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the given child UI item to our list of children</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>set_self_active</em> &#8211; if True, we explicitly make ourselves the current parent
+for newly created UI elements</li>
+<li><em>revert_to_previous_parent</em> &#8211; if True, the previous parent will be restored
+once we are done, if False we keep the parent - only effective if set_self_active is True</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the newly added child, allowing contructs like
+button = layout.addChild( Button( ) )</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="animio.ui.ConverterControl.addSep">
+<em class="property">classmethod </em><tt class="descclassname">ConverterControl.</tt><tt class="descname">addSep</tt><big>(</big><em>item</em>, <em>sep</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.addSep" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">item with separator added to it ( just once )</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first">operates best on strings</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>item</em> &#8211; item to add separator to</li>
+<li><em>sep</em> &#8211; the separator</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.annotation">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">annotation</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.annotation" title="Permalink to this definition">¶</a></dt>
+<dd>:return : the annotation string</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.basename">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">basename</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.basename" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">basename of this path, &#8216;/hello/world&#8217; -&gt; &#8216;world&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.capitalize">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">capitalize</tt><a class="headerlink" href="#animio.ui.ConverterControl.capitalize" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.capitalize() -&gt; unicode</p>
+<p>Return a capitalized version of S, i.e. make the first character
+have upper case.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.center">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">center</tt><a class="headerlink" href="#animio.ui.ConverterControl.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.center(width[, fillchar]) -&gt; unicode</p>
+<p>Return S centered in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.childByName">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">childByName</tt><big>(</big><em>childname</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.childByName" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">stored child instance, specified either as short name ( without pipes )
+or fully qualified ( i.e. mychild or parent|subparent|mychild&#8221; )</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises KeyError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">if a child with that name does not exist</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.children">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">children</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.children" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">children of this layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.childrenDeep">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">childrenDeep</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">all child instances recursively</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">the order of children is lexically ordered at this time</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">this implementation is slow and should be overridden by more specialized subclasses</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.clearAllEvents">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">clearAllEvents</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.clearAllEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove all event receivers for all events registered in this instance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">This usually doesn&#8217;t need to be called directly, but might be useful 
+in conjunction with other system that do not release your strongly bound 
+instance</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.clearChildren">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">clearChildren</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.clearChildren" title="Permalink to this definition">¶</a></dt>
+<dd>Clear our child arrays to quickly forget about our children</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.count">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">count</tt><a class="headerlink" href="#animio.ui.ConverterControl.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.count(sub[, start[, end]]) -&gt; int</p>
+<p>Return the number of non-overlapping occurrences of substring sub in
+Unicode string S[start:end].  Optional arguments start and end are
+interpreted as in slice notation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.decode">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">decode</tt><a class="headerlink" href="#animio.ui.ConverterControl.decode" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.decode([encoding[,errors]]) -&gt; string or unicode</p>
+<p>Decodes S using the codec registered for encoding. encoding defaults
+to the default encoding. errors may be given to set a different error
+handling scheme. Default is &#8216;strict&#8217; meaning that encoding errors raise
+a UnicodeDecodeError. Other possible values are &#8216;ignore&#8217; and &#8216;replace&#8217;
+as well as any other name registerd with codecs.register_error that is
+able to handle UnicodeDecodeErrors.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.delete">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">delete</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.delete" title="Permalink to this definition">¶</a></dt>
+<dd>Delete this UI - the wrapper instance must not be used after this call</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.deleteChild">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">deleteChild</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.deleteChild" title="Permalink to this definition">¶</a></dt>
+<dd>Delete the given child ui physically so it will not be shown anymore
+after removing it from our list of children</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.dimension">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">dimension</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.dimension" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">(x,y) tuple of x and y dimensions of the UI element</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.e_dgc">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">e_dgc</tt><a class="headerlink" href="#animio.ui.ConverterControl.e_dgc" title="Permalink to this definition">¶</a></dt>
+<dd>Event suitable to deal with user interface callback</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.e_dpc">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">e_dpc</tt><a class="headerlink" href="#animio.ui.ConverterControl.e_dpc" title="Permalink to this definition">¶</a></dt>
+<dd>Event suitable to deal with user interface callback</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.e_dragCallback">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">e_dragCallback</tt><a class="headerlink" href="#animio.ui.ConverterControl.e_dragCallback" title="Permalink to this definition">¶</a></dt>
+<dd>Event suitable to deal with user interface callback</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.e_dropCallback">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">e_dropCallback</tt><a class="headerlink" href="#animio.ui.ConverterControl.e_dropCallback" title="Permalink to this definition">¶</a></dt>
+<dd>Event suitable to deal with user interface callback</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.encode">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">encode</tt><a class="headerlink" href="#animio.ui.ConverterControl.encode" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.encode([encoding[,errors]]) -&gt; string or unicode</p>
+<p>Encodes S using the codec registered for encoding. encoding defaults
+to the default encoding. errors may be given to set a different error
+handling scheme. Default is &#8216;strict&#8217; meaning that encoding errors raise
+a UnicodeEncodeError. Other possible values are &#8216;ignore&#8217;, &#8216;replace&#8217; and
+&#8216;xmlcharrefreplace&#8217; as well as any other name registered with
+codecs.register_error that can handle UnicodeEncodeErrors.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.endswith">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">endswith</tt><a class="headerlink" href="#animio.ui.ConverterControl.endswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.endswith(suffix[, start[, end]]) -&gt; bool</p>
+<p>Return True if S ends with the specified suffix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+suffix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.exists">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">exists</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.exists" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if this instance still exists in maya</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.expandtabs">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">expandtabs</tt><a class="headerlink" href="#animio.ui.ConverterControl.expandtabs" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.expandtabs([tabsize]) -&gt; unicode</p>
+<p>Return a copy of S where all tab characters are expanded using spaces.
+If tabsize is not given, a tab size of 8 characters is assumed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.find">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">find</tt><a class="headerlink" href="#animio.ui.ConverterControl.find" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.find(sub [,start [,end]]) -&gt; int</p>
+<p>Return the lowest index in S where substring sub is found,
+such that sub is contained within s[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.format">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">format</tt><a class="headerlink" href="#animio.ui.ConverterControl.format" title="Permalink to this definition">¶</a></dt>
+<dd>S.format(<a href="#id9"><span class="problematic" id="id10">*</span></a>args, <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs) -&gt; unicode</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.fullChildName">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">fullChildName</tt><big>(</big><em>childname</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.fullChildName" title="Permalink to this definition">¶</a></dt>
+<dd>Add the given name to the string version of our instance
+:return: string with childname added like name _sep childname</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.index">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">index</tt><a class="headerlink" href="#animio.ui.ConverterControl.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.index(sub [,start [,end]]) -&gt; int</p>
+<p>Like S.find() but raise ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.isPartOf">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isPartOf</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.isPartOf" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if self is a part of other, and thus can be found in other</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">operates on strings only</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.isRoot">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isRoot</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.isRoot" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if this path is the root of the DAG</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.isRootOf">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isRootOf</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.isRootOf" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True other starts with self</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">operates on strings</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">we assume other has the same type as self, thus the same separator</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isalnum">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isalnum</tt><a class="headerlink" href="#animio.ui.ConverterControl.isalnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isalnum() -&gt; bool</p>
+<p>Return True if all characters in S are alphanumeric
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isalpha">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isalpha</tt><a class="headerlink" href="#animio.ui.ConverterControl.isalpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isalpha() -&gt; bool</p>
+<p>Return True if all characters in S are alphabetic
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isdecimal">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isdecimal</tt><a class="headerlink" href="#animio.ui.ConverterControl.isdecimal" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isdecimal() -&gt; bool</p>
+<p>Return True if there are only decimal characters in S,
+False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isdigit">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isdigit</tt><a class="headerlink" href="#animio.ui.ConverterControl.isdigit" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isdigit() -&gt; bool</p>
+<p>Return True if all characters in S are digits
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.islower">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">islower</tt><a class="headerlink" href="#animio.ui.ConverterControl.islower" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.islower() -&gt; bool</p>
+<p>Return True if all cased characters in S are lowercase and there is
+at least one cased character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isnumeric">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isnumeric</tt><a class="headerlink" href="#animio.ui.ConverterControl.isnumeric" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isnumeric() -&gt; bool</p>
+<p>Return True if there are only numeric characters in S,
+False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isspace">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isspace</tt><a class="headerlink" href="#animio.ui.ConverterControl.isspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isspace() -&gt; bool</p>
+<p>Return True if all characters in S are whitespace
+and there is at least one character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.istitle">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">istitle</tt><a class="headerlink" href="#animio.ui.ConverterControl.istitle" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.istitle() -&gt; bool</p>
+<p>Return True if S is a titlecased string and there is at least one
+character in S, i.e. upper- and titlecase characters may only
+follow uncased characters and lowercase characters only cased ones.
+Return False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.isupper">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">isupper</tt><a class="headerlink" href="#animio.ui.ConverterControl.isupper" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.isupper() -&gt; bool</p>
+<p>Return True if all cased characters in S are uppercase and there is
+at least one cased character in S, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.iterParents">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.iterParents" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">generator retrieving all parents up to the root</td>
+</tr>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>predicate</em> &#8211; returns True for all x that you want to be returned</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.join">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">join</tt><a class="headerlink" href="#animio.ui.ConverterControl.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.join(sequence) -&gt; unicode</p>
+<p>Return a string which is the concatenation of the strings in the
+sequence.  The separator between elements is S.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.listChildren">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.listChildren" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list with our child instances</td>
+</tr>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>predicate</em> &#8211; function returning True for each child to include in result,
+allows to easily filter children</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">it&#8217;s a copy, so you can freely act on the list</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">children will be returned in the order in which they have been added</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="animio.ui.ConverterControl.listEventNames">
+<em class="property">classmethod </em><tt class="descclassname">ConverterControl.</tt><tt class="descname">listEventNames</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.listEventNames" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of event ids that exist on our class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.ljust">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">ljust</tt><a class="headerlink" href="#animio.ui.ConverterControl.ljust" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.ljust(width[, fillchar]) -&gt; int</p>
+<p>Return S left-justified in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.lower">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">lower</tt><a class="headerlink" href="#animio.ui.ConverterControl.lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.lower() -&gt; unicode</p>
+<p>Return a copy of the string S converted to lowercase.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.lstrip">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">lstrip</tt><a class="headerlink" href="#animio.ui.ConverterControl.lstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.lstrip([chars]) -&gt; unicode</p>
+<p>Return a copy of the string S with leading whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_ann">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_ann</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_ann" title="Permalink to this definition">¶</a></dt>
+<dd>:return : the annotation string</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_annotation">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_annotation</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_annotation" title="Permalink to this definition">¶</a></dt>
+<dd>:return : the annotation string</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_backgroundColor">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_backgroundColor</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_backgroundColor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_bgc">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_bgc</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_bgc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_ca">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_ca</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_ca" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">children of this layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_childArray">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_childArray</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_childArray" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">children of this layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_defineTemplate">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_defineTemplate</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_defineTemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_dimension">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_dimension</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_dimension" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">(x,y) tuple of x and y dimensions of the UI element</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_doctTag">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_doctTag</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_doctTag" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_dt">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_dt</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_dt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_dtg">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_dtg</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_dtg" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_en">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_en</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_enable">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_enable</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_ex">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_ex</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_ex" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if this instance still exists in maya</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_exists">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_exists</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_exists" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if this instance still exists in maya</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_h">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_h</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_h" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_height">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_height</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_height" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_io">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_io</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_io" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_isObscured">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_isObscured</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_isObscured" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_m">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_m</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_m" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_manage">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_manage</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_manage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_nch">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_nch</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_nch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_npm">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_npm</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_npm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_numberOfChildren">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_numberOfChildren</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_numberOfChildren" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_numberOfPopupMenus">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_numberOfPopupMenus</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_numberOfPopupMenus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_pma">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_pma</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_pma" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">popup menus attached to this control</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_po">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_po</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_po" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_popupMenuArray">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_popupMenuArray</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_popupMenuArray" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">popup menus attached to this control</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_preventOverride">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_preventOverride</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_preventOverride" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_useTemplate">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_useTemplate</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_useTemplate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_ut">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_ut</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_ut" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_vis">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_vis</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_vis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_visible">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_visible</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_visible" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_w">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_w</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_w" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.p_width">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">p_width</tt><a class="headerlink" href="#animio.ui.ConverterControl.p_width" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.parent">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">parent</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.parent" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">parent instance of this ui element</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.parentDeep">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">parentDeep</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.parentDeep" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">all parents of this path, &#8216;/hello/my/world&#8217; -&gt; [ &#8216;/hello/my&#8217;,&#8217;/hello&#8217; ]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.partition">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">partition</tt><a class="headerlink" href="#animio.ui.ConverterControl.partition" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.partition(sep) -&gt; (head, sep, tail)</p>
+<p>Search for the separator sep in S, and return the part before it,
+the separator itself, and the part after it.  If the separator is not
+found, return S and two empty strings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.popupMenuArray">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">popupMenuArray</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.popupMenuArray" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">popup menus attached to this control</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.removeChild">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">removeChild</tt><big>(</big><em>child</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.removeChild" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the given child from our list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if the child was found and has been removed, False otherwise</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.replace">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">replace</tt><a class="headerlink" href="#animio.ui.ConverterControl.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.replace (old, new[, count]) -&gt; unicode</p>
+<p>Return a copy of S with all occurrences of substring
+old replaced by new.  If the optional argument count is
+given, only the first count occurrences are replaced.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rfind">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rfind</tt><a class="headerlink" href="#animio.ui.ConverterControl.rfind" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rfind(sub [,start [,end]]) -&gt; int</p>
+<p>Return the highest index in S where substring sub is found,
+such that sub is contained within s[start:end].  Optional
+arguments start and end are interpreted as in slice notation.</p>
+<p>Return -1 on failure.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rindex">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rindex</tt><a class="headerlink" href="#animio.ui.ConverterControl.rindex" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rindex(sub [,start [,end]]) -&gt; int</p>
+<p>Like S.rfind() but raise ValueError when the substring is not found.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rjust">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rjust</tt><a class="headerlink" href="#animio.ui.ConverterControl.rjust" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rjust(width[, fillchar]) -&gt; unicode</p>
+<p>Return S right-justified in a Unicode string of length width. Padding is
+done using the specified fill character (default is a space).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.root">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">root</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.root" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the root of the DAG - it has no further parents</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rpartition">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rpartition</tt><a class="headerlink" href="#animio.ui.ConverterControl.rpartition" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rpartition(sep) -&gt; (tail, sep, head)</p>
+<p>Search for the separator sep in S, starting at the end of S, and return
+the part before it, the separator itself, and the part after it.  If the
+separator is not found, return two empty strings and S.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rsplit">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rsplit</tt><a class="headerlink" href="#animio.ui.ConverterControl.rsplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rsplit([sep [,maxsplit]]) -&gt; list of strings</p>
+<p>Return a list of the words in S, using sep as the
+delimiter string, starting at the end of the string and
+working to the front.  If maxsplit is given, at most maxsplit
+splits are done. If sep is not specified, any whitespace string
+is a separator.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.rstrip">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">rstrip</tt><a class="headerlink" href="#animio.ui.ConverterControl.rstrip" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.rstrip([chars]) -&gt; unicode</p>
+<p>Return a copy of the string S with trailing whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.sender">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">sender</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.sender" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">instance which sent the event you are currently processing</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">if no event is currently in progress</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setActive">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setActive</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set this container active, such that newly created items will be children
+of this layout</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">always use the addChild function to add the children !</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setAnnotation">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setAnnotation</tt><big>(</big><em>ann</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setAnnotation" title="Permalink to this definition">¶</a></dt>
+<dd>Set the UI element&#8217;s annotation
+:note: not all named UI elements can have their annotation set</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setDimension">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setDimension</tt><big>(</big><em>dimension</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setDimension" title="Permalink to this definition">¶</a></dt>
+<dd>Set the UI elements dimension
+:param dimension: (x,y) : tuple holding desired x and y dimension</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setFocus">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setFocus</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setFocus" title="Permalink to this definition">¶</a></dt>
+<dd>Set the global keyboard focus to this control</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setParentActive">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setParentActive</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setParentActive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the parent ( layout ) of this layout active - newly created items
+will be children of the parent layout</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">can safely be called several times</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.setup">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">setup</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply the given setup to the form layout, specified using kwargs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>kwargs</em> &#8211; arguments you would set use to setup the form layout</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.shortName">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">shortName</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.shortName" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">shortname of the ui ( name without pipes )</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.split">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">split</tt><a class="headerlink" href="#animio.ui.ConverterControl.split" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.split([sep [,maxsplit]]) -&gt; list of strings</p>
+<p>Return a list of the words in S, using sep as the
+delimiter string.  If maxsplit is given, at most maxsplit
+splits are done. If sep is not specified or is None, any
+whitespace string is a separator and empty strings are
+removed from the result.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.splitlines">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">splitlines</tt><a class="headerlink" href="#animio.ui.ConverterControl.splitlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.splitlines([keepends]) -&gt; list of strings</p>
+<p>Return a list of the lines in S, breaking at line boundaries.
+Line breaks are not included in the resulting list unless keepends
+is given and true.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.startswith">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">startswith</tt><a class="headerlink" href="#animio.ui.ConverterControl.startswith" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.startswith(prefix[, start[, end]]) -&gt; bool</p>
+<p>Return True if S starts with the specified prefix, False otherwise.
+With optional start, test S beginning at that position.
+With optional end, stop comparing S at that position.
+prefix can also be a tuple of strings to try.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.strip">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">strip</tt><a class="headerlink" href="#animio.ui.ConverterControl.strip" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.strip([chars]) -&gt; unicode</p>
+<p>Return a copy of the string S with leading and trailing
+whitespace removed.
+If chars is given and not None, remove characters in chars instead.
+If chars is a str, it will be converted to unicode before stripping</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.supports">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">supports</tt><big>(</big><em>interface_type</em><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.supports" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if this instance supports the interface of the given type</td>
+</tr>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>interface_type</em> &#8211; Type of the interface you require this instance 
+to support</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">Must be used in case you only have a weak reference of your interface
+instance or proxy which is a case where the ordinary isinstance( obj, iInterface )
+will not work</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.swapcase">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">swapcase</tt><a class="headerlink" href="#animio.ui.ConverterControl.swapcase" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.swapcase() -&gt; unicode</p>
+<p>Return a copy of S with uppercase characters converted to lowercase
+and vice versa.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.title">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">title</tt><a class="headerlink" href="#animio.ui.ConverterControl.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.title() -&gt; unicode</p>
+<p>Return a titlecased version of S, i.e. words start with title case
+characters, all remaining cased characters have lower case.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.translate">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">translate</tt><a class="headerlink" href="#animio.ui.ConverterControl.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.translate(table) -&gt; unicode</p>
+<p>Return a copy of the string S, where all characters have been mapped
+through the given translation table, which must be a mapping of
+Unicode ordinals to Unicode ordinals, Unicode strings or None.
+Unmapped characters are left untouched. Characters mapped to None
+are deleted.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.type">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">type</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.type" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the python class able to create this class</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">The return value is NOT the type string, but a class</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.uiDeleted">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">uiDeleted</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.uiDeleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>If overridden in subclass, it will be called once the UI gets deleted 
+within maya ( i.e. the user closed the window )eee
+The base implementation assures that all event-receivers that are bound to 
+your events will be freed, allowing them to possibly be destroyed as well.</p>
+<p>Use this callback to register yourself from all your event senders, then call 
+the base class method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">This is not related to the __del__ method of your object. Its worth
+noting that your instance will be strongly bound to a maya event, hence 
+your instance will exist as long as your user interface element exists 
+within maya.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="animio.ui.ConverterControl.update">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ConverterControl.update" title="Permalink to this definition">¶</a></dt>
+<dd>Setup this control to represent the actual scene state</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.upper">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">upper</tt><a class="headerlink" href="#animio.ui.ConverterControl.upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.upper() -&gt; unicode</p>
+<p>Return a copy of S converted to uppercase.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="animio.ui.ConverterControl.zfill">
+<tt class="descclassname">ConverterControl.</tt><tt class="descname">zfill</tt><a class="headerlink" href="#animio.ui.ConverterControl.zfill" title="Permalink to this definition">¶</a></dt>
+<dd><p>S.zfill(width) -&gt; unicode</p>
+<p>Pad a numeric string S with zeros on the left, to fill a field
+of the specified width. The string S is never truncated.</p>
+</dd></dl>
+
+</dd></dl>
+
 <p><a class="reference external" href="api/animio.ui.ExportLayout-class.html">Epydoc: animio.ui.ExportLayout</a></p>
 <dl class="class">
 <dt id="animio.ui.ExportLayout">
@@ -2963,7 +4094,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.ui.ExportLayout.format">
 <tt class="descclassname">ExportLayout.</tt><tt class="descname">format</tt><a class="headerlink" href="#animio.ui.ExportLayout.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id9"><span class="problematic" id="id10">*</span></a>args, <a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id13"><span class="problematic" id="id14">*</span></a>args, <a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.ExportLayout.fullChildName">
@@ -3099,7 +4230,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.ExportLayout.iterParents">
-<tt class="descclassname">ExportLayout.</tt><tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ExportLayout.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExportLayout.</tt><tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ExportLayout.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -3122,7 +4253,7 @@ sequence.  The separator between elements is S.</p>
 
 <dl class="method">
 <dt id="animio.ui.ExportLayout.listChildren">
-<tt class="descclassname">ExportLayout.</tt><tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6d3ac08&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ExportLayout.listChildren" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExportLayout.</tt><tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ExportLayout.listChildren" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -4084,7 +5215,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.ui.FloatRangeField.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.ui.FloatRangeField.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id13"><span class="problematic" id="id14">*</span></a>args, <a href="#id15"><span class="problematic" id="id16">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id17"><span class="problematic" id="id18">*</span></a>args, <a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.FloatRangeField.fullChildName">
@@ -4236,7 +5367,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.FloatRangeField.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.FloatRangeField.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.FloatRangeField.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -4259,7 +5390,7 @@ sequence.  The separator between elements is S.</p>
 
 <dl class="method">
 <dt id="animio.ui.FloatRangeField.listChildren">
-<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6d3ac08&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.FloatRangeField.listChildren" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.FloatRangeField.listChildren" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -5583,7 +6714,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.ui.ImportLayout.format">
 <tt class="descclassname">ImportLayout.</tt><tt class="descname">format</tt><a class="headerlink" href="#animio.ui.ImportLayout.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id17"><span class="problematic" id="id18">*</span></a>args, <a href="#id19"><span class="problematic" id="id20">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id21"><span class="problematic" id="id22">*</span></a>args, <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.ImportLayout.fullChildName">
@@ -5719,7 +6850,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.ImportLayout.iterParents">
-<tt class="descclassname">ImportLayout.</tt><tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ImportLayout.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ImportLayout.</tt><tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ImportLayout.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -5742,7 +6873,7 @@ sequence.  The separator between elements is S.</p>
 
 <dl class="method">
 <dt id="animio.ui.ImportLayout.listChildren">
-<tt class="descclassname">ImportLayout.</tt><tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6d3ac08&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ImportLayout.listChildren" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ImportLayout.</tt><tt class="descname">listChildren</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x6dd41b8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.ImportLayout.listChildren" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6384,6 +7515,11 @@ within maya.</td>
 </table>
 </dd></dl>
 
+<dl class="method">
+<dt id="animio.ui.ImportLayout.update">
+<tt class="descclassname">ImportLayout.</tt><tt class="descname">update</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.ui.ImportLayout.update" title="Permalink to this definition">¶</a></dt>
+<dd>Trigger an update of the full import UI</dd></dl>
+
 <dl class="attribute">
 <dt id="animio.ui.ImportLayout.upper">
 <tt class="descclassname">ImportLayout.</tt><tt class="descname">upper</tt><a class="headerlink" href="#animio.ui.ImportLayout.upper" title="Permalink to this definition">¶</a></dt>
@@ -6475,7 +7611,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.ui.Namespace.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x4409320&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x44765f0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6490,7 +7626,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.ui.Namespace.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6523,8 +7659,22 @@ interpreted as in slice notation.</p>
 <dl class="classmethod">
 <dt id="animio.ui.Namespace.create">
 <em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.create" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Create a new namespace</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>namespaceName</em> &#8211; the name of the namespace, absolute or relative -
+it may contain subspaces too, i.e. :foo:bar.
+fred:subfred is a relative namespace, created in the currently active namespace</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">if the target namespace already exists, it will be returned</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the create Namespace object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="animio.ui.Namespace.current">
@@ -6640,7 +7790,7 @@ arguments start and end are interpreted as in slice notation.</p>
 
 <dl class="classmethod">
 <dt id="animio.ui.Namespace.findUnique">
-<em class="property">classmethod </em><tt class="descname">findUnique</tt><big>(</big><em>basename</em>, <em>incrementFunc=&lt;function &lt;lambda&gt; at 0x4404cf8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.findUnique" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">findUnique</tt><big>(</big><em>basename</em>, <em>incrementFunc=&lt;function &lt;lambda&gt; at 0x4472f50&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.findUnique" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a unique namespace based on basename which does not yet exist
 in the scene and can be created.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -6665,7 +7815,7 @@ namespace</p>
 <dl class="attribute">
 <dt id="animio.ui.Namespace.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.ui.Namespace.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id21"><span class="problematic" id="id22">*</span></a>args, <a href="#id23"><span class="problematic" id="id24">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id25"><span class="problematic" id="id26">*</span></a>args, <a href="#id27"><span class="problematic" id="id28">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.Namespace.fullChildName">
@@ -6865,7 +8015,7 @@ has a different feature set and needs this code here for maximum performance</p>
 
 <dl class="method">
 <dt id="animio.ui.Namespace.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -7088,8 +8238,17 @@ If chars is a str, it will be converted to unicode before stripping</p>
 <dl class="method">
 <dt id="animio.ui.Namespace.setCurrent">
 <tt class="descname">setCurrent</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.ui.Namespace.setCurrent" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Set this namespace to be the current one - new objects will be put in it
+by default</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="animio.ui.Namespace.split">
@@ -7539,7 +8698,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.ui.NodeSelector.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.ui.NodeSelector.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id25"><span class="problematic" id="id26">*</span></a>args, <a href="#id27"><span class="problematic" id="id28">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id29"><span class="problematic" id="id30">*</span></a>args, <a href="#id31"><span class="problematic" id="id32">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.NodeSelector.fullChildName">
@@ -7675,7 +8834,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.NodeSelector.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.NodeSelector.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.NodeSelector.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -7707,7 +8866,7 @@ as well as all nodes in all selected namespaces</p>
 </ul>
 </td>
 </tr>
-<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first last"><a href="#id33"><span class="problematic" id="id34">*</span></a>args and <a href="#id35"><span class="problematic" id="id36">**</span></a>kwargs are passed to <tt class="docutils literal"><span class="pre">iterSelectionList</span></tt> as good</p>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first last"><a href="#id37"><span class="problematic" id="id38">*</span></a>args and <a href="#id39"><span class="problematic" id="id40">**</span></a>kwargs are passed to <tt class="docutils literal"><span class="pre">iterSelectionList</span></tt> as good</p>
 </td>
 </tr>
 </tbody>
@@ -8576,7 +9735,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.ui.Path.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713ab18&gt;</em>, <em>pattern=None</em><big>)</big><a class="headerlink" href="#animio.ui.Path.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x197ff50&gt;</em>, <em>pattern=None</em><big>)</big><a class="headerlink" href="#animio.ui.Path.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -8600,7 +9759,7 @@ i.e. <em>.</em></li>
 
 <dl class="method">
 <dt id="animio.ui.Path.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -8937,7 +10096,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.ui.Path.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.ui.Path.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id37"><span class="problematic" id="id38">*</span></a>args, <a href="#id39"><span class="problematic" id="id40">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id41"><span class="problematic" id="id42">*</span></a>args, <a href="#id43"><span class="problematic" id="id44">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.Path.fullChildName">
@@ -9117,7 +10276,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.ui.Path.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -9810,7 +10969,7 @@ translation table, which must be a string of length 256.</p>
 
 <dl class="method">
 <dt id="animio.ui.Path.walk">
-<tt class="descname">walk</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713dcf8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walk" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walk</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19882a8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walk" title="Permalink to this definition">¶</a></dt>
 <dd><p>create iterator over files and subdirs, recursively.</p>
 <p>The iterator yields path objects naming each child item of
 this directory and its descendants.</p>
@@ -9836,13 +10995,13 @@ reports the error via log.warn(), and &#8216;ignore&#8217;.</li>
 
 <dl class="method">
 <dt id="animio.ui.Path.walkdirs">
-<tt class="descname">walkdirs</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713dde8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walkdirs" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walkdirs</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x1988398&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walkdirs" title="Permalink to this definition">¶</a></dt>
 <dd>D.walkdirs() -&gt; iterator over subdirs, recursively.
 see <cite>walk</cite> for a parameter description</dd></dl>
 
 <dl class="method">
 <dt id="animio.ui.Path.walkfiles">
-<tt class="descname">walkfiles</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713ded8&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walkfiles" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walkfiles</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x1988488&gt;</em><big>)</big><a class="headerlink" href="#animio.ui.Path.walkfiles" title="Permalink to this definition">¶</a></dt>
 <dd>D.walkfiles() -&gt; iterator over files in D, recursively.
 see <cite>walk</cite> for a parameter description</dd></dl>
 
@@ -10006,7 +11165,7 @@ of the specified width.  The string S is never truncated.</p>
 <dt id="animio.ui.chain">
 <em class="property">class </em><tt class="descclassname">animio.ui.</tt><tt class="descname">chain</tt><a class="headerlink" href="#animio.ui.chain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
-<p>chain(<a href="#id41"><span class="problematic" id="id42">*</span></a>iterables) &#8211;&gt; chain object</p>
+<p>chain(<a href="#id45"><span class="problematic" id="id46">*</span></a>iterables) &#8211;&gt; chain object</p>
 <p>Return a chain object whose .next() method returns elements from the
 first iterable until it is exhausted, then elements from the next
 iterable, until all of the iterables are exhausted.</p>

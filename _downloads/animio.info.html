@@ -15,7 +15,7 @@ div.coverage div { clear: both; height: 1.1em}
 <div class="stats">
 Covered: 26 lines<br/>
 Missed: 0 lines<br/>
-Skipped 41 lines<br/>
+Skipped 45 lines<br/>
 Percent: 100 %<br/>
 
 </div>
@@ -61,32 +61,36 @@ Percent: 100 %<br/>
 <div class="skip"><span class="num"><pre>39</pre></span><pre># License Identification String</pre></div>
 <div class="cov"><span class="num"><pre>40</pre></span><pre>license = &quot;BSD License&quot;</pre></div>
 <div class="skip"><span class="num"><pre>41</pre></span><pre></pre></div>
-<div class="skip"><span class="num"><pre>42</pre></span><pre># Additional Keyword Arguments to be passed to distutils.core.setup</pre></div>
-<div class="skip"><span class="num"><pre>43</pre></span><pre># This should include the 'classifiers' keyword which is important to pipy</pre></div>
-<div class="cov"><span class="num"><pre>44</pre></span><pre>setup_kwargs = dict()</pre></div>
+<div class="skip"><span class="num"><pre>42</pre></span><pre># Will be automatically set during build to track the source version used for </pre></div>
+<div class="skip"><span class="num"><pre>43</pre></span><pre># the distribution</pre></div>
+<div class="cov"><span class="num"><pre>44</pre></span><pre>src_commit_sha = '8993ee2e48c85da252b0821d3beaf6b1b89f71f8'</pre></div>
 <div class="skip"><span class="num"><pre>45</pre></span><pre></pre></div>
 <div class="skip"><span class="num"><pre>46</pre></span><pre></pre></div>
-<div class="skip"><span class="num"><pre>47</pre></span><pre># paths to executables, relative to our project root</pre></div>
-<div class="cov"><span class="num"><pre>48</pre></span><pre>regression_test_exec = 'ext/mrv/test/bin/tmrvr'</pre></div>
-<div class="cov"><span class="num"><pre>49</pre></span><pre>nosetest_exec = 'ext/mrv/test/bin/tmrv'</pre></div>
-<div class="cov"><span class="num"><pre>50</pre></span><pre>makedoc_exec = '../ext/mrv/doc/makedoc'</pre></div>
-<div class="skip"><span class="num"><pre>51</pre></span><pre></pre></div>
-<div class="cov"><span class="num"><pre>52</pre></span><pre>setup_kwargs = dict(</pre></div>
-<div class="cov"><span class="num"><pre>53</pre></span><pre>				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},</pre></div>
-<div class="cov"><span class="num"><pre>54</pre></span><pre>				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), </pre></div>
-<div class="cov"><span class="num"><pre>55</pre></span><pre>											'exclude_items' 		: ('mrv.doc', 'mrv.test')} )</pre></div>
-<div class="cov"><span class="num"><pre>56</pre></span><pre>				)</pre></div>
-<div class="skip"><span class="num"><pre>57</pre></span><pre></pre></div>
-<div class="skip"><span class="num"><pre>58</pre></span><pre></pre></div>
-<div class="skip"><span class="num"><pre>59</pre></span><pre># Optionally taken into consideration by the DocGenerator implementation </pre></div>
-<div class="cov"><span class="num"><pre>60</pre></span><pre>doc_config = dict(</pre></div>
-<div class="cov"><span class="num"><pre>61</pre></span><pre>				epydoc_show_source = 'yes', </pre></div>
-<div class="cov"><span class="num"><pre>62</pre></span><pre>				epydoc_modules = &quot;modules: unittest\nmodules: ../&quot;,  </pre></div>
-<div class="cov"><span class="num"><pre>63</pre></span><pre>				epydoc_exclude = &quot;%s.test,%s.doc&quot; % (root_package, root_package),</pre></div>
-<div class="cov"><span class="num"><pre>64</pre></span><pre>				)</pre></div>
-<div class="skip"><span class="num"><pre>65</pre></span><pre></pre></div>
-<div class="skip"><span class="num"><pre>66</pre></span><pre>#} END configuration</pre></div>
-<div class="skip"><span class="num"><pre>67</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>47</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>48</pre></span><pre># paths to executables, relative to our project root</pre></div>
+<div class="cov"><span class="num"><pre>49</pre></span><pre>regression_test_exec = 'ext/mrv/test/bin/tmrvr'</pre></div>
+<div class="cov"><span class="num"><pre>50</pre></span><pre>nosetest_exec = 'ext/mrv/test/bin/tmrv'</pre></div>
+<div class="cov"><span class="num"><pre>51</pre></span><pre>makedoc_exec = '../ext/mrv/doc/makedoc'</pre></div>
+<div class="skip"><span class="num"><pre>52</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>53</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>54</pre></span><pre># Additional Keyword Arguments to be passed to distutils.core.setup</pre></div>
+<div class="skip"><span class="num"><pre>55</pre></span><pre># This should include the 'classifiers' keyword which is important to pipy</pre></div>
+<div class="cov"><span class="num"><pre>56</pre></span><pre>setup_kwargs = dict(</pre></div>
+<div class="cov"><span class="num"><pre>57</pre></span><pre>				package_data = {'animio.test' : ['fixtures', 'performance', 'ui']},</pre></div>
+<div class="cov"><span class="num"><pre>58</pre></span><pre>				options = dict(build_py={	'exclude_from_compile' : ('*/maya/undo.py', '*/maya/nt/persistence.py'), </pre></div>
+<div class="cov"><span class="num"><pre>59</pre></span><pre>											'exclude_items' 		: ('mrv.doc', 'mrv.test')} )</pre></div>
+<div class="cov"><span class="num"><pre>60</pre></span><pre>				)</pre></div>
+<div class="skip"><span class="num"><pre>61</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>62</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>63</pre></span><pre># Optionally taken into consideration by the DocGenerator implementation </pre></div>
+<div class="cov"><span class="num"><pre>64</pre></span><pre>doc_config = dict(</pre></div>
+<div class="cov"><span class="num"><pre>65</pre></span><pre>				epydoc_show_source = 'yes', </pre></div>
+<div class="cov"><span class="num"><pre>66</pre></span><pre>				epydoc_modules = &quot;modules: unittest\nmodules: ../&quot;,  </pre></div>
+<div class="cov"><span class="num"><pre>67</pre></span><pre>				epydoc_exclude = &quot;%s.test,%s.doc&quot; % (root_package, root_package),</pre></div>
+<div class="cov"><span class="num"><pre>68</pre></span><pre>				)</pre></div>
+<div class="skip"><span class="num"><pre>69</pre></span><pre></pre></div>
+<div class="skip"><span class="num"><pre>70</pre></span><pre>#} END configuration</pre></div>
+<div class="skip"><span class="num"><pre>71</pre></span><pre></pre></div>
 </div>
 </body>
 </html>

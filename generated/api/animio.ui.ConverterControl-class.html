@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>animio.ui</title>
+  <title>animio.ui.ConverterControl</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -43,7 +43,8 @@
     <td width="100%">
       <span class="breadcrumbs">
         <a href="animio-module.html">Package&nbsp;animio</a> ::
-        Module&nbsp;ui
+        <a href="animio.ui-module.html">Module&nbsp;ui</a> ::
+        Class&nbsp;ConverterControl
       </span>
     </td>
     <td>
@@ -53,102 +54,35 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="animio.ui-module.html"
+            >]&nbsp;|&nbsp;<a href="animio.ui.ConverterControl-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<!-- ==================== MODULE DESCRIPTION ==================== -->
-<h1 class="epydoc">Module ui</h1><p class="nomargin-top"><span class="codelink"><a href="animio.ui-pysrc.html">source&nbsp;code</a></span></p>
-Module containing the user interface implementation of the AnimIO library
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class ConverterControl</h1><p class="nomargin-top"><span class="codelink"><a href="animio.ui-pysrc.html#ConverterControl">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+mrv.maya.ui.FormLayout --+
+                         |
+                        <strong class="uidshort">ConverterControl</strong>
+</pre>
 
-<!-- ==================== CLASSES ==================== -->
-<a name="section-Classes"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Classes</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-Classes"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.FloatRangeField-class.html" class="summary-name">FloatRangeField</a><br />
-      Implements a queryable range of integers
-:note: it uses text fields allowing them to be empty
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.NodeSelector-class.html" class="summary-name">NodeSelector</a><br />
-      Element allowing the user to select nodes.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.ExportLayout-class.html" class="summary-name">ExportLayout</a><br />
-      Layout encapsulating all export functionality
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.ConverterControl-class.html" class="summary-name">ConverterControl</a><br />
-      Implements an interface to a layout allowing the user to enter search and replace
+<hr />
+Implements an interface to a layout allowing the user to enter search and replace
 tokens
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.ImportLayout-class.html" class="summary-name">ImportLayout</a><br />
-      Layout encapsulating all import functionality
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.AnimIOLayout-class.html" class="summary-name">AnimIOLayout</a><br />
-      Represents a layout for exporting and importing animation
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="animio.ui.AnimIO_UI-class.html" class="summary-name">AnimIO_UI</a>
-    </td>
-  </tr>
-</table>
-<!-- ==================== VARIABLES ==================== -->
-<a name="section-Variables"></a>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr bgcolor="#70b0f0" class="table-header">
   <td colspan="2" class="table-header">
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr valign="top">
-        <td align="left"><span class="table-header">Variables</span></td>
+        <td align="left"><span class="table-header">Instance Methods</span></td>
         <td align="right" valign="top"
-         ><span class="options">[<a href="#section-Variables"
+         ><span class="options">[<a href="#section-InstanceMethods"
          class="privatelink" onclick="toggle_private();"
          >hide private</a>]</span></td>
       </tr>
@@ -159,7 +93,76 @@ tokens
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="log"></a><span class="summary-name">log</span> = <code title="logging.getLogger(&quot;animio.ui&quot;)">logging.getLogger(&quot;animio.ui&quot;)</code>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      initialize our child controls</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#ConverterControl.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8"  class="private">
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Callbacks</th></tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_search_state_changed"></a><span class="summary-sig-name">_search_state_changed</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">sender</span>,
+        <span class="summary-sig-arg">*args</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#ConverterControl._search_state_changed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_prefix_state_changed"></a><span class="summary-sig-name">_prefix_state_changed</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">sender</span>,
+        <span class="summary-sig-arg">*args</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#ConverterControl._prefix_state_changed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Interface</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update"></a><span class="summary-sig-name">update</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Setup this control to represent the actual scene state</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.ui-pysrc.html#ConverterControl.update">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
     </td>
   </tr>
 </table>

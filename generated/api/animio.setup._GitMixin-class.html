@@ -78,6 +78,32 @@ object --+
 Provides functionality to add files and folders within a base directory
 into the <strong>root</strong> of a git repository of our choice
 
+<!-- ==================== NESTED CLASSES ==================== -->
+<a name="section-NestedClasses"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Nested Classes</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-NestedClasses"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="animio.setup._GitMixin.RemotePush-class.html" class="summary-name">RemotePush</a><br />
+      Functor representing a hashable push call to a remote
+    </td>
+  </tr>
+</table>
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -108,6 +134,46 @@ into the <strong>root</strong> of a git repository of our choice
 * remote name - name of the remote for which branches should be created/updated</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="_adjust_commit_sha"></a><span class="summary-sig-name">_adjust_commit_sha</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">root_commit</span>,
+        <span class="summary-sig-arg">root_dir</span>)</span><br />
+      Write the src_commit_sha in the info.py file to the value in root_commit
+or skip it if the file is not available</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin._adjust_commit_sha">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr class="private">
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup._GitMixin-class.html#_push_to_remotes" class="summary-sig-name" onclick="show_private();">_push_to_remotes</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">repo</span>,
+        <span class="summary-sig-arg">heads</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>,
+        <span class="summary-sig-arg">remotes</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span><br />
+      Push the given branchs to the given remotes.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin._push_to_remotes">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -199,11 +265,12 @@ name of the branch identifying our current release configuration</td>
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="animio.setup._GitMixin-class.html#push_to_remotes" class="summary-sig-name">push_to_remotes</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="push_to_remotes"></a><span class="summary-sig-name">push_to_remotes</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">repo</span>,
         <span class="summary-sig-arg">heads</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>,
         <span class="summary-sig-arg">remotes</span>=<span class="summary-sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span><br />
-      Push the given branchs to the given remotes.</td>
+      For the actual documentation, please see <tt class="rst-docutils literal"><span class="pre">_push_to_remotes</span></tt>
+This method stores the call for later execution</td>
           <td align="right" valign="top">
             <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.push_to_remotes">source&nbsp;code</a></span>
             
@@ -372,6 +439,13 @@ call the object constructor without arguments</td>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="commit_sha_var_name"></a><span class="summary-name">commit_sha_var_name</span> = <code title="'src_commit_sha'"><code class="variable-quote">'</code><code class="variable-string">src_commit_sha</code><code class="variable-quote">'</code></code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="prev_head_name"></a><span class="summary-name">prev_head_name</span> = <code title="'DIST_ORIG_HEAD'"><code class="variable-quote">'</code><code class="variable-string">DIST_ORIG_HEAD</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
@@ -472,6 +546,30 @@ call the object constructor without arguments
   </dl>
 </td></tr></table>
 </div>
+<a name="_push_to_remotes"></a>
+<div class="private">
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">_push_to_remotes</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">repo</span>,
+        <span class="sig-arg">heads</span>=<span class="sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>,
+        <span class="sig-arg">remotes</span>=<span class="sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin._push_to_remotes">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Push the given branchs to the given remotes.
+If one of the lists is empty, it the respective items
+will be queried from the user
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="add_files_and_commit"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -496,6 +594,8 @@ index.</p>
 to the root directory, even though the git repository might be on another level.
 It also sports a simple way to determine whether the commit already exists,
 so it will not recommit data that has just been committed.</p>
+<p>Additionally we will try to find the info.py file and adjust its commit_sha
+to the actual sha of our root_repo's original branch.</p>
   <dl class="fields">
     <dt>Parameters:</dt>
     <dd><ul class="nomargin-top">
@@ -527,30 +627,6 @@ and the commit object we possible created in the distribution repository</dd>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>name of the branch identifying our current release configuration</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="push_to_remotes"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">push_to_remotes</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">repo</span>,
-        <span class="sig-arg">heads</span>=<span class="sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>,
-        <span class="sig-arg">remotes</span>=<span class="sig-default"><code class="variable-group">[</code><code class="variable-group">]</code></span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.push_to_remotes">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  Push the given branchs to the given remotes.
-If one of the lists is empty, it the respective items
-will be queried from the user
-  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>
@@ -637,7 +713,7 @@ within the git repository will all be relative to root_dir.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue May 18 21:01:11 2010
+    Generated by Epydoc 3.0.1 on Mon May 24 16:21:56 2010
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

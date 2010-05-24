@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>animio.setup._RegressionMixin</title>
+  <title>animio.setup._GitMixin.RemotePush</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -44,7 +44,8 @@
       <span class="breadcrumbs">
         <a href="animio-module.html">Package&nbsp;animio</a> ::
         <a href="animio.setup-module.html">Module&nbsp;setup</a> ::
-        Class&nbsp;_RegressionMixin
+        <a href="animio.setup._GitMixin-class.html" onclick="show_private();">Class&nbsp;_GitMixin</a> ::
+        Class&nbsp;RemotePush
       </span>
     </td>
     <td>
@@ -54,28 +55,22 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="animio.setup._RegressionMixin-class.html"
+            >]&nbsp;|&nbsp;<a href="animio.setup._GitMixin.RemotePush-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class _RegressionMixin</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class RemotePush</h1><p class="nomargin-top"><span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush">source&nbsp;code</a></span></p>
 <pre class="base-tree">
 object --+
          |
-        <strong class="uidshort">_RegressionMixin</strong>
+        <strong class="uidshort">_GitMixin.RemotePush</strong>
 </pre>
 
-<dl><dt>Known Subclasses:</dt>
-<dd>
-      <ul class="subclass-list">
-<li><a href="animio.setup.BuildPython-class.html">BuildPython</a></li><li>, <a href="animio.setup.GitSourceDistribution-class.html">GitSourceDistribution</a></li>  </ul>
-</dd></dl>
-
 <hr />
-Provides a simple interface allowing to perform a regression test
+Functor representing a hashable push call to a remote
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -100,66 +95,62 @@ Provides a simple interface allowing to perform a regression test
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="animio.setup._RegressionMixin-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">*args</span>,
-        <span class="summary-sig-arg">**kwargs</span>)</span><br />
+          <td><span class="summary-sig"><a name="__call__"></a><span class="summary-sig-name">__call__</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__call__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__eq__"></a><span class="summary-sig-name">__eq__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">rhs</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__eq__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup._GitMixin.RemotePush-class.html#__hash__" class="summary-sig-name">__hash__</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      hash(x)</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__hash__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="animio.setup._GitMixin.RemotePush-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">*args</span>)</span><br />
       x.__init__(...) initializes x; see x.__class__.__doc__ for signature</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.__init__">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr class="private">
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="animio.setup._RegressionMixin-class.html#_find_test_modules" class="summary-sig-name" onclick="show_private();">_find_test_modules</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">root_dir</span>)</span><br />
-      Returns:
-list of files within the root_dir which appear to be containing tests.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin._find_test_modules">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="finalize_options"></a><span class="summary-sig-name">finalize_options</span>(<span class="summary-sig-arg">self</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.finalize_options">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="animio.setup._RegressionMixin-class.html#post_regression_test" class="summary-sig-name">post_regression_test</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">testexecutable</span>,
-        <span class="summary-sig-arg">test_root_dir</span>)</span><br />
-      Perform a regression test for the maya version's the user supplied.</td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.post_regression_test">source&nbsp;code</a></span>
+            <span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__init__">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -173,7 +164,6 @@ list of files within the root_dir which appear to be containing tests.</td>
       <code>__delattr__</code>,
       <code>__format__</code>,
       <code>__getattribute__</code>,
-      <code>__hash__</code>,
       <code>__new__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
@@ -183,66 +173,6 @@ list of files within the root_dir which appear to be containing tests.</td>
       <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
-    </td>
-  </tr>
-</table>
-<!-- ==================== CLASS METHODS ==================== -->
-<a name="section-ClassMethods"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Class Methods</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-ClassMethods"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="adjust_user_options"></a><span class="summary-sig-name">adjust_user_options</span>(<span class="summary-sig-arg">cls</span>,
-        <span class="summary-sig-arg">user_options</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.adjust_user_options">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-</table>
-<!-- ==================== CLASS VARIABLES ==================== -->
-<a name="section-ClassVariables"></a>
-<table class="summary" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr bgcolor="#70b0f0" class="table-header">
-  <td colspan="2" class="table-header">
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
-      <tr valign="top">
-        <td align="left"><span class="table-header">Class Variables</span></td>
-        <td align="right" valign="top"
-         ><span class="options">[<a href="#section-ClassVariables"
-         class="privatelink" onclick="toggle_private();"
-         >hide private</a>]</span></td>
-      </tr>
-    </table>
-  </td>
-</tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="test_dir_default"></a><span class="summary-name">test_dir_default</span> = <code title="'test'"><code class="variable-quote">'</code><code class="variable-string">test</code><code class="variable-quote">'</code></code>
     </td>
   </tr>
 </table>
@@ -289,6 +219,30 @@ list of files within the root_dir which appear to be containing tests.</td>
   </td>
 </tr>
 </table>
+<a name="__hash__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__hash__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Hashing function)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__hash__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>hash(x)</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__hash__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__init__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -297,12 +251,12 @@ list of files within the root_dir which appear to be containing tests.</td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">*args</span>,
-        <span class="sig-arg">**kwargs</span>)</span>
+        <span class="sig-arg">inst</span>,
+        <span class="sig-arg">*args</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.__init__">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="animio.setup-pysrc.html#_GitMixin.RemotePush.__init__">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
@@ -313,58 +267,6 @@ list of files within the root_dir which appear to be containing tests.</td>
         object.__init__
         <dd><em class="note">(inherited documentation)</em></dd>
     </dt>
-  </dl>
-</td></tr></table>
-</div>
-<a name="_find_test_modules"></a>
-<div class="private">
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">_find_test_modules</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">root_dir</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin._find_test_modules">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  
-  <dl class="fields">
-    <dt>Returns:</dt>
-        <dd>list of files within the root_dir which appear to be containing tests.
-Explicit selection is required if we are byte-compiling modules, nose skips .pyc
-even if there is no .py file ;)</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="post_regression_test"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">post_regression_test</span>(<span class="sig-arg">self</span>,
-        <span class="sig-arg">testexecutable</span>,
-        <span class="sig-arg">test_root_dir</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    ><span class="codelink"><a href="animio.setup-pysrc.html#_RegressionMixin.post_regression_test">source&nbsp;code</a></span>&nbsp;
-    </td>
-  </tr></table>
-  
-  <pre class="literalblock">
-Perform a regression test for the maya version's the user supplied.
-:param testexecutable: path to the tmrv-compatible executable - it is 
-        expected to be inside a tree which allows the project to put itself into the path.
-:param root_dir: root directory under which tests can be found
-:raise EnvironmentError: if started process returned non-0
-
-</pre>
-  <dl class="fields">
   </dl>
 </td></tr></table>
 </div>

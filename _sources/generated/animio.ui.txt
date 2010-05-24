@@ -35,6 +35,15 @@ Classes
    :undoc-members:
    
 
+:api:`animio.ui.ConverterControl`
+
+.. autoclass:: ConverterControl
+   :show-inheritance:
+   :members:
+   :inherited-members:
+   :undoc-members:
+   
+
 :api:`animio.ui.ExportLayout`
 
 .. autoclass:: ExportLayout

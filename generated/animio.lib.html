@@ -65,8 +65,29 @@ of animation.</p>
 <dl class="classmethod">
 <dt id="animio.lib.AnimInOutLibrary.export">
 <em class="property">classmethod </em><tt class="descname">export</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimInOutLibrary.export" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Export animation retrieved from the given node iterator to the destination_file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>destination_file</em> &#8211; file to which to export the animation to</li>
+<li><em>iter_nodes</em> &#8211; iterator yielding nodes in a format compatible to <tt class="docutils literal"><span class="pre">AnimationHandle.set_animation</span></tt></li>
+<li><em>**kwargs</em> &#8211; <p>passed to <tt class="docutils literal"><span class="pre">Scene.export</span></tt></p>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises ValueError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body"><p class="first">if the passed in nodes have no animation</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">destination_file as Path</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -121,7 +142,7 @@ reside on the undo queue</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.addTo">
-<tt class="descname">addTo</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x42494e0&gt; &gt;</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.addTo" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">addTo</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x258b410&gt; &gt;</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.addTo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add ourselves to the given set</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -169,8 +190,23 @@ reside on the undo queue</td>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.apply_animation">
 <tt class="descname">apply_animation</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.apply_animation" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><dl class="docutils">
+<dt>Apply the stored animation by (re)connecting the animation nodes to their</dt>
+<dd>respective target plugs</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Param:</th><td class="field-body">converter see <tt class="docutils literal"><span class="pre">iter_assignments</span></tt>
+This allows you to perform any modifications to the target before it will be
+connected.</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">Will break existing destination connections</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.basename">
@@ -190,7 +226,7 @@ in order to return the name of their leaf node</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713af50&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x1985500&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -207,7 +243,7 @@ in order to return the name of their leaf node</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -236,8 +272,7 @@ in order to return the name of their leaf node</td>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.clear">
 <tt class="descname">clear</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.clear" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd>Forget our managed animation completely</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.connectedSets">
@@ -321,8 +356,17 @@ As more checking is performed, this method performs worse than <cite>copyTo</cit
 <dl class="classmethod">
 <dt id="animio.lib.AnimationHandle.create">
 <em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.create" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">New instance of our type providing the <tt class="docutils literal"><span class="pre">AnimationHandle</span></tt> interface</td>
+</tr>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>kwargs</em> &#8211; Passed to <tt class="docutils literal"><span class="pre">createNode</span></tt> method of mrv</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.createInstance">
@@ -390,14 +434,53 @@ if the attribute turns dirty.</p>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.duplicate">
 <tt class="descname">duplicate</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.duplicate" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Duplicate our node and return a wrapped version to it</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>name</em> &#8211; if given, the newly created node will use the given name</li>
+<li><em>kwargs</em> &#8211; <ul>
+<li>renameOnClash: if Trrue, default True, clashes are prevented by renaming the new node</li>
+<li>autocreateNamespace: if True, default True, namespaces will be created if mentioned in the name</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first">the copyTo method may not have not-undoable side-effects to be a proper
+implementation</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first last">undo could be implemented for dg nodes - but for reasons of consistency, its disabled here -
+who knows how much it will crap out after a while as duplicate is not undoable ( mel command )  -
+it never really worked to undo a mel command from within python, executed using a dgmodifier - unfortunately
+it does not return any result making it hard to find the newly duplicated object !</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="animio.lib.AnimationHandle.from_file">
 <em class="property">classmethod </em><tt class="descname">from_file</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.from_file" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><dl class="docutils">
+<dt>references imput_file into scene by using an unique namespace, returning</dt>
+<dd>FileReference as well as an iterator yielding AmimationHandles of input_file</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">tuple(FileReference, iterator of AnimationHandles)</td>
+</tr>
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>input_file</em> &#8211; valid path to a maya file</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.fullChildName">
@@ -449,7 +532,7 @@ function set comes first</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.isMemberOf">
-<tt class="descname">isMemberOf</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x4068130&gt; &gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.isMemberOf" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">isMemberOf</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x4510740&gt; &gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.isMemberOf" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -526,7 +609,7 @@ function set comes first</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -635,8 +718,12 @@ is the dag&#8217;s root</td>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.paste_animation">
 <tt class="descname">paste_animation</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.paste_animation" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd>paste the stored animation to their respective target animation curves, if target does not exist it will be created
+:param sTimeRange: tuple of timerange passed to copyKey
+:param tTimeRange: tuple of timerange passed to pasteKey
+:param option: option on how to paste forwarded to pasteKey (useful: &#8220;fitInsert&#8221;, &#8220;fitReplace&#8221;, &#8220;scaleInsert&#8221;, &#8220;scaleReplace&#8221;)
+:param predicate and converter: passed to <tt class="docutils literal"><span class="pre">iter_assignments</span></tt>, see documentation there
+:todo: handle if range is out of curve (error:nothing to paste from) - should paste the pose in this range</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.referenceFile">
@@ -671,7 +758,7 @@ that out</td>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.removeFrom">
-<tt class="descname">removeFrom</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x4218850&gt; &gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.removeFrom" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">removeFrom</tt><big>(</big><em>setnode</em>, <em>component=&lt;maya.OpenMaya.MObject; proxy of &lt;Swig Object of type 'MObject *' at 0x2437cd0&gt; &gt;</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.removeFrom" title="Permalink to this definition">¶</a></dt>
 <dd><p>remove ourselves to the given set</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -688,8 +775,28 @@ that out</td>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.rename">
 <tt class="descname">rename</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.rename" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Rename this node to newname</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>newname</em> &#8211; new name of the node</li>
+<li><em>autocreateNamespace</em> &#8211; if true, namespaces given in newpath will be created automatically, otherwise
+a RuntimeException will be thrown if a required namespace does not exist</li>
+<li><em>renameOnClash</em> &#8211; if true, clashing names will automatically be resolved by adjusting the name</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">renamed node which is the node itself</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body"><p class="first last">for safety reasons, this node is dagnode aware and uses a dag modifier for them !</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.root">
@@ -707,20 +814,63 @@ simply using the StartUndo helper</dd></dl>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.setLocked">
 <tt class="descname">setLocked</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.setLocked" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Lock or unloack this node</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>state</em> &#8211; if True, the node is locked. Locked nodes cannot be deleted,
+renamed or reparented</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">you can query the lock state with <cite>isLocked</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.setNamespace">
 <tt class="descname">setNamespace</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.setNamespace" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">self after being moved to the given namespace. This will effectively
+rename the object.</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>newns</em> &#8211; Namespace instance to put this Node into</li>
+<li><em>kwargs</em> &#8211; to be passed to <cite>rename</cite></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.set_animation">
 <tt class="descname">set_animation</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.set_animation" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><dl class="docutils">
+<dt>Set this handle to manage the animation of the given nodes.</dt>
+<dd>The previous animation information will be removed.</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>iter_nodes</em> &#8211; MSelectionList or iterable of Nodes or api objects pointing 
+to nodes connected to animation.</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">Will not raise if the nodes do not have any animation</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">Heavily optimized for speed, hence we work directly with the 
+apiObjects, skipping the mrv layer as we are in a tight loop here</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.sets">
@@ -769,8 +919,24 @@ will not work</td>
 <dl class="method">
 <dt id="animio.lib.AnimationHandle.to_file">
 <tt class="descname">to_file</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.AnimationHandle.to_file" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>export the AnimationHandle and all managed nodes to the given file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">path to exported file</p>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><em>output_file</em> &#8211; Path object or path string to export file.
+Parent directories will be created as needed</li>
+<li><em>kwargs</em> &#8211; passed to the <tt class="docutils literal"><span class="pre">Scene.export</span></tt> method</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
@@ -829,7 +995,7 @@ parent/child iteration and query can be used as well</td>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x4416410&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x44d56e0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -842,7 +1008,7 @@ parent/child iteration and query can be used as well</td>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -866,8 +1032,25 @@ parent/child iteration and query can be used as well</td>
 <dl class="method">
 <dt id="animio.lib.FileReference.cleanup">
 <tt class="descname">cleanup</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.cleanup" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>remove unresolved edits or all edits on this reference</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><em>unresolvedEdits</em> &#8211; if True, only dangling connections will be removed,
+if False, all reference edits will be removed - the reference will be unloaded for beforehand.
+The loading state of the reference will stay unchanged after the operation.</li>
+<li><em>editTypes</em> &#8211; list of edit types to remove during cleanup</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">self</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.copynumber">
@@ -982,8 +1165,27 @@ with the located reference</p>
 <dl class="method">
 <dt id="animio.lib.FileReference.importRef">
 <tt class="descname">importRef</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.importRef" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Import the reference until the given depth is reached</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>depth</em> &#8211; <ul>
+<li>x&lt;1: import all references and subreferences</li>
+<li><dl class="first docutils">
+<dt>x: import until level x is reached, 0 imports just self such that</dt>
+<dd>all its children are on the same level as self was before import</dd>
+</dl>
+</li>
+</ul>
+</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">list of FileReference objects that are now in the root namespace - this
+list could be empty if all subreferences are fully imported</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.isLoaded">
@@ -1120,7 +1322,7 @@ Defaults to return True for all.</dd>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1135,7 +1337,7 @@ Defaults to return True for all.</dd>
 
 <dl class="classmethod">
 <dt id="animio.lib.FileReference.ls">
-<em class="property">classmethod </em><tt class="descname">ls</tt><big>(</big><em>rootReference=''</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x4415cf8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.ls" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">ls</tt><big>(</big><em>rootReference=''</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x44d5050&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.ls" title="Permalink to this definition">¶</a></dt>
 <dd><p>list all references in the scene or under the given root</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1159,7 +1361,7 @@ should be part of the return value.</li>
 
 <dl class="classmethod">
 <dt id="animio.lib.FileReference.lsDeep">
-<em class="property">classmethod </em><tt class="descname">lsDeep</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x4415de8&gt;</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.lsDeep" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">lsDeep</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x44d5140&gt;</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.lsDeep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return all references recursively</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -1252,14 +1454,38 @@ reference is being removed and cannot be trusted</p>
 <dl class="method">
 <dt id="animio.lib.FileReference.remove">
 <tt class="descname">remove</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.remove" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Remove the given reference from the scene</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">assures that no namespaces of that reference are left, remaining objects
+will be moved into the root namespace. This way the namespaces will not be left as waste.
+This fails if there are referenced objects in the subnamespace - we currently 
+ignore that issue as the main reference removal worked at that point.</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">kwargs passed to namespace.delete</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.replace">
 <tt class="descname">replace</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.replace" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Replace this reference with filepath</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>filepath</em> &#8211; the path to the file to replace this reference with
+Reference instances will be handled as well.</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.root">
@@ -1277,20 +1503,54 @@ simply using the StartUndo helper</dd></dl>
 <dl class="method">
 <dt id="animio.lib.FileReference.setLoaded">
 <tt class="descname">setLoaded</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.setLoaded" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>set the reference loaded or unloaded</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>state</em> &#8211; True = unload reference, True = load reference</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.setLocked">
 <tt class="descname">setLocked</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.setLocked" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Set the reference to be locked or unlocked</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>state</em> &#8211; if True, the reference is locked , if False its unlocked and
+can be altered</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.setNamespace">
 <tt class="descname">setNamespace</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.FileReference.setNamespace" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>set the reference to use the given namespace</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>namespace</em> &#8211; Namespace instance or name of the short namespace</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2">Raises RuntimeError:</th></tr>
+<tr><td>&nbsp;</td><td class="field-body">if namespace already exists or if reference is not root</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.FileReference.supports">
@@ -1388,7 +1648,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.lib.Namespace.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x4409320&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x44765f0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1403,7 +1663,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.lib.Namespace.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1436,8 +1696,22 @@ interpreted as in slice notation.</p>
 <dl class="classmethod">
 <dt id="animio.lib.Namespace.create">
 <em class="property">classmethod </em><tt class="descname">create</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.create" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Create a new namespace</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>namespaceName</em> &#8211; the name of the namespace, absolute or relative -
+it may contain subspaces too, i.e. :foo:bar.
+fred:subfred is a relative namespace, created in the currently active namespace</td>
+</tr>
+<tr class="field"><th class="field-name">Note:</th><td class="field-body">if the target namespace already exists, it will be returned</td>
+</tr>
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">the create Namespace object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="classmethod">
 <dt id="animio.lib.Namespace.current">
@@ -1553,7 +1827,7 @@ arguments start and end are interpreted as in slice notation.</p>
 
 <dl class="classmethod">
 <dt id="animio.lib.Namespace.findUnique">
-<em class="property">classmethod </em><tt class="descname">findUnique</tt><big>(</big><em>basename</em>, <em>incrementFunc=&lt;function &lt;lambda&gt; at 0x4404cf8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.findUnique" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descname">findUnique</tt><big>(</big><em>basename</em>, <em>incrementFunc=&lt;function &lt;lambda&gt; at 0x4472f50&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.findUnique" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find a unique namespace based on basename which does not yet exist
 in the scene and can be created.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1578,7 +1852,7 @@ namespace</p>
 <dl class="attribute">
 <dt id="animio.lib.Namespace.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.lib.Namespace.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id1"><span class="problematic" id="id2">*</span></a>args, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id3"><span class="problematic" id="id4">*</span></a>args, <a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.Namespace.fullChildName">
@@ -1778,7 +2052,7 @@ has a different feature set and needs this code here for maximum performance</p>
 
 <dl class="method">
 <dt id="animio.lib.Namespace.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2001,8 +2275,17 @@ If chars is a str, it will be converted to unicode before stripping</p>
 <dl class="method">
 <dt id="animio.lib.Namespace.setCurrent">
 <tt class="descname">setCurrent</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.lib.Namespace.setCurrent" title="Permalink to this definition">¶</a></dt>
-<dd>This is the long version of the method as it is slightly faster than
-simply using the StartUndo helper</dd></dl>
+<dd><p>Set this namespace to be the current one - new objects will be put in it
+by default</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">self</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="animio.lib.Namespace.split">
@@ -2244,7 +2527,7 @@ done using the specified fill character (default is a space)</p>
 
 <dl class="method">
 <dt id="animio.lib.Path.children">
-<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713ab18&gt;</em>, <em>pattern=None</em><big>)</big><a class="headerlink" href="#animio.lib.Path.children" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">children</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x197ff50&gt;</em>, <em>pattern=None</em><big>)</big><a class="headerlink" href="#animio.lib.Path.children" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2268,7 +2551,7 @@ i.e. <em>.</em></li>
 
 <dl class="method">
 <dt id="animio.lib.Path.childrenDeep">
-<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c0c8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.childrenDeep" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">childrenDeep</tt><big>(</big><em>order=1</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19855f0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.childrenDeep" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2605,7 +2888,7 @@ arguments start and end are interpreted as in slice notation.</p>
 <dl class="attribute">
 <dt id="animio.lib.Path.format">
 <tt class="descname">format</tt><a class="headerlink" href="#animio.lib.Path.format" title="Permalink to this definition">¶</a></dt>
-<dd>S.format(<a href="#id5"><span class="problematic" id="id6">*</span></a>args, <a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs) -&gt; unicode</dd></dl>
+<dd>S.format(<a href="#id7"><span class="problematic" id="id8">*</span></a>args, <a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs) -&gt; unicode</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.Path.fullChildName">
@@ -2785,7 +3068,7 @@ at least one cased character in S, False otherwise.</p>
 
 <dl class="method">
 <dt id="animio.lib.Path.iterParents">
-<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713c2a8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.iterParents" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">iterParents</tt><big>(</big><em>predicate=&lt;function &lt;lambda&gt; at 0x19857d0&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.iterParents" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -3478,7 +3761,7 @@ translation table, which must be a string of length 256.</p>
 
 <dl class="method">
 <dt id="animio.lib.Path.walk">
-<tt class="descname">walk</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713dcf8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walk" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walk</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x19882a8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walk" title="Permalink to this definition">¶</a></dt>
 <dd><p>create iterator over files and subdirs, recursively.</p>
 <p>The iterator yields path objects naming each child item of
 this directory and its descendants.</p>
@@ -3504,13 +3787,13 @@ reports the error via log.warn(), and &#8216;ignore&#8217;.</li>
 
 <dl class="method">
 <dt id="animio.lib.Path.walkdirs">
-<tt class="descname">walkdirs</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713dde8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walkdirs" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walkdirs</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x1988398&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walkdirs" title="Permalink to this definition">¶</a></dt>
 <dd>D.walkdirs() -&gt; iterator over subdirs, recursively.
 see <cite>walk</cite> for a parameter description</dd></dl>
 
 <dl class="method">
 <dt id="animio.lib.Path.walkfiles">
-<tt class="descname">walkfiles</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x2b08e713ded8&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walkfiles" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">walkfiles</tt><big>(</big><em>pattern=None</em>, <em>errors='strict'</em>, <em>predicate=&lt;function &lt;lambda&gt; at 0x1988488&gt;</em><big>)</big><a class="headerlink" href="#animio.lib.Path.walkfiles" title="Permalink to this definition">¶</a></dt>
 <dd>D.walkfiles() -&gt; iterator over files in D, recursively.
 see <cite>walk</cite> for a parameter description</dd></dl>
 

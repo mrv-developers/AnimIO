@@ -79,12 +79,34 @@ ends with a slash.</dd></dl>
 <dl class="function">
 <dt id="animio.setup.find_packages">
 <tt class="descclassname">animio.setup.</tt><tt class="descname">find_packages</tt><big>(</big><em>where='.'</em>, <em>exclude=()</em><big>)</big><a class="headerlink" href="#animio.setup.find_packages" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a list all Python packages found within directory &#8216;where&#8217;</p>
+<dd><p>NOTE: This method is not easily available which is a problem for us. Hence
+we just put it here, duplicating code from the setup tools.</p>
+<p>Return a list all Python packages found within directory &#8216;where&#8217;</p>
 <p>&#8216;where&#8217; should be supplied as a &#8220;cross-platform&#8221; (i.e. URL-style) path; it
 will be converted to the appropriate local path syntax.  &#8216;exclude&#8217; is a
 sequence of package names to exclude; &#8216;*&#8217; can be used as a wildcard in the
 names, such that &#8216;foo.*&#8217; will exclude all subpackages of &#8216;foo&#8217; (but not
 &#8216;foo&#8217; itself).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="animio.setup.get_makefile_filename">
+<tt class="descclassname">animio.setup.</tt><tt class="descname">get_makefile_filename</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.get_makefile_filename" title="Permalink to this definition">¶</a></dt>
+<dd>Return full pathname of installed Makefile from the Python build.</dd></dl>
+
+<dl class="function">
+<dt id="animio.setup.get_python_lib">
+<tt class="descclassname">animio.setup.</tt><tt class="descname">get_python_lib</tt><big>(</big><em>plat_specific=0</em>, <em>standard_lib=0</em>, <em>prefix=None</em><big>)</big><a class="headerlink" href="#animio.setup.get_python_lib" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the directory containing the Python library (standard or
+site additions).</p>
+<p>If &#8216;plat_specific&#8217; is true, return the directory containing
+platform-specific modules, i.e. any module from a non-pure-Python
+module distribution; otherwise, return the platform-shared library
+directory.  If &#8216;standard_lib&#8217; is true, return the directory
+containing standard Python library modules; otherwise, return the
+directory for site-specific modules.</p>
+<p>If &#8216;prefix&#8217; is supplied, use it instead of sys.prefix or
+sys.exec_prefix &#8211; i.e., ignore &#8216;plat_specific&#8217;.</p>
 </dd></dl>
 
 <dl class="function">
@@ -127,6 +149,16 @@ driven entirely by the Distribution object (which each command object
 has a reference to, thanks to its constructor), and the
 command-specific options that became attributes of each command
 object.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="animio.setup.zipcompatible_get_makefile_filename">
+<tt class="descclassname">animio.setup.</tt><tt class="descname">zipcompatible_get_makefile_filename</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.zipcompatible_get_makefile_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>The maya installation of python 2.5 on linux is incomplete, that is the Makefile
+is not physically present on disk, but is instead to be found in a zip archive.
+We will detect that, and extract a temporary file instead that we will pass
+on to the parser.</p>
+<p>note: the temp file is not currently being deleted</p>
 </dd></dl>
 
 </div>
@@ -266,7 +298,7 @@ If so, continue, if not, try to create a tag with the current version.
 If the version was already tagged before, help the user to adjust his 
 version string in the root module, make a commit, and finally create 
 the tag we were so desperate for. The main idea is to enforce a unique 
-version each time we make a release, and to make that easy</p>
+version each time we make a release, and to make that easy.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -350,12 +382,6 @@ stream accordingly.</p>
 <tt class="descname">perform_regression_tests</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.Distribution.perform_regression_tests" title="Permalink to this definition">¶</a></dt>
 <dd>Run regression tests and fail with a report if one of the regression 
 test fails</dd></dl>
-
-<dl class="method">
-<dt id="animio.setup.Distribution.postprocess_metadata">
-<tt class="descname">postprocess_metadata</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.Distribution.postprocess_metadata" title="Permalink to this definition">¶</a></dt>
-<dd>Called after the commandline has been parsed. With all information available
-we can decide whether additional dependencies need to be specified</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.Distribution.print_command_list">
@@ -456,15 +482,24 @@ of the spawned one</blockquote>
 <p>Customize the command preparing python modules in order to skip copying 
 original py files if compile is specified. Additionally we allow the python 
 interpreter to be specified as the bytecode is incompatible between the versions</p>
+<dl class="class">
+<dt id="animio.setup.BuildPython.RemotePush">
+<em class="property">class </em><tt class="descname">RemotePush</tt><big>(</big><em>inst</em>, <em>*args</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.RemotePush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Functor representing a hashable push call to a remote</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="animio.setup.BuildPython.add_files_and_commit">
-<tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add all files recursively to the index as found below root_dir and commit the
 index.</p>
 <p>As a special ability, we will rewrite their paths and thus add them relative
 to the root directory, even though the git repository might be on another level.
 It also sports a simple way to determine whether the commit already exists, 
 so it will not recommit data that has just been committed.</p>
+<p>Additionally we will try to find the info.py file and adjust its commit_sha
+to the actual sha of our root_repo&#8217;s original branch.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -486,18 +521,18 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="classmethod">
 <dt id="animio.setup.BuildPython.adjust_user_options">
-<em class="property">classmethod </em><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.adjust_user_options" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descclassname">BuildPython.</tt><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.adjust_user_options" title="Permalink to this definition">¶</a></dt>
 <dd>Append git specific user options to the given options</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.announce">
-<tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.announce" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.announce" title="Permalink to this definition">¶</a></dt>
 <dd>If the current verbosity level is of greater than or equal to
 &#8216;level&#8217; print &#8216;msg&#8217; to stdout.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.branch_name">
-<tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.branch_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.branch_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -510,87 +545,87 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.build_module">
-<tt class="descname">build_module</tt><big>(</big><em>module</em>, <em>module_file</em>, <em>package</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_module" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">build_module</tt><big>(</big><em>module</em>, <em>module_file</em>, <em>package</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_module" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.build_modules">
-<tt class="descname">build_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_modules" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">build_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_modules" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.build_package_data">
-<tt class="descname">build_package_data</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_package_data" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">build_package_data</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_package_data" title="Permalink to this definition">¶</a></dt>
 <dd>Copy data files into build directory</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.build_packages">
-<tt class="descname">build_packages</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_packages" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">build_packages</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.build_packages" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.byte_compile">
-<tt class="descname">byte_compile</tt><big>(</big><em>files</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.byte_compile" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">byte_compile</tt><big>(</big><em>files</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.byte_compile" title="Permalink to this definition">¶</a></dt>
 <dd>If we are supposed to compile, remove the original file afterwards</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.check_module">
-<tt class="descname">check_module</tt><big>(</big><em>module</em>, <em>module_file</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.check_module" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">check_module</tt><big>(</big><em>module</em>, <em>module_file</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.check_module" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.check_package">
-<tt class="descname">check_package</tt><big>(</big><em>package</em>, <em>package_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.check_package" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">check_package</tt><big>(</big><em>package</em>, <em>package_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.check_package" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.copy_file">
-<tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.copy_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.copy_file" title="Permalink to this definition">¶</a></dt>
 <dd>Copy a file respecting verbose, dry-run and force flags.  (The
 former two default to whatever is in the Distribution object, and
 the latter defaults to false for commands that don&#8217;t define it.)</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.copy_tree">
-<tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.copy_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.copy_tree" title="Permalink to this definition">¶</a></dt>
 <dd>Copy an entire directory tree respecting verbose, dry-run,
 and force flags.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.debug_print">
-<tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.debug_print" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.debug_print" title="Permalink to this definition">¶</a></dt>
 <dd>Print &#8216;msg&#8217; to stdout if the global DEBUG (taken from the
 DISTUTILS_DEBUG environment variable) flag is true.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.dump_options">
-<tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.dump_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.dump_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.ensure_dirname">
-<tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_dirname" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_dirname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.ensure_filename">
-<tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_filename" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_filename" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is the name of an existing file.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.ensure_finalized">
-<tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_finalized" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_finalized" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.ensure_string">
-<tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_string" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_string" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a string; if not defined, set it to
 &#8216;default&#8217;.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.ensure_string_list">
-<tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_string_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.ensure_string_list" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a list of strings.  If &#8216;option&#8217; is
 currently a string, we split it either on /,s*/ or /s+/, so
 &#8220;foo bar baz&#8221;, &#8220;foo,bar,baz&#8221;, and &#8220;foo,   bar baz&#8221; all become
@@ -598,30 +633,30 @@ currently a string, we split it either on /,s*/ or /s+/, so
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.execute">
-<tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.execute" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.execute" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.finalize_options">
-<tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.finalize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.finalize_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.find_all_modules">
-<tt class="descname">find_all_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_all_modules" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">find_all_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_all_modules" title="Permalink to this definition">¶</a></dt>
 <dd>Same as above, but ... different. Instaed of using the find_package_modules method, 
 it reimplements the same functionality ... wtf ??</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.find_data_files">
-<tt class="descname">find_data_files</tt><big>(</big><em>package</em>, <em>src_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_data_files" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">find_data_files</tt><big>(</big><em>package</em>, <em>src_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_data_files" title="Permalink to this definition">¶</a></dt>
 <dd>Fixes the underlying method by allowing to specify whole directories
 whose files will be copied recursively. Thanks python for not even providing 
 the bare mininum so people end up reimplementing parts of the &#8216;distribution system&#8217;</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.find_modules">
-<tt class="descname">find_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_modules" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">find_modules</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_modules" title="Permalink to this definition">¶</a></dt>
 <dd>Finds individually-specified Python modules, ie. those listed by
 module name in &#8216;self.py_modules&#8217;.  Returns a list of tuples (package,
 module_base, filename): &#8216;package&#8217; is a tuple of the path through
@@ -632,29 +667,35 @@ module.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.find_package_modules">
-<tt class="descname">find_package_modules</tt><big>(</big><em>package</em>, <em>package_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_package_modules" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">find_package_modules</tt><big>(</big><em>package</em>, <em>package_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.find_package_modules" title="Permalink to this definition">¶</a></dt>
 <dd>Overridden to filter return value using our exludes</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.fix_scripts">
-<tt class="descname">fix_scripts</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.fix_scripts" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">fix_scripts</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.fix_scripts" title="Permalink to this definition">¶</a></dt>
 <dd>Check what the user classified as script and fix the first line
 to point to the right python interpreter version (only if we are compiling).
 Additionally, make the file executable on linux</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_command_name">
-<tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_command_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_command_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_data_files">
-<tt class="descname">get_data_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_data_files" title="Permalink to this definition">¶</a></dt>
-<dd>Generate list of &#8216;(package,src_dir,build_dir,filenames)&#8217; tuples</dd></dl>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_data_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_data_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Can you feel the pain ? So, in python2.5 and python2.4 coming with maya, 
+the line dealing with the <tt class="docutils literal"><span class="pre">plen</span></tt> has a bug which causes it to truncate too much.
+It is fixed in the system interpreters as they receive patches, and shows how
+bad it is if something doesn&#8217;t have proper unittests.
+The code here is a plain copy of the python2.6 version which works for all.</p>
+<p>Generate list of &#8216;(package,src_dir,build_dir,filenames)&#8217; tuples</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_finalized_command">
-<tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_finalized_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_finalized_command" title="Permalink to this definition">¶</a></dt>
 <dd>Wrapper around Distribution&#8217;s &#8216;get_command_obj()&#8217; method: find
 (create if necessary and &#8216;create&#8217; is true) the command object for
 &#8216;command&#8217;, call its &#8216;ensure_finalized()&#8217; method, and return the
@@ -662,29 +703,29 @@ finalized command object.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_module_outfile">
-<tt class="descname">get_module_outfile</tt><big>(</big><em>build_dir</em>, <em>package</em>, <em>module</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_module_outfile" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_module_outfile</tt><big>(</big><em>build_dir</em>, <em>package</em>, <em>module</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_module_outfile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_outputs">
-<tt class="descname">get_outputs</tt><big>(</big><em>include_bytecode=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_outputs" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_outputs</tt><big>(</big><em>include_bytecode=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_outputs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_package_dir">
-<tt class="descname">get_package_dir</tt><big>(</big><em>package</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_package_dir" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_package_dir</tt><big>(</big><em>package</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_package_dir" title="Permalink to this definition">¶</a></dt>
 <dd>Return the directory, relative to the top of the source
 distribution, where package &#8216;package&#8217; should be found
 (at least according to the &#8216;package_dir&#8217; option, if any).</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_source_files">
-<tt class="descname">get_source_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_source_files" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_source_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_source_files" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.get_sub_commands">
-<tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_sub_commands" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.get_sub_commands" title="Permalink to this definition">¶</a></dt>
 <dd>Determine the sub-commands that are relevant in the current
 distribution (ie., that need to be run).  This is based on the
 &#8216;sub_commands&#8217; class attribute: each tuple in that list may include
@@ -693,29 +734,29 @@ run for the current distribution.  Return a list of command names.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.handle_exclusion">
-<tt class="descname">handle_exclusion</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.handle_exclusion" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">handle_exclusion</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.handle_exclusion" title="Permalink to this definition">¶</a></dt>
 <dd>Apply the exclusion patterns</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.initialize_options">
-<tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.initialize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.initialize_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.item_chooser">
-<tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.item_chooser" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.item_chooser" title="Permalink to this definition">¶</a></dt>
 <dd>Utility allowing the user to easily select items from the items list
 :param items: objects that can be converted into a string
 :return: list of selected items</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.make_archive">
-<tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.make_archive" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.make_archive" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.make_file">
-<tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.make_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.make_file" title="Permalink to this definition">¶</a></dt>
 <dd>Special case of &#8216;execute()&#8217; for operations that process one or
 more input files and generate one output file.  Works just like
 &#8216;execute()&#8217;, except the operation is skipped and a different
@@ -726,17 +767,17 @@ timestamp checks.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.mkpath">
-<tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.mkpath" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.mkpath" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.move_file">
-<tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.move_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.move_file" title="Permalink to this definition">¶</a></dt>
 <dd>Move a file respectin dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.post_regression_test">
-<tt class="descname">post_regression_test</tt><big>(</big><em>testexecutable</em>, <em>test_root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.post_regression_test" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">post_regression_test</tt><big>(</big><em>testexecutable</em>, <em>test_root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.post_regression_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a regression test for the maya version&#8217;s the user supplied.
 :param testexecutable: path to the tmrv-compatible executable - it is</p>
 <blockquote>
@@ -756,33 +797,32 @@ expected to be inside a tree which allows the project to put itself into the pat
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.push_to_remotes">
-<tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.push_to_remotes" title="Permalink to this definition">¶</a></dt>
-<dd>Push the given branchs to the given remotes.
-If one of the lists is empty, it the respective items 
-will be queried from the user</dd></dl>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.push_to_remotes" title="Permalink to this definition">¶</a></dt>
+<dd>For the actual documentation, please see <tt class="docutils literal"><span class="pre">_push_to_remotes</span></tt>
+This method stores the call for later execution</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.reinitialize_command">
-<tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.reinitialize_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.reinitialize_command" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.run" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.run" title="Permalink to this definition">¶</a></dt>
 <dd>Perform the main operation, and handle git afterwards
 :note: It is done at a point where the py modules as well as the executables
 are available. In case there are c-modules, these wouldn&#8217;t be availble here.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.run_command">
-<tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.run_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.run_command" title="Permalink to this definition">¶</a></dt>
 <dd>Run some other command: uses the &#8216;run_command()&#8217; method of
 Distribution, which creates and finalizes the command object if
 necessary and then invokes its &#8216;run()&#8217; method.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.set_head_to">
-<tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.set_head_to" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.set_head_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>et our head to point to the given head_name. If possible, 
 update the index to represent the tree the head points to</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -800,7 +840,7 @@ repository is still empty</td>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.set_undefined_options">
-<tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.set_undefined_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.set_undefined_options" title="Permalink to this definition">¶</a></dt>
 <dd>Set the values of any &#8220;undefined&#8221; options from corresponding
 option values in some other command object.  &#8220;Undefined&#8221; here means
 &#8220;is None&#8221;, which is the convention used to indicate that an option
@@ -816,12 +856,12 @@ for it if necessary); the remaining arguments are
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.spawn">
-<tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.spawn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.spawn" title="Permalink to this definition">¶</a></dt>
 <dd>Spawn an external command respecting dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.update_git">
-<tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.update_git" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.update_git" title="Permalink to this definition">¶</a></dt>
 <dd>Put the contents in the root_dir into the configured git repository
 Its important to note that the actual relative location of root_dir does not
 matter as long as it is inside the git repository. The later object paths
@@ -829,7 +869,7 @@ within the git repository will all be relative to root_dir.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildPython.warn">
-<tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.warn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">BuildPython.</tt><tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.BuildPython.warn" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -955,13 +995,16 @@ python version to match the version of the this python interpreter</blockquote>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>suffix</em> &#8211; if given, the suffix is assumed to be a suffix for all scripts.
+<tr class="field"><th class="field-name">Parameter:</th><td class="field-body"><em>suffix</em> &#8211; <p>if given, the suffix is assumed to be a suffix for all scripts.
 If scripts want to execfile each other, the name of the script needs adjustment
 to actually work, which is unknown to the script in advance. Hence we fix
 the string ourselves.
 The suffix is assumed to be appended to all input script files, revealing the 
 original script basename if the suffix is removed. The latter one is searched for 
-in the script.</td>
+in the script.</p>
+<p>Note: The suffix cannot be used if we are running in mayapy. In that case the first 
+line will point to our current executable directly as mayapy can only be used for maya anyway.</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -1035,6 +1078,19 @@ for it if necessary); the remaining arguments are
 <dt id="animio.setup.BuildScripts.spawn">
 <tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.BuildScripts.spawn" title="Permalink to this definition">¶</a></dt>
 <dd>Spawn an external command respecting dry-run flag.</dd></dl>
+
+<dl class="classmethod">
+<dt id="animio.setup.BuildScripts.uses_mayapy">
+<em class="property">classmethod </em><tt class="descname">uses_mayapy</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.BuildScripts.uses_mayapy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">Returns:</th><td class="field-body">True if the executable is mayapy</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.BuildScripts.warn">
@@ -1383,7 +1439,7 @@ If so, continue, if not, try to create a tag with the current version.
 If the version was already tagged before, help the user to adjust his 
 version string in the root module, make a commit, and finally create 
 the tag we were so desperate for. The main idea is to enforce a unique 
-version each time we make a release, and to make that easy</p>
+version each time we make a release, and to make that easy.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1467,12 +1523,6 @@ stream accordingly.</p>
 <tt class="descname">perform_regression_tests</tt><big>(</big><big>)</big></dt>
 <dd>Run regression tests and fail with a report if one of the regression 
 test fails</dd></dl>
-
-<dl class="method">
-<dt>
-<tt class="descname">postprocess_metadata</tt><big>(</big><big>)</big></dt>
-<dd>Called after the commandline has been parsed. With all information available
-we can decide whether additional dependencies need to be specified</dd></dl>
 
 <dl class="method">
 <dt>
@@ -1572,15 +1622,24 @@ of the spawned one</blockquote>
 <dd><p>Bases: <a title="animio.setup._GitMixin" class="reference internal" href="#animio.setup._GitMixin"><tt class="xref docutils literal"><span class="pre">animio.setup._GitMixin</span></tt></a>, <tt class="xref docutils literal"><span class="pre">distutils.cmd.Command</span></tt></p>
 <p>Build the documentation, and include everything into the git repository if 
 required.</p>
+<dl class="class">
+<dt id="animio.setup.DocDistro.RemotePush">
+<em class="property">class </em><tt class="descname">RemotePush</tt><big>(</big><em>inst</em>, <em>*args</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.RemotePush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Functor representing a hashable push call to a remote</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="animio.setup.DocDistro.add_files_and_commit">
-<tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add all files recursively to the index as found below root_dir and commit the
 index.</p>
 <p>As a special ability, we will rewrite their paths and thus add them relative
 to the root directory, even though the git repository might be on another level.
 It also sports a simple way to determine whether the commit already exists, 
 so it will not recommit data that has just been committed.</p>
+<p>Additionally we will try to find the info.py file and adjust its commit_sha
+to the actual sha of our root_repo&#8217;s original branch.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1602,18 +1661,18 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="classmethod">
 <dt id="animio.setup.DocDistro.adjust_user_options">
-<em class="property">classmethod </em><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.adjust_user_options" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descclassname">DocDistro.</tt><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.adjust_user_options" title="Permalink to this definition">¶</a></dt>
 <dd>Append git specific user options to the given options</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.announce">
-<tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.announce" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.announce" title="Permalink to this definition">¶</a></dt>
 <dd>If the current verbosity level is of greater than or equal to
 &#8216;level&#8217; print &#8216;msg&#8217; to stdout.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.branch_name">
-<tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.branch_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.branch_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1626,7 +1685,7 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.build_documentation">
-<tt class="descname">build_documentation</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.build_documentation" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">build_documentation</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.build_documentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the documentation with our current version tag - this allows
 it to be included in the release as it has been updated</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1643,58 +1702,58 @@ the documentation was build, False if it was still uptodate</td>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.copy_file">
-<tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.copy_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.copy_file" title="Permalink to this definition">¶</a></dt>
 <dd>Copy a file respecting verbose, dry-run and force flags.  (The
 former two default to whatever is in the Distribution object, and
 the latter defaults to false for commands that don&#8217;t define it.)</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.copy_tree">
-<tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.copy_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.copy_tree" title="Permalink to this definition">¶</a></dt>
 <dd>Copy an entire directory tree respecting verbose, dry-run,
 and force flags.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.create_zip_archive">
-<tt class="descname">create_zip_archive</tt><big>(</big><em>html_out_dir</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.create_zip_archive" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">create_zip_archive</tt><big>(</big><em>html_out_dir</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.create_zip_archive" title="Permalink to this definition">¶</a></dt>
 <dd>Create a zip archive from the data in the html output directory
 :return: path to the created zip file</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.debug_print">
-<tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.debug_print" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.debug_print" title="Permalink to this definition">¶</a></dt>
 <dd>Print &#8216;msg&#8217; to stdout if the global DEBUG (taken from the
 DISTUTILS_DEBUG environment variable) flag is true.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.dump_options">
-<tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.dump_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.dump_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.ensure_dirname">
-<tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_dirname" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_dirname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.ensure_filename">
-<tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_filename" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_filename" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is the name of an existing file.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.ensure_finalized">
-<tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_finalized" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_finalized" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.ensure_string">
-<tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_string" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_string" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a string; if not defined, set it to
 &#8216;default&#8217;.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.ensure_string_list">
-<tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_string_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.ensure_string_list" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a list of strings.  If &#8216;option&#8217; is
 currently a string, we split it either on /,s*/ or /s+/, so
 &#8220;foo bar baz&#8221;, &#8220;foo,bar,baz&#8221;, and &#8220;foo,   bar baz&#8221; all become
@@ -1702,22 +1761,22 @@ currently a string, we split it either on /,s*/ or /s+/, so
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.execute">
-<tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.execute" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.execute" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.finalize_options">
-<tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.finalize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.finalize_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.get_command_name">
-<tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_command_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_command_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.get_finalized_command">
-<tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_finalized_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_finalized_command" title="Permalink to this definition">¶</a></dt>
 <dd>Wrapper around Distribution&#8217;s &#8216;get_command_obj()&#8217; method: find
 (create if necessary and &#8216;create&#8217; is true) the command object for
 &#8216;command&#8217;, call its &#8216;ensure_finalized()&#8217; method, and return the
@@ -1725,7 +1784,7 @@ finalized command object.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.get_sub_commands">
-<tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_sub_commands" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.get_sub_commands" title="Permalink to this definition">¶</a></dt>
 <dd>Determine the sub-commands that are relevant in the current
 distribution (ie., that need to be run).  This is based on the
 &#8216;sub_commands&#8217; class attribute: each tuple in that list may include
@@ -1734,24 +1793,24 @@ run for the current distribution.  Return a list of command names.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.initialize_options">
-<tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.initialize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.initialize_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.item_chooser">
-<tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.item_chooser" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.item_chooser" title="Permalink to this definition">¶</a></dt>
 <dd>Utility allowing the user to easily select items from the items list
 :param items: objects that can be converted into a string
 :return: list of selected items</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.make_archive">
-<tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.make_archive" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.make_archive" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.make_file">
-<tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.make_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.make_file" title="Permalink to this definition">¶</a></dt>
 <dd>Special case of &#8216;execute()&#8217; for operations that process one or
 more input files and generate one output file.  Works just like
 &#8216;execute()&#8217;, except the operation is skipped and a different
@@ -1762,41 +1821,40 @@ timestamp checks.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.mkpath">
-<tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.mkpath" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.mkpath" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.move_file">
-<tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.move_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.move_file" title="Permalink to this definition">¶</a></dt>
 <dd>Move a file respectin dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.push_to_remotes">
-<tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.push_to_remotes" title="Permalink to this definition">¶</a></dt>
-<dd>Push the given branchs to the given remotes.
-If one of the lists is empty, it the respective items 
-will be queried from the user</dd></dl>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.push_to_remotes" title="Permalink to this definition">¶</a></dt>
+<dd>For the actual documentation, please see <tt class="docutils literal"><span class="pre">_push_to_remotes</span></tt>
+This method stores the call for later execution</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.reinitialize_command">
-<tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.reinitialize_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.reinitialize_command" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.run" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.run_command">
-<tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.run_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.run_command" title="Permalink to this definition">¶</a></dt>
 <dd>Run some other command: uses the &#8216;run_command()&#8217; method of
 Distribution, which creates and finalizes the command object if
 necessary and then invokes its &#8216;run()&#8217; method.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.set_head_to">
-<tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.set_head_to" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.set_head_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>et our head to point to the given head_name. If possible, 
 update the index to represent the tree the head points to</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1814,7 +1872,7 @@ repository is still empty</td>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.set_undefined_options">
-<tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.set_undefined_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.set_undefined_options" title="Permalink to this definition">¶</a></dt>
 <dd>Set the values of any &#8220;undefined&#8221; options from corresponding
 option values in some other command object.  &#8220;Undefined&#8221; here means
 &#8220;is None&#8221;, which is the convention used to indicate that an option
@@ -1830,12 +1888,12 @@ for it if necessary); the remaining arguments are
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.spawn">
-<tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.spawn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.spawn" title="Permalink to this definition">¶</a></dt>
 <dd>Spawn an external command respecting dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.update_git">
-<tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.update_git" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.update_git" title="Permalink to this definition">¶</a></dt>
 <dd>Put the contents in the root_dir into the configured git repository
 Its important to note that the actual relative location of root_dir does not
 matter as long as it is inside the git repository. The later object paths
@@ -1843,7 +1901,7 @@ within the git repository will all be relative to root_dir.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.DocDistro.warn">
-<tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.warn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">DocDistro.</tt><tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.DocDistro.warn" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1854,9 +1912,16 @@ within the git repository will all be relative to root_dir.</dd></dl>
 <em class="property">class </em><tt class="descclassname">animio.setup.</tt><tt class="descname">GitSourceDistribution</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a title="animio.setup._GitMixin" class="reference internal" href="#animio.setup._GitMixin"><tt class="xref docutils literal"><span class="pre">animio.setup._GitMixin</span></tt></a>, <a title="animio.setup._RegressionMixin" class="reference internal" href="#animio.setup._RegressionMixin"><tt class="xref docutils literal"><span class="pre">animio.setup._RegressionMixin</span></tt></a>, <tt class="xref docutils literal"><span class="pre">distutils.command.sdist.sdist</span></tt></p>
 <p>Instead of creating an archive, we put the source tree into a git repository</p>
+<dl class="class">
+<dt id="animio.setup.GitSourceDistribution.RemotePush">
+<em class="property">class </em><tt class="descname">RemotePush</tt><big>(</big><em>inst</em>, <em>*args</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.RemotePush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Functor representing a hashable push call to a remote</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.add_defaults">
-<tt class="descname">add_defaults</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.add_defaults" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">add_defaults</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.add_defaults" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Add all the default files to self.filelist:</dt>
 <dd><ul class="first last simple">
@@ -1875,13 +1940,15 @@ else is optional.</p>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.add_files_and_commit">
-<tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add all files recursively to the index as found below root_dir and commit the
 index.</p>
 <p>As a special ability, we will rewrite their paths and thus add them relative
 to the root directory, even though the git repository might be on another level.
 It also sports a simple way to determine whether the commit already exists, 
 so it will not recommit data that has just been committed.</p>
+<p>Additionally we will try to find the info.py file and adjust its commit_sha
+to the actual sha of our root_repo&#8217;s original branch.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1903,18 +1970,18 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="classmethod">
 <dt id="animio.setup.GitSourceDistribution.adjust_user_options">
-<em class="property">classmethod </em><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.adjust_user_options" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.adjust_user_options" title="Permalink to this definition">¶</a></dt>
 <dd>Append git specific user options to the given options</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.announce">
-<tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.announce" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">announce</tt><big>(</big><em>msg</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.announce" title="Permalink to this definition">¶</a></dt>
 <dd>If the current verbosity level is of greater than or equal to
 &#8216;level&#8217; print &#8216;msg&#8217; to stdout.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.branch_name">
-<tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.branch_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.branch_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1927,7 +1994,7 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.check_metadata">
-<tt class="descname">check_metadata</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.check_metadata" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">check_metadata</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.check_metadata" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that all required elements of meta-data (name, version,
 URL, (author and author_email) or (maintainer and
 maintainer_email)) are supplied by the Distribution object; warn if
@@ -1935,52 +2002,52 @@ any are missing.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.copy_file">
-<tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.copy_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">copy_file</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>link=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.copy_file" title="Permalink to this definition">¶</a></dt>
 <dd>Copy a file respecting verbose, dry-run and force flags.  (The
 former two default to whatever is in the Distribution object, and
 the latter defaults to false for commands that don&#8217;t define it.)</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.copy_tree">
-<tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.copy_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">copy_tree</tt><big>(</big><em>infile</em>, <em>outfile</em>, <em>preserve_mode=1</em>, <em>preserve_times=1</em>, <em>preserve_symlinks=0</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.copy_tree" title="Permalink to this definition">¶</a></dt>
 <dd>Copy an entire directory tree respecting verbose, dry-run,
 and force flags.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.debug_print">
-<tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.debug_print" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">debug_print</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.debug_print" title="Permalink to this definition">¶</a></dt>
 <dd>Print &#8216;msg&#8217; to stdout if the global DEBUG (taken from the
 DISTUTILS_DEBUG environment variable) flag is true.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.dump_options">
-<tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.dump_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">dump_options</tt><big>(</big><em>header=None</em>, <em>indent=''</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.dump_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.ensure_dirname">
-<tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_dirname" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">ensure_dirname</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_dirname" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.ensure_filename">
-<tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_filename" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">ensure_filename</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_filename" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is the name of an existing file.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.ensure_finalized">
-<tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_finalized" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">ensure_finalized</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_finalized" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.ensure_string">
-<tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_string" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">ensure_string</tt><big>(</big><em>option</em>, <em>default=None</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_string" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a string; if not defined, set it to
 &#8216;default&#8217;.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.ensure_string_list">
-<tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_string_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">ensure_string_list</tt><big>(</big><em>option</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.ensure_string_list" title="Permalink to this definition">¶</a></dt>
 <dd>Ensure that &#8216;option&#8217; is a list of strings.  If &#8216;option&#8217; is
 currently a string, we split it either on /,s*/ or /s+/, so
 &#8220;foo bar baz&#8221;, &#8220;foo,bar,baz&#8221;, and &#8220;foo,   bar baz&#8221; all become
@@ -1988,29 +2055,29 @@ currently a string, we split it either on /,s*/ or /s+/, so
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.execute">
-<tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.execute" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">execute</tt><big>(</big><em>func</em>, <em>args</em>, <em>msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.execute" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.finalize_options">
-<tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.finalize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.finalize_options" title="Permalink to this definition">¶</a></dt>
 <dd>As the inheritance hierarchy is screwed up with old-style classes, 
 we have to forward to the call manually to our bases ...</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.get_archive_files">
-<tt class="descname">get_archive_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_archive_files" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">get_archive_files</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_archive_files" title="Permalink to this definition">¶</a></dt>
 <dd>Return the list of archive files created when the command
 was run, or None if the command hasn&#8217;t run yet.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.get_command_name">
-<tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_command_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">get_command_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_command_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.get_file_list">
-<tt class="descname">get_file_list</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_file_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">get_file_list</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_file_list" title="Permalink to this definition">¶</a></dt>
 <dd>Figure out the list of files to include in the source
 distribution, and put it in &#8216;self.filelist&#8217;.  This might involve
 reading the manifest template (and writing the manifest), or just
@@ -2019,7 +2086,7 @@ depends on the user&#8217;s options and the state of the filesystem.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.get_finalized_command">
-<tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_finalized_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">get_finalized_command</tt><big>(</big><em>command</em>, <em>create=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_finalized_command" title="Permalink to this definition">¶</a></dt>
 <dd>Wrapper around Distribution&#8217;s &#8216;get_command_obj()&#8217; method: find
 (create if necessary and &#8216;create&#8217; is true) the command object for
 &#8216;command&#8217;, call its &#8216;ensure_finalized()&#8217; method, and return the
@@ -2027,7 +2094,7 @@ finalized command object.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.get_sub_commands">
-<tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_sub_commands" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">get_sub_commands</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.get_sub_commands" title="Permalink to this definition">¶</a></dt>
 <dd>Determine the sub-commands that are relevant in the current
 distribution (ie., that need to be run).  This is based on the
 &#8216;sub_commands&#8217; class attribute: each tuple in that list may include
@@ -2036,29 +2103,29 @@ run for the current distribution.  Return a list of command names.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.initialize_options">
-<tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.initialize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">initialize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.initialize_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.item_chooser">
-<tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.item_chooser" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.item_chooser" title="Permalink to this definition">¶</a></dt>
 <dd>Utility allowing the user to easily select items from the items list
 :param items: objects that can be converted into a string
 :return: list of selected items</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.make_archive">
-<tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_archive" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">make_archive</tt><big>(</big><em>base_name</em>, <em>format</em>, <em>root_dir=None</em>, <em>base_dir=None</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_archive" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.make_distribution">
-<tt class="descname">make_distribution</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_distribution" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">make_distribution</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_distribution" title="Permalink to this definition">¶</a></dt>
 <dd>Make s source distribution, but set it up to allow post-testing if desired</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.make_file">
-<tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">make_file</tt><big>(</big><em>infiles</em>, <em>outfile</em>, <em>func</em>, <em>args</em>, <em>exec_msg=None</em>, <em>skip_msg=None</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_file" title="Permalink to this definition">¶</a></dt>
 <dd>Special case of &#8216;execute()&#8217; for operations that process one or
 more input files and generate one output file.  Works just like
 &#8216;execute()&#8217;, except the operation is skipped and a different
@@ -2069,7 +2136,7 @@ timestamp checks.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.make_release_tree">
-<tt class="descname">make_release_tree</tt><big>(</big><em>base_dir</em>, <em>files</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_release_tree" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">make_release_tree</tt><big>(</big><em>base_dir</em>, <em>files</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.make_release_tree" title="Permalink to this definition">¶</a></dt>
 <dd>Create the directory tree that will become the source
 distribution archive.  All directories implied by the filenames in
 &#8216;files&#8217; are created under &#8216;base_dir&#8217;, and then we hard link or copy
@@ -2080,17 +2147,17 @@ to be distributed.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.mkpath">
-<tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.mkpath" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">mkpath</tt><big>(</big><em>name</em>, <em>mode=511</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.mkpath" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.move_file">
-<tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.move_file" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">move_file</tt><big>(</big><em>src</em>, <em>dst</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.move_file" title="Permalink to this definition">¶</a></dt>
 <dd>Move a file respectin dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.post_regression_test">
-<tt class="descname">post_regression_test</tt><big>(</big><em>testexecutable</em>, <em>test_root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.post_regression_test" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">post_regression_test</tt><big>(</big><em>testexecutable</em>, <em>test_root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.post_regression_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform a regression test for the maya version&#8217;s the user supplied.
 :param testexecutable: path to the tmrv-compatible executable - it is</p>
 <blockquote>
@@ -2110,7 +2177,7 @@ expected to be inside a tree which allows the project to put itself into the pat
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.prune_file_list">
-<tt class="descname">prune_file_list</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.prune_file_list" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">prune_file_list</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.prune_file_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prune off branches that might slip into the file list as created
 by &#8216;read_template()&#8217;, but really don&#8217;t belong there:</p>
 <blockquote>
@@ -2125,21 +2192,20 @@ previously with &#8211;keep-temp, or it aborted)</li>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.push_to_remotes">
-<tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.push_to_remotes" title="Permalink to this definition">¶</a></dt>
-<dd>Push the given branchs to the given remotes.
-If one of the lists is empty, it the respective items 
-will be queried from the user</dd></dl>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.push_to_remotes" title="Permalink to this definition">¶</a></dt>
+<dd>For the actual documentation, please see <tt class="docutils literal"><span class="pre">_push_to_remotes</span></tt>
+This method stores the call for later execution</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.read_manifest">
-<tt class="descname">read_manifest</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.read_manifest" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">read_manifest</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.read_manifest" title="Permalink to this definition">¶</a></dt>
 <dd>Read the manifest file (named by &#8216;self.manifest&#8217;) and use it to
 fill in &#8216;self.filelist&#8217;, the list of files to include in the source
 distribution.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.read_template">
-<tt class="descname">read_template</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.read_template" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">read_template</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.read_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and parse manifest template file named by self.template.</p>
 <p>(usually &#8220;MANIFEST.in&#8221;) The parsing and processing is done by
 &#8216;self.filelist&#8217;, which updates itself accordingly.</p>
@@ -2147,24 +2213,24 @@ distribution.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.reinitialize_command">
-<tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.reinitialize_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">reinitialize_command</tt><big>(</big><em>command</em>, <em>reinit_subcommands=0</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.reinitialize_command" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.run">
-<tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.run" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">run</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.run_command">
-<tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.run_command" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">run_command</tt><big>(</big><em>command</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.run_command" title="Permalink to this definition">¶</a></dt>
 <dd>Run some other command: uses the &#8216;run_command()&#8217; method of
 Distribution, which creates and finalizes the command object if
 necessary and then invokes its &#8216;run()&#8217; method.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.set_head_to">
-<tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.set_head_to" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.set_head_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>et our head to point to the given head_name. If possible, 
 update the index to represent the tree the head points to</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2182,7 +2248,7 @@ repository is still empty</td>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.set_undefined_options">
-<tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.set_undefined_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">set_undefined_options</tt><big>(</big><em>src_cmd</em>, <em>*option_pairs</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.set_undefined_options" title="Permalink to this definition">¶</a></dt>
 <dd>Set the values of any &#8220;undefined&#8221; options from corresponding
 option values in some other command object.  &#8220;Undefined&#8221; here means
 &#8220;is None&#8221;, which is the convention used to indicate that an option
@@ -2198,12 +2264,12 @@ for it if necessary); the remaining arguments are
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.spawn">
-<tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.spawn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">spawn</tt><big>(</big><em>cmd</em>, <em>search_path=1</em>, <em>level=1</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.spawn" title="Permalink to this definition">¶</a></dt>
 <dd>Spawn an external command respecting dry-run flag.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.update_git">
-<tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.update_git" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.update_git" title="Permalink to this definition">¶</a></dt>
 <dd>Put the contents in the root_dir into the configured git repository
 Its important to note that the actual relative location of root_dir does not
 matter as long as it is inside the git repository. The later object paths
@@ -2211,12 +2277,12 @@ within the git repository will all be relative to root_dir.</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.warn">
-<tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.warn" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">warn</tt><big>(</big><em>msg</em><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.warn" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="animio.setup.GitSourceDistribution.write_manifest">
-<tt class="descname">write_manifest</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.write_manifest" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">GitSourceDistribution.</tt><tt class="descname">write_manifest</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup.GitSourceDistribution.write_manifest" title="Permalink to this definition">¶</a></dt>
 <dd>Write the file list in &#8216;self.filelist&#8217; (presumably as filled in
 by &#8216;add_defaults()&#8217; and &#8216;read_template()&#8217;) to the manifest file
 named by &#8216;self.manifest&#8217;.</dd></dl>
@@ -2693,15 +2759,24 @@ for it if necessary); the remaining arguments are
 <dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
 <p>Provides functionality to add files and folders within a base directory 
 into the <strong>root</strong> of a git repository of our choice</p>
+<dl class="class">
+<dt id="animio.setup._GitMixin.RemotePush">
+<em class="property">class </em><tt class="descname">RemotePush</tt><big>(</big><em>inst</em>, <em>*args</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.RemotePush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Functor representing a hashable push call to a remote</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="animio.setup._GitMixin.add_files_and_commit">
-<tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">add_files_and_commit</tt><big>(</big><em>root_repo</em>, <em>repo</em>, <em>root_dir</em>, <em>root_tag</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.add_files_and_commit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add all files recursively to the index as found below root_dir and commit the
 index.</p>
 <p>As a special ability, we will rewrite their paths and thus add them relative
 to the root directory, even though the git repository might be on another level.
 It also sports a simple way to determine whether the commit already exists, 
 so it will not recommit data that has just been committed.</p>
+<p>Additionally we will try to find the info.py file and adjust its commit_sha
+to the actual sha of our root_repo&#8217;s original branch.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2723,12 +2798,12 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="classmethod">
 <dt id="animio.setup._GitMixin.adjust_user_options">
-<em class="property">classmethod </em><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.adjust_user_options" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><tt class="descclassname">_GitMixin.</tt><tt class="descname">adjust_user_options</tt><big>(</big><em>options</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.adjust_user_options" title="Permalink to this definition">¶</a></dt>
 <dd>Append git specific user options to the given options</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.branch_name">
-<tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.branch_name" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">branch_name</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.branch_name" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2741,26 +2816,25 @@ and the commit object we possible created in the distribution repository</p>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.finalize_options">
-<tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.finalize_options" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">finalize_options</tt><big>(</big><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.finalize_options" title="Permalink to this definition">¶</a></dt>
 <dd>Assure our args are of the correct type</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.item_chooser">
-<tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.item_chooser" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">item_chooser</tt><big>(</big><em>description</em>, <em>items</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.item_chooser" title="Permalink to this definition">¶</a></dt>
 <dd>Utility allowing the user to easily select items from the items list
 :param items: objects that can be converted into a string
 :return: list of selected items</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.push_to_remotes">
-<tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.push_to_remotes" title="Permalink to this definition">¶</a></dt>
-<dd>Push the given branchs to the given remotes.
-If one of the lists is empty, it the respective items 
-will be queried from the user</dd></dl>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">push_to_remotes</tt><big>(</big><em>repo</em>, <em>heads=</em><span class="optional">[</span><span class="optional">]</span>, <em>remotes=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.push_to_remotes" title="Permalink to this definition">¶</a></dt>
+<dd>For the actual documentation, please see <tt class="docutils literal"><span class="pre">_push_to_remotes</span></tt>
+This method stores the call for later execution</dd></dl>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.set_head_to">
-<tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.set_head_to" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">set_head_to</tt><big>(</big><em>repo</em>, <em>head_name</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.set_head_to" title="Permalink to this definition">¶</a></dt>
 <dd><p>et our head to point to the given head_name. If possible, 
 update the index to represent the tree the head points to</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -2778,7 +2852,7 @@ repository is still empty</td>
 
 <dl class="method">
 <dt id="animio.setup._GitMixin.update_git">
-<tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.update_git" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">_GitMixin.</tt><tt class="descname">update_git</tt><big>(</big><em>root_dir</em><big>)</big><a class="headerlink" href="#animio.setup._GitMixin.update_git" title="Permalink to this definition">¶</a></dt>
 <dd>Put the contents in the root_dir into the configured git repository
 Its important to note that the actual relative location of root_dir does not
 matter as long as it is inside the git repository. The later object paths

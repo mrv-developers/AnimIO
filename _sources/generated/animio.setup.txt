@@ -15,6 +15,10 @@ Functions
 
 .. autofunction:: find_packages
 
+.. autofunction:: get_makefile_filename
+
+.. autofunction:: get_python_lib
+
 .. autofunction:: include_setup_py
 
 .. autofunction:: main
@@ -22,6 +26,8 @@ Functions
 .. autofunction:: dirname
 
 .. autofunction:: setup
+
+.. autofunction:: zipcompatible_get_makefile_filename
 
 
 
