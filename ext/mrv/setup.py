@@ -142,7 +142,7 @@ class _GitMixin(object):
 			return hash(self.args)
 			
 		def __eq__(self, rhs):
-			return hash(self) == hash(other)
+			return hash(self) == hash(rhs)
 		
 		def __call__(self):
 			return self.inst._push_to_remotes(*self.args)
