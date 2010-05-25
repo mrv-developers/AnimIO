@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Module containing the user interface implementation of the AnimIO library"""
+__docformat__ = "restructuredtext"
+
 import animio.lib as lib
 import mrv.maya.nt as nt
 import mrv.maya.ui as ui
@@ -197,7 +199,6 @@ class NodeSelector( ui.TextScrollList ):
 		
 		return self
 		
-		
 	def iter_nodes(self, *args, **kwargs):
 		"""
 		:return: iterator yielding all selected nodes ( if set by the user )
@@ -388,48 +389,157 @@ class ExportLayout( ui.FormLayout ):
 		self.nodeselector.update()
 	
 	#} END interface
+
+
+class ConverterControl(ui.FormLayout):
+	"""Implements an interface to a layout allowing the user to enter search and replace
+	tokens"""
+	
+	def __init__(self):
+		"""initialize our child controls"""
+		self.tfsearch = None
+		self.tfreplace = None
+		self.tfprefix = None
+		self.cbprefix = None
 		
+		
+		# PREFIX
+		#########
+		rlPref = ui.RowLayout(nc=2, adj=2)
+		if rlPref:
+			cbPref = self.cbprefix = ui.CheckBox(l="add prefix:")
+			tfPref = self.tfprefix = ui.TextField()
+			rlPref.p_cw = (1, cbPref.p_w)
+			
+			# initial setup 
+			cbPref.p_value = False
+			tfPref.p_enable = cbPref.p_value
+		rlPref.setParentActive()
+		
+		# SEARCH AND REPLACE
+		####################
+		cbSearch = ui.CheckBox(l="search:")
+		tfSearch = self.tfsearch = ui.TextField()
+		tReplace = ui.Text(l=" replace:")
+		tfReplace = self.tfreplace = ui.TextField()
+		
+		# initial setup
+		cbSearch.p_value = False
+		tfSearch.p_enable = cbSearch.p_value
+		tfReplace.p_enable = cbSearch.p_value
+		
+			
+		# TEXTSCROLLLIST + BUTTONS
+		###########################
+		small = 20
+		btnAdd = ui.Button(h=small, l="Add")
+		tslSR = ui.TextScrollList(name="AnimIOSearchReplace", w=190, numberOfRows=3, allowMultiSelection=True)
+		btnDel = ui.Button(h=small, l="Remove Selected")
+		
+		k = 0
+		lk = 10
+		t, b, l, r = self.kSides
+		
+		self.setup( attachForm=[ 
+						(rlPref, t, 0),
+						(rlPref, r, k),
+						(rlPref, l, k),
+						(cbSearch, l, k),
+						(tfReplace, r, k),
+						(btnAdd, l, k), 
+						(btnAdd, r, k),
+						(tslSR, l, k),
+						(tslSR, r, k),
+						(btnDel, l, k),
+						(btnDel, r, k),
+						(btnDel, b, k),
+						], # attach form
+						
+						attachPosition=[
+						(tReplace, l, k, 50)
+						],  # attach position
+						
+						attachNone=[
+						(tReplace, r), 
+						(cbSearch, r),
+						(btnAdd, b),
+						(btnDel, t),
+						], # attach none
+						
+						attachControl=[
+						(tfSearch, l, k, cbSearch),
+						(cbSearch, t, lk, rlPref),
+						(tfSearch, t, lk, rlPref),
+						(tReplace, t, lk, rlPref),
+						(tfReplace, t, lk, rlPref),
+						(tfSearch, r, k, tReplace),
+						(tfReplace, l, k, tReplace),
+						(btnAdd, t, k, cbSearch),
+						(tslSR, t, k, btnAdd), 
+						(tslSR, b, k, btnDel),
+						]) # attach control
+		# END setup form
+		self.setParentActive()
+		
+		# SETUP CONNECTIONS
+		###################
+		cbSearch.e_changeCommand = self._search_state_changed
+		cbPref.e_changeCommand = self._prefix_state_changed
+		
+		
+	#{ Callbacks
+	def _search_state_changed(self, sender, *args):
+		self.tfsearch.p_enable = sender.p_value
+		self.tfreplace.p_enable = sender.p_value
+		if sender.p_value:
+			self.tfsearch.setFocus()
+	
+	def _prefix_state_changed(self, sender, *args):
+		self.tfprefix.p_enable = sender.p_value
+		if sender.p_value:
+			self.tfprefix.setFocus()
+		
+	#} END callbacks
+		
+	#{ Interface 
+	def update(self):
+		"""Setup this control to represent the actual scene state"""
+		
+		
+	#} END interface 
 	
 class ImportLayout( ui.FormLayout ):
 	"""Layout encapsulating all import functionality"""
 	
 	def __init__(self, **kwargs):
-		iRow1 = ui.RowLayout(cw=(1, 68), nc=2, adj=2)
+		self.nodeselector = None
+		self.converter = None
 		
-		# prefix
-		if iRow1:
-			iPrefCB = ui.CheckBox(w=68, l="add prefix:")
-			iPrefTF = ui.TextField()
-		iRow1.setParentActive()
-		
-		# search and replace
-		iRow2 = ui.RowLayout(nc=4, cw=(1, 55), adj=4)
-		iRow2.p_cw = (2, 50)
-		iRow2.p_cw = (3, 42)
-		if iRow2:
-			iSearchCB = ui.CheckBox(w=55, l="search:")
-			iSearchTF = ui.TextField(w=50)
-			ui.Text(w=42, l=" replace:")
-			iReplaceTF = ui.TextField(w=45)
-		iRow2.setParentActive()
-		
-		small = 20
-		iAddBttn = ui.Button(h=small, l="Add")
-		iTscl = ui.TextScrollList(name="AnimIOSearchReplace", w=190, numberOfRows=3, allowMultiSelection=True)
-		iDelBttn = ui.Button(h=small, l="Remove Selected")
+		# Converter
+		####################
+		convControl = self.converter = ConverterControl()
 		
 		# filter
-		iFilterL = ui.TextScrollList(name="AnimIOFilter", w=180, numberOfRows=5, allowMultiSelection=True)
-		iFilterCB = ui.CheckBox(w=100, l="filtered input:")
+		selector = self.nodeselector = NodeSelector()
+		cbFilter = ui.CheckBox(w=100, l="filtered input:")
+		
+		# initial setup, this way we don't have to store cbFilter
+		cbFilter.p_value = False
+		selector.p_enable = cbFilter.p_value
 	
 		# buttons
-		iBttn = ui.Button(l="Import...")
-		iHB = ui.Button(label="?", ann="...need help?", w=22, h=22)
+		btnImport = ui.Button(l="Import...")
+		btnIHlp = ui.Button(label="?", ann="...need help?", w=22, h=22)
 		
-		# options
-		iCol = ui.ColumnLayout(w=90, rs=2, adjustableColumn=True)
+		# OPTIONS
+		#########
+		# Currently disabled as we don't yet support anything special yet
+		clOpts = ui.ColumnLayout(w=90, rs=2, adjustableColumn=True)
+		# if its  managed again, adjust the setup of the formlayout, it doesnt work
+		# in this case ( although it should )
+		clOpts.p_manage=False
 		
-		if iCol:
+		if clOpts:
 			ui.Text(w=90, h=20, l="options:", fn="boldLabelFont", align="left")
 			iAniRepGr = ui.RadioButtonGrp(w=90, nrb=1, l1="replace", sl=1)
 			ui.RadioButtonGrp(nrb=1, scl=iAniRepGr, w=90, l1="insert")
@@ -450,66 +560,81 @@ class ImportLayout( ui.FormLayout ):
 				iETrTf = ui.TextField(w=38)
 			iRow3.setParentActive()
 			iTrRadioG.append(ui.RadioButton(w=90, cl=iTrCol, l="last pose", al="left"))
-			iTrRadioG.append(ui.RadioButton(w=90, cl=iTrCol, l="firs pose", al="left"))
+			iTrRadioG.append(ui.RadioButton(w=90, cl=iTrCol, l="first pose", al="left"))
 		# END column layout
 		self.setActive()
 	
-		
 		t, b, l, r = self.kSides
+		lk = 10
+		sk = 2
 		self.setup(
 			attachForm=[
-				(iRow1, t, 0),
-				(iRow1, r, 2),
+				(convControl, t, lk),
+				(convControl, l, sk),
+				(cbFilter, l, sk),
+				(btnImport, l, 0),
+				(btnImport, b, 0),
+				(btnIHlp, b, 0),
+				(btnIHlp, r, sk),
+				(clOpts, r, 0),
+				(clOpts, b, 0),
+				(clOpts, t, 0),
+				(selector, l, sk),
 				
-				(iRow2, t, 25),
-				(iRow2, r, 2),
-				
-				(iAddBttn, r, 2),
-				(iDelBttn, r, 2),
-				(iFilterCB, r, 2),
-				
-				(iBttn, l, 0),
-				(iBttn, b, 0),
-				
-				(iHB, b, 0),
-				(iHB, r, 2),
-				
-				(iCol, l, 0),
-				(iFilterL, r, 2),
-				(iTscl, r, 2)],
+				# remove once clOpts is managed again
+				(convControl, r, sk), 
+				(selector, r, sk), 
+				(cbFilter, r, sk)
+				],  # attach form
 			
 			attachControl=[
-				(iRow1, b, 5, iRow2),
-				(iRow1, l, 10, iCol),
+				(convControl, b, lk, cbFilter),
+				(btnImport, r, 0, btnIHlp),
+				(selector, t, 5, cbFilter),
+				(selector, b, 5, btnImport),
 				
-				(iRow2, l, 10, iCol),
-				
-				(iAddBttn, t, 5, iRow2),
-				(iAddBttn, l, 10, iCol),
-				
-				(iDelBttn, b, 5, iFilterCB),
-				(iDelBttn, l, 10, iCol),
-				(iBttn, r, 0, iHB),
-				
-				(iFilterCB, l, 10, iCol),
-				(iFilterL, t, 5, iFilterCB),
-				(iFilterL, b, 5, iBttn),
-				(iFilterL, l, 10, iCol),
-				
-				(iTscl, t, 5, iAddBttn),
-				(iTscl, b, 5, iDelBttn),
-				(iTscl, l, 10, iCol)],
+				# enable once clOpts is manaaged again
+				#(cbFilter, r, lk, clOpts),
+				#(convControl, r, lk, clOpts),
+				#(selector, r, lk, clOpts),
+				], # attach control
 				
 			attachNone=[
-				(iDelBttn, t),
-				(iFilterCB, b),
-				(iBttn, t),
-				(iHB, t),
-				(iHB, l)],
+				(clOpts, l),
+				(cbFilter, b),
+				(btnImport, t),
+				(btnIHlp, t),
+				(btnIHlp, l),
+				], # attach None
 				
 			attachPosition=[
-				(iFilterCB, t, 25, 50),
-				(iCol, b, -110, 50)])
+				(cbFilter, t, 25, 50),
+				] # attach position
+				)# END setup
+		
+		
+		# SETUP CONNECTIONS
+		###################
+		cbFilter.e_changeCommand = self._filter_enable_state_changed
+		
+		
+		# initialize
+		self.update()
+		
+		
+	#{ Callbacks 
+	def _filter_enable_state_changed(self, sender, *args):
+		self.nodeselector.p_enable = sender.p_value
+	
+	#} END callbacks
+	
+	#{ Interface 
+	def update(self):
+		"""Trigger an update of the full import UI"""
+		self.converter.update()
+		self.nodeselector.update()
+		
+	#} END interface
 		
 
 class AnimIOLayout( ui.TabLayout ):
@@ -539,7 +664,6 @@ class AnimIOLayout( ui.TabLayout ):
 		#################
 		mrvmaya.Scene.afterOpen = self.update
 		mrvmaya.Scene.afterNew = self.update
-		
 		
 		
 	#{ Callbacks

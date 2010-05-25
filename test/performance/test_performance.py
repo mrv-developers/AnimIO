@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Performance Testing"""
 from animio.test.lib import *
-from animio import *
+from animio.lib import *
 
 import mrv.maya.nt as nt
 

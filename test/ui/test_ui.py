@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from animio.test.lib import *
-from animio import *
+from animio.ui import *
 import tempfile
 
 from mrv.maya import Scene
@@ -89,12 +89,9 @@ class TestGeneralUI( unittest.TestCase ):
 		
 		
 		# TODO: reimport the file with namespaces, test filters and converters
-		
-		
-		
 		cmds.fileDialog = self._orig_fileDialog
 		cone_anim_file.remove()
-		executeDeferred(lambda: cmds.quit(force=1))
+		# executeDeferred(lambda: cmds.quit(force=1))
 		
 # apply mock 
 TestGeneralUI._orig_fileDialog = cmds.fileDialog
