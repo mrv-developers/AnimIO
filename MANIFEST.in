@@ -5,8 +5,7 @@
 graft animio/test
 
 recursive-include doc *.py makedoc
-graft animio/doc/source
-prune animio/doc/source/generated
+prune animio/doc
 
 
 include AUTHORS
@@ -14,19 +13,22 @@ include README
 
 # minimal mrv with enough support for own unittests, skipping the mrv ones though
 graft animio/ext
-prune ext/mrv/coverage
 
 # mrv testing
-prune animio/ext/mrv/test
-graft animio/ext/mrv/test/bin
-graft animio/ext/mrv/test/cmd
-include animio/ext/mrv/test/maya/util.py
-include animio/ext/mrv/test/maya/__init__.py
-include animio/ext/mrv/test/__init__.py
-graft animio/ext/mrv/test/lib
+prune animio/ext/mrv/mrv/test
+graft animio/ext/mrv/mrv/test/bin
+graft animio/ext/mrv/mrv/test/cmd
+include animio/ext/mrv/mrv/test/maya/util.py
+include animio/ext/mrv/mrv/test/maya/__init__.py
+include animio/ext/mrv/mrv/test/__init__.py
+graft animio/ext/mrv/mrv/test/lib
 
-# mrv docs
-prune ext/mrv/doc
+# mrv docs and misc
+exclude animio/ext/mrv/setup.py
+exclude animio/ext/mrv/pylint.rc
+exclude animio/ext/mrv/makefile
+exclude animio/ext/mrv/MANIFEST.in
+prune animio/ext/mrv/doc
 
 # general handling
 global-exclude .git*

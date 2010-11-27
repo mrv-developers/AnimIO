@@ -12,6 +12,8 @@
 # serve to show the default.
 
 import sys, os
+sys.path.extend(('../../',))
+#raise Exception( os.getcwd())
 
 # -- General configuration -----------------------------------------------------
 
