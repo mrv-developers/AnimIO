@@ -22,7 +22,9 @@ def _assure_mrv_is_available():
 	module_dirs = glob.glob(_get_ext_path() + "/*")
 	if len(module_dirs) > 1 or (len(module_dirs) == 1 and not module_dirs[0].endswith('mrv')):
 		_setup_ext_path()
-	# END setup externals 
+	# END setup externals
+	# at least put mrv into the path
+	sys.path.insert(0, os.path.join(_get_ext_path(), 'mrv'))
 	
 	try:
 		import mrv.info as mrvinfo
@@ -32,7 +34,7 @@ def _assure_mrv_is_available():
 		try:
 			import mrv.info as mrvinfo
 		except ImportError:
-			raise ImportError("could not import mrv, please make sure it exists in your PYTHONPATH")
+			raise ImportError("Could not import mrv, please make sure it exists in your PYTHONPATH")
 		# END exception handling, 2nd attempt
 	# END exception handling - try import mrv
 	
