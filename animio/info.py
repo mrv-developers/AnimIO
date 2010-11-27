@@ -63,8 +63,8 @@ setup_kwargs = dict(
 # Optionally taken into consideration by the DocGenerator implementation 
 doc_config = dict(
 				epydoc_show_source = 'yes', 
-				epydoc_modules = "modules: unittest\nmodules: ../",  
-				epydoc_exclude = "%s.test,%s.doc" % (root_package, root_package),
+				epydoc_modules = "modules: unittest\nmodules: ../animio",  
+				epydoc_exclude = "%s.test" % (root_package),
 				)
 
 #} END configuration

@@ -2,32 +2,31 @@
 # if some of the following gets included, check the tests and fixtures as 
 # they have to be included as well
 
-graft test
+graft animio/test
 
 recursive-include doc *.py makedoc
-graft doc/source
-prune doc/source/generated
+graft animio/doc/source
+prune animio/doc/source/generated
 
 
 include AUTHORS
+include README
 
 # minimal mrv with enough support for own unittests, skipping the mrv ones though
-graft ext
+graft animio/ext
 prune ext/mrv/coverage
 
 # mrv testing
-prune ext/mrv/test
-graft ext/mrv/test/bin
-graft ext/mrv/test/cmd
-include ext/mrv/test/maya/util.py
-include ext/mrv/test/maya/__init__.py
-include ext/mrv/test/__init__.py
-graft ext/mrv/test/lib
+prune animio/ext/mrv/test
+graft animio/ext/mrv/test/bin
+graft animio/ext/mrv/test/cmd
+include animio/ext/mrv/test/maya/util.py
+include animio/ext/mrv/test/maya/__init__.py
+include animio/ext/mrv/test/__init__.py
+graft animio/ext/mrv/test/lib
 
 # mrv docs
-prune ext/mrv/doc/source
-prune ext/mrv/doc/mindmaps
-prune ext/mrv/doc/build
+prune ext/mrv/doc
 
 # general handling
 global-exclude .git*

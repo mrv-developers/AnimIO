@@ -1,14 +1,26 @@
 
-# This is a very simple make-file for now to aid keeping the commandline options
-# under control. 
-# There is no intention to have something like it on windows, but the commandlines
-# shown here could work mostly unaltered on the windows platform as well.
+.PHONY=docs release clean
 
-.PHONY=preview
+# CONFIGURATION
+# python 2.6
+MAYA_VERSION=2011
+PYVERSION_ARGS=--maya-version=$(MAYA_VERSION)
+REG_ARGS=--regression-tests=$(MAYA_VERSION)
+DOC_ARGS=--zip-archive
+SDIST=sdist
+
+PYTHON_SETUP=/usr/bin/python setup.py
 
 all:
 	echo "Nothing to do - specify an actual target"
+	exit 1
 
-# Moving-Tag Preview Commit 
-preview:
-	/usr/bin/python setup.py --force-git-tag  --use-git=1 --regression-tests=1 clean --all sdist --format=zip --post-testing=2011 --dist-remotes=distro,hub --root-remotes=gitorious,hub docdist --zip-archive --from-build-version --dist-remotes=docdistro,hub --root-remotes=gitorious,hub
+clean:
+	$(PYTHON_SETUP) clean --all
+	$$(cd doc; ../animio/ext/mrv/doc/makedoc --clean)
+	
+docs:
+	$(PYTHON_SETUP) $(PYVERSION_ARGS) docdist $(DOC_ARGS) 
+	
+release:
+	$(PYTHON_SETUP) $(PYVERSION_ARGS) $(REG_ARGS) clean --all $(SDIST)
