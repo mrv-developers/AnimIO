@@ -14,11 +14,11 @@ http://packages.python.org/AnimIO
 Links
 -----
 
-Issues are tracked by Lighthouse:
-http://byronimo.lighthouseapp.com/projects/52720-animio/overview
+Issues are tracked by github:
+https://github.com/mrv-developers/AnimIO/issues
 
 Developers can obtain the source code from github, which also enables collaboration:
-http://github.com/Byron/AnimIO
+https://github.com/mrv-developers/AnimIO
 
 If there are any questions about AnimIO, direct them to the MRV mailing list:
 http://groups.google.de/group/mrv-dev
