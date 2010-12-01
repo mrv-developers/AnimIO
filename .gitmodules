@@ -1,3 +1,4 @@
 [submodule "mrv"]
 	path = animio/ext/mrv
-	url = git://github.com/Byron/mrv.git
+	url = git://github.com/mrv-developers/mrv.git
+	branch = master
